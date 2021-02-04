@@ -106,8 +106,8 @@ class Architecture {
         ctx.font = "10px Arial";
         ctx.fillStyle = "#333333";
         ctx.fillText("Microservices", 260, 182);
-        this.drawService(ctx, 200, 210, 'Order', 4);
-        this.drawService(ctx, 300, 210, 'Driver', 8);
+        this.drawService(ctx, 200, 210, 'Order', 8);
+        this.drawService(ctx, 300, 210, 'Driver', 4);
         this.drawService(ctx, 400, 210, 'Kitchen', 2);
     }
 

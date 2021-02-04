@@ -23,7 +23,6 @@ body {
 }
 
 .appname{
-    font-weight:bold;
     color:var(--loyalty-phone-color);
 }
 
