@@ -2,6 +2,7 @@ class Phone extends HTMLElement {
 
     constructor() {
         super();
+        console.log('Initializing Phone Component');
         // let template = document.getElementById('bandpic');
         let templateContent = '<div></div>';
         this.labels = [];
