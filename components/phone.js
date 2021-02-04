@@ -3,7 +3,6 @@ class Phone extends HTMLElement {
     constructor() {
         super();
         console.log('Initializing Phone Component');
-        // let template = document.getElementById('bandpic');
         let templateContent = '<div></div>';
         this.labels = [];
         this.datapath = "";
@@ -42,12 +41,13 @@ class Phone extends HTMLElement {
         var phone = this;
         var basebutton = sr.getElementById('basebutton');
         var mobileview = sr.getElementById('mobileview');
-        // var navigation = sr.getElementById('mobilenavigation');
+        var navigation = sr.getElementById('mobilenavigation');
         // var apptiles = sr.getElementById('APPTILES');
-        // basebutton.addEventListener('click', e => {
-        //     mobileview.innerHTML = '<homescreen-element id="HOMESCREEN"></homescreen-element>';
-        //     phone.hideNavigation();
-        // });
+        basebutton.addEventListener('click', e => {
+            mobileview.innerHTML = '<homescreen-element id="HOMESCREEN"></homescreen-element>';
+            phone.hideNavigation();
+        });
+        phone.showNavigation();
     }
 }
 

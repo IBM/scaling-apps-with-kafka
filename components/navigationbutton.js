@@ -10,14 +10,20 @@ class NavigationButton extends HTMLElement {
 
     constructor() {
         super();
-
-        let template = document.getElementById('navigationbutton');
-        let templateContent = template.content;
-
+        console.log('Initializing Navigation Component');
+        let templateContent = '<div></div>';
+        this.labels = [];
+        this.datapath = "";
         const shadow = this.attachShadow({
-                mode: 'open'
-            })
-            .appendChild(templateContent.cloneNode(true));
+            mode: 'open'
+        })
+    }
+
+    async connectedCallback() {
+        let res = await fetch('./components/navigationbutton.html')
+        var sr = this.shadowRoot;
+        sr.innerHTML = await res.text();
+        this.showButton();
     }
 
     setMode(mode){
@@ -42,7 +48,7 @@ class NavigationButton extends HTMLElement {
         this.setMode('inactive');
     }
 
-    connectedCallback(){
+    showButton(){
         var customElement = this;
         var sr = this.shadowRoot;
         this.buttonimage = sr.getElementById('navbuttonimage');

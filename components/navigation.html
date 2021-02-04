@@ -1,0 +1,45 @@
+<!-- <template id="navigationview"> -->
+    <style>
+        .navigationview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navigation {
+            height: 80px;
+            width: 100%;
+            /* background: aliceblue; */
+            border-top: 1px solid var(--loyalty-phone-color);
+        }
+
+        .iconrow {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+        }
+
+        .navbutton {
+            margin: 10px;
+            border: none;
+            width: 60px;
+            height: 40px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            justify-items: center;
+            align-items: center;
+            align-content: center;
+            outline: none;
+        }
+    </style>
+    <div class="navigation">
+        <div id="buttonrow" class="iconrow">
+            <navigationbutton-element id="taste" imagename="taste" viewname="taste" mode="active"></navigationbutton-element>
+            <navigationbutton-element id="receipt" imagename="receipt" viewname="receipt" mode="inactive"></navigationbutton-element>
+        </div>
+    </div>
+<!-- </template> -->

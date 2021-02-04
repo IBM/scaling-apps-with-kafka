@@ -13,14 +13,20 @@ class Navigation extends HTMLElement {
 
     constructor() {
         super();
-
-        let template = document.getElementById('navigationview');
-        let templateContent = template.content;
-
+        console.log('Initializing Navigation Component');
+        let templateContent = '<div></div>';
+        this.labels = [];
+        this.datapath = "";
         const shadow = this.attachShadow({
-                mode: 'open'
-            })
-            .appendChild(templateContent.cloneNode(true));
+            mode: 'open'
+        })
+    }
+
+    async connectedCallback() {
+        let res = await fetch('./components/navigation.html')
+        var sr = this.shadowRoot;
+        sr.innerHTML = await res.text();
+        this.showNavigation();
     }
 
     setAllButtonsDisabled(){
@@ -35,7 +41,7 @@ class Navigation extends HTMLElement {
         })
     }
 
-    connectedCallback(){
+    showNavigation(){
         var sr = this.shadowRoot;
         this.buttonRow = sr.getElementById('buttonrow');
 

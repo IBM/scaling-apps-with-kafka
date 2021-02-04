@@ -44,7 +44,10 @@ class Architecture {
         ctx.beginPath();
         this.drawArrow(ctx, 90, 275, 200, 425);
         this.drawArrow(ctx, 200, 425, 90, 275);
+        this.drawArrow(ctx, 0, 250, 20, 250);
         ctx.stroke();
+
+
     }
 
     drawKafka(ctx) {
@@ -163,7 +166,7 @@ class Architecture {
         ctx.fillStyle = "#333333";
         ctx.font = "12px Arial";
 
-        ctx.fillText("2000", 226, 366);
+        ctx.fillText("9000", 226, 366);
         ctx.fillText("1000", 326, 366);
         ctx.fillText("1000", 426, 366);
 
@@ -188,3 +191,5 @@ class Architecture {
 }
 
 var architecture = new Architecture();
+
+// architecture.updateOrderQueue(6000);
