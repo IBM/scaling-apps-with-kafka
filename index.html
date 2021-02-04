@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <title>Scaling Applications With Kafka</title>
+    <link rel="stylesheet" href="./style/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&family=Roboto:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <section class="container">
+        <div class="grid-container">
+            <div class="Banner">
+                <section class="bar">
+                    <label class="appname">Scaling Apps With Kafka</label>
+                    <label class="info">Interactive Example</label>
+                </section>
+            </div>
+            <section class="phonearea">
+                <div class="Phone">
+                    <phone-element id="phoneview"></phone-element>
+                    <script>
+                        var supportTest = 'customElements' in window;
+                        console.log('supports web components = ' + supportTest);
+                        if (supportTest == false) {
+                            window.alert(
+                                'If you see this alert, it means this example is not compatible with your browser. This example uses Web Components - a technology supported in the latest versions of Firefox, Chrome and Safari. Please update your browser to the latest release.'
+                            );
+                        }
+                    </script>
+                </div>
+            </section>
+            <section class="architecturearea">
+                <canvas class="architecture" id="myCanvas" width="560" height="600">
+                    Your browser does not support the HTML canvas tag.
+                </canvas>
+            </section>
+        </div>
+        <!-- </section> -->
+</body>
+<script src="./components/phone.js"></script>
+<script src="./logic/kafka.js"></script>
+
+</html>

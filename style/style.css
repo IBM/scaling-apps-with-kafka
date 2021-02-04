@@ -1,0 +1,97 @@
+:root {
+    --loyalty-background-color: white;
+    --loyalty-app-color: white;
+    --loyalty-text-color: #494A4B;
+    --loyalty-button-color: #FF7E00;
+    --loyalty-highlight-color: #FF002E;
+    --loyalty-phone-color: #84827C;
+    --loyalty-sensor-color: #FFFFFF;
+    --loyalty-divide-color: aliceblue;
+    --loyalty-highlight-color: #fff2e5;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    color: var(--lyrics-analysis-ink-color);
+    font-family: 'Roboto', sans-serif;
+    /* font-family: 'IBM Plex Sans', sans-serif; */
+}
+
+.panel {
+    background: var(--farrow-panel-background);
+}
+
+.appname{
+    font-weight:bold;
+    color:var(--loyalty-phone-color);
+}
+
+.info{
+    fomt-weight:bold;
+    color:var(--loyalty-phone-color);
+}
+
+.container {
+    padding: 0;
+    margin: 0;
+    /* #F5F8FA; #33729b; #9f805e; */
+    /*    font-family: 'Open Sans', sans-serif;*/
+    /* font-family: 'IBM Plex Sans', sans-serif; */
+    /* font-family: 'Questrial', sans-serif; */
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--farrow-background-color);
+    /* padding-bottom: 100px; */
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 400px 600px;
+    grid-template-rows: 60px 640px 260;
+    gap: 0px 0px;
+    width: 1000px;
+    height:800px;;
+    grid-template-areas:
+        "Banner Banner"
+        "Phone ."
+        "Phone .";
+}
+
+.Banner {
+    grid-area: Banner;
+    height:0px;
+}
+
+.Phone {
+    grid-area: Phone;
+    padding: 20px;;
+}
+
+
+.bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+}
+
+.appname {
+    margin: 20px;
+}
+
+.info {
+    margin: 20px;
+}
+
+.architecture{
+    margin:20px;
+    /* border-radius:5px;
+    border:1px solid var(--loyalty-phone-color);
+    box-shadow: 0 5px 5px -3px rgb(0 0 0 / 20%), 0 8px 10px 1px rgb(0 0 0 / 14%), 0 3px 14px 2px rgb(0 0 0 / 12%); */
+}

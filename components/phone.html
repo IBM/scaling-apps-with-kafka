@@ -1,0 +1,106 @@
+<!-- template id="phone" -->
+<style>
+    .frame {
+        height: 600px;
+        width: 300px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 4px solid var(--loyalty-phone-color);
+        box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12);
+        /* border-radius: 20px;
+    background: #FFFFFF;
+    box-shadow:  31px 31px 71px #7d7d7d, 
+                 -31px -31px 71px #ffffff; */
+    }
+
+    .sensors {
+        flex-direction: row;
+        min-height: 4%;
+        max-height: 4%;
+        width: 50%;
+        height: 18px;
+        background: var(--loyalty-phone-color);
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .view {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .viewtitle {
+        display: flex;
+        flex-direction: row;
+        height: 50px;
+        justify-content: center;
+        align-items: center;
+        text-transform: uppercase;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .mobilenav {
+        min-height: 10%;
+        max-height: 10%;
+        width: 100%;
+        display: none;
+        /* visibility: hidden; */
+        /* background: aliceblue; */
+    }
+
+    .sensor {
+        height: 4px;
+        width: 4px;
+        border-radius: 4px;
+        background: var(--loyalty-sensor-color);
+        margin: 4px;
+
+    }
+
+    .basebar {
+        min-height: 10%;
+        max-height: 10%;
+        width: 100%;
+        background: var(--loyalty-phone-color);
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+    }
+
+    .basebutton {
+        height: 40px;
+        width: 40px;
+        border-radius: 40px;
+        border: 2px solid white;
+        background: var(--loyalty-phone-color);
+        outline: none;
+    }
+</style>
+
+<div class="frame">
+    <div class="sensors">
+        <div class="sensor"></div>
+        <div class="sensor"></div>
+        <div class="sensor"></div>
+        <div class="sensor"></div>
+    </div>
+    <div id="mobileview" class="view">
+        <homescreen-element></homescreen-element>
+    </div>
+    <navigation-element id="mobilenavigation" class="mobilenav"></navigation-element>
+    <div class="basebar">
+        <button class="basebutton" id="basebutton"></button>
+    </div>
+</div>
+<!-- /template -->
