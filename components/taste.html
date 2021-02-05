@@ -88,6 +88,7 @@
         padding: 5px;
         margin: 10px;
         width: 210px;
+        border-radius:4px;
     }
 
     .curbside {
@@ -107,6 +108,16 @@
     .tag {
         width: 50px;
     }
+
+    .yourarea{
+        font-size: 10px;
+    }
+
+    .foodicon{
+        height:24px;
+    }
+
+
 </style>
 
 <div class="taste">
@@ -115,19 +126,19 @@
         <label class="orderdestination">123 Some Street</label>
         <section class="buttonrow">
             <div class="foodselect">
-                <button class="foodbutton"></button>
+                <button class="foodbutton"><img class="foodicon" src="../images/sprout.svg"></button>
                 <label class="foodlabel">Vegan</label>
             </div>
             <div class="foodselect">
-                <button class="foodbutton"></button>
+                <button class="foodbutton"><img class="foodicon" src="../images/fish.svg"></button>
                 <label class="foodlabel">Seafood</label>
             </div>
             <div class="foodselect">
-                <button class="foodbutton"></button>
+                <button class="foodbutton"><img class="foodicon" src="../images/noodle-bowl.svg"></button>
                 <label class="foodlabel">Noodles</label>
             </div>
             <div class="foodselect">
-                <button class="foodbutton"></button>
+                <button class="foodbutton"><img class="foodicon" src="../images/cafe.svg"></button>
                 <label class="foodlabel">Coffee</label>
             </div>
         </section>
@@ -140,6 +151,15 @@
             <section class="curbside">
                 <div class="pickuplabel">Pickup curbside + skip delivery fee</div>
                 <button class="option">Order Now</button>
+            </section>
+            <section class="tag"></section>
+        </section>
+
+        <label class="yourarea">Popular in your area ... </label>
+
+        <section class="dashed">
+            <section class="curbside">
+
             </section>
             <section class="tag"></section>
         </section>
