@@ -2,9 +2,17 @@ class Architecture {
 
     context
 
+    x
+
+    y
+
     constructor() {
         var c = document.getElementById("myCanvas");
         this.context = c.getContext("2d");
+
+        this.x = 90;
+        this.y = 1;
+
         this.drawOpenShift();
         this.drawApiGateway(this.context);
         this.drawMicroservices(this.context);
@@ -19,32 +27,35 @@ class Architecture {
         ctx.beginPath();
         ctx.lineWidth = "0.5";
         ctx.strokeStyle = "#84827C";
-        ctx.rect(59, 1, 500, 500);
+        ctx.rect(this.x, this.y, 500, 500);
         ctx.stroke();
 
         ctx.font = "10px Arial";
         ctx.fillStyle = "#CCCCCC";
-        ctx.fillText("RedHat OpenShift", 460, 20);
+        ctx.fillText("RedHat OpenShift", 495, 20);
     }
 
     drawApiGateway(ctx) {
         this.log('Drawing API Gateway');
+
+        var radius = 40;
+
         ctx.lineWidth = "0.5";
         ctx.beginPath();
         ctx.fillStyle = "#FDF9F0";
-        ctx.arc(60, 250, 40, 0, 2 * Math.PI);
+        ctx.arc(this.x, 250, radius, 0, 2 * Math.PI);
         ctx.stroke();
         ctx.fill();
 
         ctx.font = "10px Arial";
         ctx.fillStyle = "#333333";
-        ctx.fillText("API", 40, 240);
-        ctx.fillText("Gateway", 40, 260);
+        ctx.fillText("API", this.x-20, 240);
+        ctx.fillText("Gateway", this.x-20, 260);
 
         ctx.beginPath();
-        this.drawArrow(ctx, 90, 275, 200, 425);
-        this.drawArrow(ctx, 200, 425, 90, 275);
-        this.drawArrow(ctx, 0, 250, 20, 250);
+        this.drawArrow(ctx, 110, 285, 200, 425);
+        this.drawArrow(ctx, 200, 425, 110, 285);
+        this.drawArrow(ctx, 0, 250, this.x-radius, 250);
         ctx.stroke();
 
 
