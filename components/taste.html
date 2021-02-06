@@ -111,11 +111,33 @@
 
     .yourarea{
         font-size: 10px;
+        width: 200px;;
     }
 
     .foodicon{
         height:24px;
     }
+
+    .ad{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .adlabel{
+        color: #777;
+        font-size: 12px;
+        padding:10px;
+    }
+
+    .adsubtext{
+        color: #cfb1a4;
+        font-size: 12px;
+        padding:10px;
+        width: 200px;;
+    }
+
 
 
 </style>
@@ -159,7 +181,8 @@
 
         <section class="dashed">
             <section class="curbside">
-
+                <span class="ad"><img class="foodicon" src="../images/noodle-bowl.svg"><div class="adlabel">Oodles of Noodles</div></span>
+                <div class="adsubtext">25 min - 99c deliver over $15 order</div>
             </section>
             <section class="tag"></section>
         </section>

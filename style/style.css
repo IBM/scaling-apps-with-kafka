@@ -52,7 +52,7 @@ body {
     grid-template-columns: 262px 600px;
     grid-template-rows: 60px 640px 260;
     gap: 0px 0px;
-    height:960px;
+    height:1000px;
     grid-template-areas:
         "Banner Banner"
         "Phone ."
@@ -100,5 +100,22 @@ body {
 }
 
 .connector{
+width:90px;
+}
 
+.controls{
+    border: 1px solid #cfb1a4;
+    width:238px;
+    height:250px;
+    margin:20px;
+    margin-left:0;
+}
+
+.analysis{
+    border: 1px solid #cfb1a4;
+    width:238px;
+    height:250px;
+    margin:20px;
+    margin-right:0;
+    margin-left:0;
 }
