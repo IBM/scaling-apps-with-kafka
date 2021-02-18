@@ -1,7 +1,7 @@
 class Slider extends HTMLElement {
 
     static get observedAttributes() {
-        return ['title','viewname','mode'];
+        return ['title','left','right'];
     }
 
     constructor() {
@@ -21,8 +21,18 @@ class Slider extends HTMLElement {
         sr.innerHTML = await res.text();
         this.titletext = this.getAttribute('title');
         console.log(this.titletext);
+  
         var sliderlabel = sr.getElementById("sliderlabel");
         sliderlabel.innerHTML = this.titletext;
+
+        this.lefttext = this.getAttribute('left');
+        var left = sr.getElementById("left");
+        left.innerHTML = this.lefttext;
+
+        this.righttext = this.getAttribute('right');
+        var right = sr.getElementById("right");
+        right.innerHTML = this.righttext;
+
         this.showSlider();
     }
     
