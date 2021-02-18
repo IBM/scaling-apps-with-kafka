@@ -119,3 +119,22 @@ width:90px;
     margin-right:0;
     margin-left:0;
 }
+
+.linksarea{
+    background: #fdf9f0;
+    margin-top: 40px;
+    height: 250px;
+    border-radius: 4px;
+}
+
+.linkstitle{
+    font-size:12px;
+    padding: 10px;
+    font-weight: bold;
+    /* padding-top: 15px;; */
+}
+
+.scalinglink {
+    font-size: 12px;
+    padding: 10px;
+}

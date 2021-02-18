@@ -30,14 +30,27 @@
                         }
                     </script>
                 </div>
+                <section class="linksarea">
+                    <div class="linkstitle">Scaling OpenShift Apps With Kafka & Mongo</div>
+                    <div class="scalinglink">Capacity Planning [Article]</div>
+                    <div class="scalinglink">Scaling Apps With Kafka [Code Pattern]</div>
+                    <div class="scalinglink">Scaling Options And Comparisons [Article]</div>
+                    <div class="scalinglink">Scaling Apps On OpenShift [Video]</div>
+                    <div class="scalinglink">Scaling Workshop [Event]</div>
+                </section>
             </section>
             <section class="architecturearea">
                 <canvas class="architecture" id="myCanvas" width="600" height="520">
                     Your browser does not support the HTML canvas tag.
                 </canvas>
                 <section class="management">
-                    <canvas id= "connector" class="connector"></canvas>
-                    <div class="controls"></div>
+                    <canvas id="connector" class="connector"></canvas>
+                    <div class="controls">
+                        <slider-element title="rate of orders"></slider-element>
+                        <slider-element title="number of couriers"></slider-element>
+                        <slider-element title="speed of couriers"></slider-element>
+                        <slider-element title="speed of kitchens"></slider-element>
+                    </div>
                     <div class="analysis"></div>
                 </section>
             </section>
@@ -49,6 +62,7 @@
 <script src="./components/taste.js"></script>
 <script src="./components/receipt.js"></script>
 <script src="./components/phone.js"></script>
+<script src="./components/slider.js"></script>
 <script src="./logic/kafka.js"></script>
 
 </html>
