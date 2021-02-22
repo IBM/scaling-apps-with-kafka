@@ -25,7 +25,7 @@ class Architecture {
         this.log('Drawing OpenShift Box');
         let ctx = this.context;
         ctx.beginPath();
-        ctx.lineWidth = "0.5";
+        ctx.lineWidth = "1";
         ctx.strokeStyle = "#84827C";
         ctx.rect(this.x, this.y, 500, 500);
         ctx.stroke();
@@ -40,7 +40,7 @@ class Architecture {
 
         var radius = 40;
 
-        ctx.lineWidth = "0.5";
+        ctx.lineWidth = "1";
         ctx.beginPath();
         ctx.fillStyle = "#FDF9F0";
         ctx.arc(this.x, 250, radius, 0, 2 * Math.PI);
@@ -102,13 +102,13 @@ class Architecture {
     drawMicroservices(ctx) {
         this.log('Drawing MicroServices');
         ctx.beginPath();
-        ctx.lineWidth = "0.5";
+        ctx.lineWidth = "1";
         ctx.setLineDash([5, 3]);
         ctx.strokeStyle = "#84827C";
         ctx.rect(180, 180, 320, 140);
         ctx.stroke();
         ctx.beginPath();
-        ctx.lineWidth = "0.5";
+        ctx.lineWidth = "1";
         ctx.fillStyle = "#FFFFFF";
         ctx.strokeStyle = "#FFFFFF";
         ctx.rect(250, 170, 80, 20);
@@ -125,7 +125,7 @@ class Architecture {
     drawService(ctx, x, y, label, workers) {
         this.log('Drawing ' + label + ' service');
         ctx.beginPath();
-        ctx.lineWidth = "0.5";
+        ctx.lineWidth = "1";
         ctx.setLineDash([]);
         ctx.strokeStyle = "#CFB2A6";
         ctx.rect(x, y, 80, 80);
@@ -136,7 +136,7 @@ class Architecture {
         ctx.fillText("Service", x + 10, y + 50);
 
         ctx.beginPath();
-        ctx.lineWidth = "0.5";
+        ctx.lineWidth = "1";
         ctx.setLineDash([]);
         ctx.strokeStyle = "#CFB2A6";
         ctx.fillStyle = "#FCD89D";

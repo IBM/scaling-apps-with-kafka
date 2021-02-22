@@ -10,7 +10,6 @@ class NavigationButton extends HTMLElement {
 
     constructor() {
         super();
-        console.log('Initializing Navigation Component');
         let templateContent = '<div></div>';
         this.labels = [];
         this.datapath = "";
@@ -71,7 +70,7 @@ class NavigationButton extends HTMLElement {
             customElement.dispatchEvent(customEvent);            
         }
 
-        console.log('ADDING NAVIGATION BUTTON : ' + this.viewname.toLocaleUpperCase());
+        console.log('Adding Navigation Button : ' + this.viewname.toLocaleUpperCase());
     }
 }
 

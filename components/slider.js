@@ -6,7 +6,6 @@ class Slider extends HTMLElement {
 
     constructor() {
         super();
-        console.log('Initializing Slider Component');
         let templateContent = '<div></div>';
         this.labels = [];
         this.datapath = "";
@@ -19,9 +18,9 @@ class Slider extends HTMLElement {
         let res = await fetch('./components/slider.html')
         var sr = this.shadowRoot;
         sr.innerHTML = await res.text();
-        this.titletext = this.getAttribute('title');
-        console.log(this.titletext);
-  
+        this.titletext = this.getAttribute('title');  
+        console.log('Initializing ' + this.titletext.toLocaleUpperCase() + ' Slider Component');
+
         var sliderlabel = sr.getElementById("sliderlabel");
         sliderlabel.innerHTML = this.titletext;
 
