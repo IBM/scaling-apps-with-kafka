@@ -27,7 +27,7 @@ class Architecture {
         ctx.beginPath();
         ctx.lineWidth = "1";
         ctx.strokeStyle = "#84827C";
-        ctx.rect(this.x, this.y, 500, 500);
+        ctx.rect(this.x, this.y, 500, 480);
         ctx.stroke();
 
         ctx.font = "10px Arial";
@@ -43,14 +43,14 @@ class Architecture {
         ctx.lineWidth = "1";
         ctx.beginPath();
         ctx.fillStyle = "#FDF9F0";
-        ctx.arc(this.x, 250, radius, 0, 2 * Math.PI);
+        ctx.arc(this.x, 240, radius, 0, 2 * Math.PI);
         ctx.stroke();
         ctx.fill();
 
         ctx.font = "10px Arial";
         ctx.fillStyle = "#333333";
-        ctx.fillText("API", this.x-20, 240);
-        ctx.fillText("Gateway", this.x-20, 260);
+        ctx.fillText("API", this.x-20, 235);
+        ctx.fillText("Gateway", this.x-20, 255);
 
         ctx.beginPath();
         this.drawArrow(ctx, 110, 285, 200, 425);
@@ -68,11 +68,11 @@ class Architecture {
         ctx.lineWidth = "1";
         ctx.setLineDash([]);
         ctx.strokeStyle = "#CFB2A6";
-        ctx.rect(200, 400, 280, 50);
+        ctx.rect(200, 400, 280, 40);
         ctx.stroke();
         ctx.font = "12px Arial";
         ctx.fillStyle = "#333333";
-        ctx.fillText("Kafka", 324, 430);
+        ctx.fillText("Kafka", 324, 425);
     }
 
     drawMongo(ctx) {
@@ -82,19 +82,19 @@ class Architecture {
         ctx.lineWidth = "1";
         ctx.setLineDash([]);
         ctx.strokeStyle = "#CFB2A6";
-        ctx.rect(200, 50, 280, 50);
+        ctx.rect(200, 40, 280, 40);
         ctx.stroke();
         ctx.font = "12px Arial";
         ctx.fillStyle = "#333333";
-        ctx.fillText("Mongo DB", 310, 80);
+        ctx.fillText("Mongo DB", 310, 65);
 
         ctx.beginPath();
-        this.drawArrow(ctx, 240, 210, 240, 100);
-        this.drawArrow(ctx, 340, 210, 340, 100);
-        this.drawArrow(ctx, 440, 210, 440, 100);
-        this.drawArrow(ctx, 240, 100, 240, 210);
-        this.drawArrow(ctx, 340, 100, 340, 210);
-        this.drawArrow(ctx, 440, 100, 440, 210);
+        this.drawArrow(ctx, 240, 190, 240, 80);
+        this.drawArrow(ctx, 340, 190, 340, 80);
+        this.drawArrow(ctx, 440, 190, 440, 80);
+        this.drawArrow(ctx, 240, 80, 240, 200);
+        this.drawArrow(ctx, 340, 80, 340, 200);
+        this.drawArrow(ctx, 440, 80, 440, 200);
         ctx.stroke();
 
     }
@@ -105,7 +105,7 @@ class Architecture {
         ctx.lineWidth = "1";
         ctx.setLineDash([5, 3]);
         ctx.strokeStyle = "#84827C";
-        ctx.rect(180, 180, 320, 140);
+        ctx.rect(180, 180, 320, 120);
         ctx.stroke();
         ctx.beginPath();
         ctx.lineWidth = "1";
@@ -117,9 +117,9 @@ class Architecture {
         ctx.font = "10px Arial";
         ctx.fillStyle = "#333333";
         ctx.fillText("Microservices", 260, 182);
-        this.drawService(ctx, 200, 210, 'Order', 8);
-        this.drawService(ctx, 300, 210, 'Driver', 4);
-        this.drawService(ctx, 400, 210, 'Kitchen', 2);
+        this.drawService(ctx, 200, 200, 'Order', 8);
+        this.drawService(ctx, 300, 200, 'Driver', 4);
+        this.drawService(ctx, 400, 200, 'Kitchen', 2);
     }
 
     drawService(ctx, x, y, label, workers) {
@@ -153,9 +153,9 @@ class Architecture {
     drawKafkaTopics(ctx) {
         this.log('Drawing Kafka Topics');
         ctx.beginPath();
-        this.drawArrow(ctx, 240, 400, 240, 290);
-        this.drawArrow(ctx, 340, 400, 340, 290);
-        this.drawArrow(ctx, 440, 400, 440, 290);
+        this.drawArrow(ctx, 240, 400, 240, 280);
+        this.drawArrow(ctx, 340, 400, 340, 280);
+        this.drawArrow(ctx, 440, 400, 440, 280);
         this.drawArrow(ctx, 240, 290, 240, 400);
         this.drawArrow(ctx, 340, 290, 340, 400);
         this.drawArrow(ctx, 440, 290, 440, 400);
@@ -167,9 +167,9 @@ class Architecture {
         ctx.setLineDash([]);
         ctx.strokeStyle = "#CFB2A6";
         ctx.fillStyle = "#FCD89D";
-        ctx.rect(210, 350, 60, 22);
-        ctx.rect(310, 350, 60, 22);
-        ctx.rect(410, 350, 60, 22);
+        ctx.rect(210, 340, 60, 22);
+        ctx.rect(310, 340, 60, 22);
+        ctx.rect(410, 340, 60, 22);
 
         ctx.stroke();
         ctx.fill();
@@ -177,9 +177,9 @@ class Architecture {
         ctx.fillStyle = "#333333";
         ctx.font = "12px Arial";
 
-        ctx.fillText("9000", 226, 366);
-        ctx.fillText("1000", 326, 366);
-        ctx.fillText("1000", 426, 366);
+        ctx.fillText("9000", 226, 356);
+        ctx.fillText("1000", 326, 356);
+        ctx.fillText("1000", 426, 356);
 
         ctx.stroke();
     }

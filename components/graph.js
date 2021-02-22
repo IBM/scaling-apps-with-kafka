@@ -31,7 +31,7 @@ class Graph extends HTMLElement {
         this.data.push(value);
         this.data.shift();
         while(true) {
-            // // percent.innerText = data[data.length - 1] + "%";
+            this.percent.innerText = "Current Capacity: " + this.data[this.data.length - 1] + "%";
             value = Math.floor(Math.random() * (max - min) + min)
             this.data.push(value);
             this.data.shift();
@@ -111,9 +111,10 @@ class Graph extends HTMLElement {
         var sr = this.shadowRoot;
         this.canvas = sr.getElementById("graph");
         this.context = this.canvas.getContext("2d");
+        this.percent = sr.getElementById("percent");
         this.updateData();
         this.render(this.context);
-        // var percent = document.getElementById("percent");
+        
     }
 
 
