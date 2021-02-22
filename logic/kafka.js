@@ -53,12 +53,10 @@ class Architecture {
         ctx.fillText("Gateway", this.x-20, 255);
 
         ctx.beginPath();
-        this.drawArrow(ctx, 110, 285, 200, 425);
-        this.drawArrow(ctx, 200, 425, 110, 285);
-        this.drawArrow(ctx, 0, 250, this.x-radius, 250);
+        this.drawArrow(ctx, 110, 275, 200, 415);
+        this.drawArrow(ctx, 200, 415, 110, 275);
+        this.drawArrow(ctx, 0, 240, this.x-radius, 240);
         ctx.stroke();
-
-
     }
 
     drawKafka(ctx) {
