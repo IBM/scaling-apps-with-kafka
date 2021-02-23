@@ -1,0 +1,16 @@
+{
+  "name": "realtimedatawebsocket",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "http": "0.0.1-security",
+    "node-rdkafka": "^2.10.1",
+    "ws": "^7.4.3"
+  }
+}
