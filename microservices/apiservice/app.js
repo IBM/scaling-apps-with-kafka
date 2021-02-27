@@ -46,7 +46,11 @@ app.post("/createOrder", (req, res) => {
         kitchenId,
         totalPrice: (Math.random() * 100).toFixed(2)
     }
-    KafkaProducer.publishOrder({...order, requestId}, (err) => {
+    // simulatorConfig
+    let kitchenSpeed = req.body.kitchenSpeed || 5000
+    let courierSpeed = req.body.courierSpeed || 5000
+
+    KafkaProducer.publishOrder({...order, requestId}, {kitchenSpeed, courierSpeed}, (err) => {
         if (err) {
             console.log(err)
             res.status('404').send({requestId, error: "Error sending message"})

@@ -62,10 +62,10 @@ class KafkaProducer {
       this.producer.on(event, callback)
     }
 
-    publishOrder(order, callback) {
+    publishOrder(order, simulatorConfig, callback) {
         let topicName = 'orders'
         let eventType = 'orderRequested'
-        let message = Buffer.from(JSON.stringify({eventType, payload: order}))
+        let message = Buffer.from(JSON.stringify({eventType, payload: order, simulatorConfig}))
         try {
             this.producer.produce(
                 topicName,

@@ -86,10 +86,10 @@ class KafkaWrapper {
       this.consumer.on(event, callback)
     }
 
-    createEvent(order, event, callback) {
+    createEvent(order, event, simulatorConfig, callback) {
         let topicName = 'orders'
         let eventType = event
-        let message = Buffer.from(JSON.stringify({eventType, payload: order}))
+        let message = Buffer.from(JSON.stringify({eventType, payload: order, simulatorConfig}))
         try {
             this.producer.produce(
                 topicName,
@@ -104,16 +104,16 @@ class KafkaWrapper {
         }
     }
 
-    courierMatchedEvent(order, callback) {
-        this.createEvent(order, 'courierMatched', callback)
+    courierMatchedEvent(order, simulatorConfig, callback) {
+        this.createEvent(order, 'courierMatched', simulatorConfig, callback)
     }
 
-    courierPickedUpEvent(order, callback) {
-        this.createEvent(order, 'courierPickedUp', callback)
+    courierPickedUpEvent(order, simulatorConfig, callback) {
+        this.createEvent(order, 'courierPickedUp', simulatorConfig, callback)
     }
 
-    deliveredEvent(order, callback) {
-        this.createEvent(order, 'delivered', callback)
+    deliveredEvent(order, simulatorConfig, callback) {
+        this.createEvent(order, 'delivered', simulatorConfig, callback)
     }
 }
 

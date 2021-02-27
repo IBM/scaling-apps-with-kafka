@@ -40,14 +40,16 @@ KafkaWrapper.consumer.on('ready', function() {
     try {
         let dataObject = JSON.parse(data.value.toString())
         // dataObject
-        // {eventType, payload: {orderId,userId,kitchenId,requestId}}
+        // {eventType, payload: {orderId,userId,kitchenId,requestId}, simulatorConfig}
         let eventType = dataObject.eventType
         let order = dataObject.payload
+        let simulatorConfig = dataObject.simulatorConfig
+        let courierDelay = simulatorConfig.courierSpeed || 5000
         switch (eventType) {
             case "orderValidated":
                 // simulate to 5 seconds process
                 setTimeout(() => {
-                    KafkaWrapper.courierMatchedEvent(order, err => {
+                    KafkaWrapper.courierMatchedEvent(order, simulatorConfig, err => {
                         if (err) {
                             console.log("error producing event")
                             console.error(err)
@@ -55,13 +57,13 @@ KafkaWrapper.consumer.on('ready', function() {
                             console.log(`courierMatched event for ${order.orderId} created`)
                         }
                     })
-                }, 5000)
+                }, courierDelay)
                 KafkaWrapper.consumer.commitMessage(data)
                 break;
             case "kitchenFoodReady":
                 // simulate to 5 seconds process
                 setTimeout(() => {
-                    KafkaWrapper.courierPickedUpEvent(order, err => {
+                    KafkaWrapper.courierPickedUpEvent(order, simulatorConfig, err => {
                         if (err) {
                             console.log("error producing event")
                             console.error(err)
@@ -69,13 +71,13 @@ KafkaWrapper.consumer.on('ready', function() {
                             console.log(`courierPickedUp event for ${order.orderId} created`)
                         }
                     })
-                }, 5000)
+                }, courierDelay)
                 KafkaWrapper.consumer.commitMessage(data)
                 break;
             case "courierPickedUp":
                 // simulate to 5 seconds process
                 setTimeout(() => {
-                    KafkaWrapper.deliveredEvent(order, err => {
+                    KafkaWrapper.deliveredEvent(order, simulatorConfig, err => {
                         if (err) {
                             console.log("error producing event")
                             console.error(err)
@@ -83,7 +85,7 @@ KafkaWrapper.consumer.on('ready', function() {
                             console.log(`deliveredEvent event for ${order.orderId} created`)
                         }
                     })
-                }, 5000)
+                }, courierDelay)
                 KafkaWrapper.consumer.commitMessage(data)
                 break;
             default:

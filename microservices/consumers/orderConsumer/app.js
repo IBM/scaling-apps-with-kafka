@@ -40,9 +40,10 @@ KafkaWrapper.consumer.on('ready', function() {
     try {
         let dataObject = JSON.parse(data.value.toString())
         // dataObject
-        // {eventType, payload: {orderId,userId,kitchenId,requestId}}
+        // {eventType, payload: {orderId,userId,kitchenId,requestId}, simulatorConfig}
         let eventType = dataObject.eventType
         let order = dataObject.payload
+        let simulatorConfig = dataObject.simulatorConfig
         switch (eventType) {
             case "orderRequested":
                 createOrderDocument(order, err => {
@@ -57,7 +58,7 @@ KafkaWrapper.consumer.on('ready', function() {
                     }
                     redis.set(order.requestId, JSON.stringify(statusMessage))
                     // produce kafka message with eventType orderCreated
-                    KafkaWrapper.createdOrderEvent(order, err => {
+                    KafkaWrapper.createdOrderEvent(order, simulatorConfig, err => {
                         if (err) {
                             console.log("error producing event")
                             console.error(err)
@@ -76,7 +77,7 @@ KafkaWrapper.consumer.on('ready', function() {
                         } else {
                             console.log(`Order ${order.orderId} is validated.`)
                             // kitchen consumer will handle orderValidated
-                            KafkaWrapper.validatedEvent(order, err => {
+                            KafkaWrapper.validatedEvent(order, simulatorConfig, err => {
                                 if (err) {
                                     console.log("error producing event")
                                     console.error(err)
