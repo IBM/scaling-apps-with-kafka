@@ -43,11 +43,13 @@ KafkaWrapper.consumer.on('ready', function() {
         // {eventType, payload: {orderId,userId,kitchenId,requestId}}
         let eventType = dataObject.eventType
         let order = dataObject.payload
+        let simulatorConfig = dataObject.simulatorConfig
+        let kitchenDelay = simulatorConfig.kitchenSpeed || 5000
         switch (eventType) {
             case "courierMatched":
                 // simulate to 5 seconds process
                 setTimeout(() => {
-                    KafkaWrapper.preparingFoodEvent(order, err => {
+                    KafkaWrapper.preparingFoodEvent(order, simulatorConfig, err => {
                         if (err) {
                             console.log("error producing event")
                             console.error(err)
@@ -55,13 +57,13 @@ KafkaWrapper.consumer.on('ready', function() {
                             console.log(`kitchenPreparingFood event for ${order.orderId} created`)
                         }
                     })
-                }, 5000)
+                }, kitchenDelay)
                 KafkaWrapper.consumer.commitMessage(data)
                 break;
             case "kitchenPreparingFood":
                 // simulate to 5 seconds process
                 setTimeout(() => {
-                    KafkaWrapper.foodReadyEvent(order, err => {
+                    KafkaWrapper.foodReadyEvent(order, simulatorConfig, err => {
                         if (err) {
                             console.log("error producing event")
                             console.error(err)
@@ -69,7 +71,7 @@ KafkaWrapper.consumer.on('ready', function() {
                             console.log(`kitchenFoodReady event for ${order.orderId} created`)
                         }
                     })
-                }, 5000)
+                }, kitchenDelay)
                 KafkaWrapper.consumer.commitMessage(data)
                 break;
             default:
