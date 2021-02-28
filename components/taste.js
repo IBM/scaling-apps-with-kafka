@@ -4,7 +4,7 @@ class Taste extends HTMLElement {
     DESELECTEDSUFFIX = '-deselected.svg'
 
     static get observedAttributes() {
-        return ['imagename','viewname','mode'];
+        return ['imagename', 'viewname', 'mode'];
     }
 
     constructor() {
@@ -23,33 +23,71 @@ class Taste extends HTMLElement {
         var sr = this.shadowRoot;
         sr.innerHTML = await res.text();
         this.showTaste();
+
+        var buttonnames = ['vegan', 'seafood', 'noodles', 'cafe'];
+
+        var component = this;
+
+        buttonnames.forEach(function (buttonname) {
+            let b = component.shadowRoot.getElementById(buttonname);
+            b.onclick = component.showRestaurantOptions.bind(component);
+        })
+
+        let outcome = await fetch('./components/restaurants.json')
+        this.test = await outcome.text();
+        this.restaurants = JSON.parse(this.test);
     }
 
-    setMode(mode){
+    randomRestaurantList() {
+
+    }
+
+    showRestaurantOptions(event) {
+
+        let id = event.path[1].id;
+
+        let component = this;
+
+        var sr = component.shadowRoot;
+
+        var anchor = sr.getElementById('restaurantlist');
+        anchor.innerHTML = "";
+
+        this.restaurants.forEach(function (restaurant) {
+            if (restaurant.type == id) {
+                var element = document.createElement('restaurant-element');
+                element.setAttribute("restaurant", restaurant.name);
+                element.setAttribute("type", restaurant.type);
+                anchor.appendChild(element);
+            }
+        })
+    }
+
+    setMode(mode) {
         this.mode = mode;
 
         var imagestring = this.imagename;
 
-        if(this.mode=='active'){
+        if (this.mode == 'active') {
             imagestring = imagestring + this.SELECTEDSUFFIX;
-        }else{
+        } else {
             imagestring = imagestring + this.DESELECTEDSUFFIX;
         }
 
         this.buttonimage.src = './images/' + imagestring;
     }
 
-    setEnabled(){
+    setEnabled() {
         this.setMode('active');
     }
 
-    setDisabled(){
+    setDisabled() {
         this.setMode('inactive');
     }
 
-   showTaste(){
+    showTaste() {
 
-   }
+    }
 }
 
 

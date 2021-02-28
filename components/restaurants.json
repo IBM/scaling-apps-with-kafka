@@ -1,0 +1,118 @@
+[{
+    "type": "vegan",
+    "name": "Pure Kitchen",
+    "deal": "",
+    "menu": [{
+        "item": "Radical Cauliflour Wings",
+        "cost": "16.5"
+    }, {
+        "item": "Thrive Bowl",
+        "cost": "17.5"
+    }, {
+        "item": "Warrior Bowl",
+        "cost": "21"
+    }, {
+        "item": "Artisinal Sandwich",
+        "cost": "18.75"
+    }]
+}, {
+    "type": "vegan",
+    "name": "Chipotle",
+    "deal": "",
+    "menu": [{
+        "item": "Burrito",
+        "cost": "11"
+    }, {
+        "item": "Tacos",
+        "cost": "11.5"
+    }, {
+        "item": "Salad",
+        "cost": "12"
+    }]
+}, {
+    "type": "vegan",
+    "name": "Clover",
+    "deal": "",
+    "menu": [{
+        "item": "Sage & Squash Risotto",
+        "cost": "18"
+    }, {
+        "item": "Beet & Lemongrass Sopa",
+        "cost": "17.5"
+    }, {
+        "item": "Panko Squash Tacos",
+        "cost": "21"
+    }, {
+        "item": "Peanutbutter Tofu Noodles",
+        "cost": "20"
+    }, {
+        "item": "Pakora Garden",
+        "cost": "18"
+    }, {
+        "item": "Clover Dragon Bowl",
+        "cost": "21"
+    }, {
+        "item": "Clover Avocado Toast",
+        "cost": "15"
+    }]
+}, {
+    "type": "vegan",
+    "name": "Fresh",
+    "deal": "",
+    "menu": []
+}, {
+    "type": "seafood",
+    "name": "Sushi Go",
+    "deal": "",
+    "menu": []
+}, {
+    "type": "seafood",
+    "name": "Simply Seafood",
+    "deal": "",
+    "menu": []
+}, {
+    "type": "seafood",
+    "name": "Crab Cakes",
+    "deal": "",
+    "menu": []
+}, {
+    "type": "seafood",
+    "name": "Red Lobster",
+    "deal": "",
+    "menu": []
+}, {
+    "type": "cafe",
+    "name": "Planet Coffee",
+    "deal": "",
+    "menu": []
+}, {
+    "type": "cafe",
+    "name": "Mountain Goat",
+    "deal": "",
+    "menu": []
+}, {
+    "type": "cafe",
+    "name": "Starbucks",
+    "deal": "",
+    "menu": []
+}, {
+    "type": "noodles",
+    "name": "Lemongrass",
+    "deal": "",
+    "menu": []
+}, {
+    "type": "noodles",
+    "name": "Oodles of Noodles",
+    "deal": "",
+    "menu": []
+}, {
+    "type": "noodles",
+    "name": "Sweet Basil",
+    "deal": "",
+    "menu": []
+}, {
+    "type": "noodles",
+    "name": "Wagamama",
+    "deal": "",
+    "menu": []
+}]

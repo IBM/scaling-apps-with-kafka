@@ -1,0 +1,73 @@
+<style>
+    .dashed {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-items: center;
+        justify-content: center;
+        background: white;
+        border: 1px dashed #cfb1a4;
+        padding: 5px;
+        margin: 10px;
+        width: 210px;
+        border-radius: 4px;
+    }
+
+    .curbside {
+        width: 160px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        justify-items: center;
+    }
+
+    .pickuplabel {
+        color: #cfb1a4;
+        font-size: 10px;
+    }
+
+    .tag {
+        width: 50px;
+    }
+
+    .yourarea {
+        font-size: 10px;
+        width: 200px;
+        ;
+    }
+
+    .foodicon {
+        height: 24px;
+    }
+
+    .ad {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .adlabel {
+        color: #777;
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    .adsubtext {
+        color: #cfb1a4;
+        font-size: 12px;
+        padding: 10px;
+        width: 200px;
+        ;
+    }
+</style>
+<section class="dashed">
+    <section class="curbside">
+        <span class="ad"><img class="foodicon" src="../images/noodle-bowl.svg">
+            <div id="restaurant" class="adlabel"></div>
+        </span>
+        <div class="adsubtext">25 min - 99c deliver over $15 order</div>
+    </section>
+    <section class="tag"></section>
+</section>
