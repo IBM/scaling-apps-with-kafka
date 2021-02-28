@@ -36,10 +36,34 @@ class Taste extends HTMLElement {
         let outcome = await fetch('./components/restaurants.json')
         this.test = await outcome.text();
         this.restaurants = JSON.parse(this.test);
+        this.randomRestaurantList();
     }
 
     randomRestaurantList() {
 
+        var arr = [];
+        while (arr.length < 5) {
+            var r = Math.floor(Math.random() * this.restaurants.length) + 1;
+            if (arr.indexOf(r) === -1) arr.push(r);
+        }
+
+        var component = this;
+
+        var sr = component.shadowRoot;
+
+        var anchor = sr.getElementById('restaurantlist');
+        anchor.innerHTML = "";
+
+
+        arr.forEach(function (index) {
+            var restaurant = component.restaurants[index];
+            var element = document.createElement('restaurant-element');
+            element.setAttribute("restaurant", restaurant.name);
+            element.setAttribute("type", restaurant.type);
+            anchor.appendChild(element);
+        })
+
+        console.log(arr);
     }
 
     showRestaurantOptions(event) {
