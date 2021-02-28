@@ -61,6 +61,26 @@ class Restaurant extends HTMLElement {
         var r = sr.getElementById('restaurant');
         r.innerHTML = this.restaurantname;
 
+        var i = sr.getElementById('image');
+
+        switch (this.restauranttype) {
+
+            case "vegan":
+                i.src = "../images/sprout.svg";
+                break;
+
+            case "noodle":
+                i.src = "../images/noodle-bowl.svg";
+                break;
+
+            case "cafe":
+                i.src = "../images/cafe.svg";
+                break;
+
+            case "seafood":
+                i.src = "../images/fish.svg";
+                break;
+        }
     }
 }
 
