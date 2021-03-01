@@ -1,5 +1,6 @@
 [{
     "type": "vegan",
+    "image": "sprout.svg",
     "name": "Pure Kitchen",
     "deal": "",
     "menu": [{
@@ -17,6 +18,7 @@
     }]
 }, {
     "type": "vegan",
+    "image": "sprout.svg",
     "name": "Chipotle",
     "deal": "",
     "menu": [{
@@ -31,6 +33,7 @@
     }]
 }, {
     "type": "vegan",
+    "image": "sprout.svg",
     "name": "Clover",
     "deal": "",
     "menu": [{
@@ -57,61 +60,73 @@
     }]
 }, {
     "type": "vegan",
+    "image": "sprout.svg",
     "name": "Fresh",
     "deal": "",
     "menu": []
 }, {
     "type": "seafood",
+    "image": "fish.svg",
     "name": "Sushi Go",
     "deal": "",
     "menu": []
 }, {
     "type": "seafood",
+    "image": "fish.svg",
     "name": "Simply Seafood",
     "deal": "",
     "menu": []
 }, {
     "type": "seafood",
+    "image": "fish.svg",
     "name": "Crab Cakes",
     "deal": "",
     "menu": []
 }, {
     "type": "seafood",
+    "image": "fish.svg",
     "name": "Red Lobster",
     "deal": "",
     "menu": []
 }, {
     "type": "cafe",
+    "image": "cafe.svg",
     "name": "Planet Coffee",
     "deal": "",
     "menu": []
 }, {
     "type": "cafe",
+    "image": "cafe.svg",
     "name": "Mountain Goat",
     "deal": "",
     "menu": []
 }, {
     "type": "cafe",
+    "image": "cafe.svg",
     "name": "Starbucks",
     "deal": "",
     "menu": []
 }, {
     "type": "noodles",
+    "image": "noodle-bowl.svg",
     "name": "Lemongrass",
     "deal": "",
     "menu": []
 }, {
     "type": "noodles",
+    "image": "noodle-bowl.svg",
     "name": "Oodles of Noodles",
     "deal": "",
     "menu": []
 }, {
     "type": "noodles",
+    "image": "noodle-bowl.svg",
     "name": "Sweet Basil",
     "deal": "",
     "menu": []
 }, {
     "type": "noodles",
+    "image": "noodle-bowl.svg",
     "name": "Wagamama",
     "deal": "",
     "menu": []

@@ -52,6 +52,7 @@ class Restaurant extends HTMLElement {
 
     showTaste() {
         var customElement = this;
+        this.onclick = this.selectRestaurant.bind(this);
 
         this.restaurantname = customElement.getAttribute('restaurant');
         this.restauranttype = customElement.getAttribute('type');
@@ -81,6 +82,10 @@ class Restaurant extends HTMLElement {
                 i.src = "../images/fish.svg";
                 break;
         }
+    }
+
+    selectRestaurant(e){
+        console.log(e);
     }
 }
 
