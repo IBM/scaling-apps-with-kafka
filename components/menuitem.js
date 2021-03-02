@@ -80,8 +80,6 @@ class MenuItem extends HTMLElement {
             bubbles: true
         });
 
-        localStorage.kafkaOrders = 
-
         component.dispatchEvent(customEvent);
 
         console.log(orderinfo);
