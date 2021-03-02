@@ -5,7 +5,7 @@
         width: 100%;
         height: 100%;
         background: #fdf9f0;
-        overflow: scroll;
+        /* overflow: scroll; */
     }
 
     .layout {
@@ -13,7 +13,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        overflow: scroll;
+        height:100%;
     }
 
     .orderlabel {
@@ -154,6 +154,10 @@
         align-items: center;
         overflow: scroll;
     }
+
+    .scrollable{
+        overflow-y: scroll;
+    }
 </style>
 
 <div class="taste">
@@ -192,10 +196,11 @@
         </section> -->
 
         <label id="caption" class="yourarea">Popular in your area ... </label>
-        <section class="restaurantlist" id="restaurantlist">
-            <restaurant-element></restaurant-element>
-
-        </section>
+        <div class="scrollable">
+            <section class="restaurantlist" id="restaurantlist">
+                <restaurant-element></restaurant-element>
+            </section>
+        </div>
     </div>
 </div>
 <!-- </template> -->
