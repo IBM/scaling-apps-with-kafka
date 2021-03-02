@@ -84,8 +84,20 @@ class Restaurant extends HTMLElement {
         }
     }
 
-    selectRestaurant(e){
+    selectRestaurant(e) {
         console.log(e);
+
+        var component = this;
+
+        var customEvent = new CustomEvent('RESTAURANT-SELECTION', {
+            detail: {
+                eventData: {
+                    "restaurant": component.restaurantname 
+                }
+            },
+            bubbles: true
+        });
+        component.dispatchEvent(customEvent);
     }
 }
 

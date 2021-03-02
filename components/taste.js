@@ -34,16 +34,16 @@ class Taste extends HTMLElement {
         })
 
         let outcome = await fetch('./components/restaurants.json')
-        this.test = await outcome.text();
-        this.restaurants = JSON.parse(this.test);
-        this.randomRestaurantList();
+        var rlist = await outcome.text();
+        this.restaurants = JSON.parse(rlist);
+        this.randomRestaurantList(this.restaurants);
     }
 
-    randomRestaurantList() {
+    randomRestaurantList(restaurants) {
 
         var arr = [];
         while (arr.length < 5) {
-            var r = Math.floor(Math.random() * this.restaurants.length) + 1;
+            var r = Math.floor(Math.random() * this.restaurants.length-1) + 1;
             if (arr.indexOf(r) === -1) arr.push(r);
         }
 
@@ -56,7 +56,10 @@ class Taste extends HTMLElement {
 
 
         arr.forEach(function (index) {
-            var restaurant = component.restaurants[index];
+            var restaurant = restaurants[index];
+
+            console.log('restaurant index: ' + index);
+
             var element = document.createElement('restaurant-element');
             element.setAttribute("restaurant", restaurant.name);
             element.setAttribute("type", restaurant.type);
@@ -76,6 +79,14 @@ class Taste extends HTMLElement {
 
         var anchor = sr.getElementById('restaurantlist');
         anchor.innerHTML = "";
+
+        var cap = 'cafes ...';
+
+        if(id != 'cafe'){
+           cap = id + ' restaurants ...';
+        }
+
+        this.setCaption(cap);
 
         this.restaurants.forEach(function (restaurant) {
             if (restaurant.type == id) {
@@ -109,8 +120,42 @@ class Taste extends HTMLElement {
         this.setMode('inactive');
     }
 
-    showTaste() {
+    setCaption(caption){
+        var sr = this.shadowRoot;
+        var cap = sr.getElementById('caption');
+        cap.innerHTML=caption;
+    }
 
+    showTaste() {
+        
+        let component = this;
+
+        var sr = component.shadowRoot;
+
+        var anchor = sr.getElementById('restaurantlist');
+       
+
+        anchor.addEventListener('RESTAURANT-SELECTION', e => {
+            console.log(e.detail.eventData.restaurant);
+            anchor.innerHTML = "";
+
+            var selected = e.detail.eventData.restaurant;
+
+            component.restaurants.forEach(function(restaurant){
+                if(restaurant.name == selected){
+                    console.log(restaurant);
+
+                    component.setCaption('Menu for ' + restaurant.name +  ' ...');
+
+                    restaurant.menu.forEach(function(menuitem){
+                        let entry = document.createElement('menuitem-element');
+                        entry.setAttribute('dish', menuitem.item);
+                        entry.setAttribute('cost', menuitem.cost);
+                        anchor.appendChild(entry);
+                    })
+                }
+            })
+        });
     }
 }
 
