@@ -43,7 +43,7 @@ class Taste extends HTMLElement {
 
         var arr = [];
         while (arr.length < 5) {
-            var r = Math.floor(Math.random() * this.restaurants.length-1) + 1;
+            var r = Math.floor(Math.random() * this.restaurants.length - 1) + 1;
             if (arr.indexOf(r) === -1) arr.push(r);
         }
 
@@ -82,8 +82,8 @@ class Taste extends HTMLElement {
 
         var cap = 'cafes ...';
 
-        if(id != 'cafe'){
-           cap = id + ' restaurants ...';
+        if (id != 'cafe') {
+            cap = id + ' restaurants ...';
         }
 
         this.setCaption(cap);
@@ -120,20 +120,20 @@ class Taste extends HTMLElement {
         this.setMode('inactive');
     }
 
-    setCaption(caption){
+    setCaption(caption) {
         var sr = this.shadowRoot;
         var cap = sr.getElementById('caption');
-        cap.innerHTML=caption;
+        cap.innerHTML = caption;
     }
 
     showTaste() {
-        
+
         let component = this;
 
         var sr = component.shadowRoot;
 
         var anchor = sr.getElementById('restaurantlist');
-       
+
 
         anchor.addEventListener('RESTAURANT-SELECTION', e => {
             console.log(e.detail.eventData.restaurant);
@@ -141,16 +141,17 @@ class Taste extends HTMLElement {
 
             var selected = e.detail.eventData.restaurant;
 
-            component.restaurants.forEach(function(restaurant){
-                if(restaurant.name == selected){
+            component.restaurants.forEach(function (restaurant) {
+                if (restaurant.name == selected) {
                     console.log(restaurant);
 
-                    component.setCaption('Menu for ' + restaurant.name +  ' ...');
+                    component.setCaption('Menu for ' + restaurant.name + ' ...');
 
-                    restaurant.menu.forEach(function(menuitem){
+                    restaurant.menu.forEach(function (menuitem) {
                         let entry = document.createElement('menuitem-element');
                         entry.setAttribute('dish', menuitem.item);
                         entry.setAttribute('cost', menuitem.cost);
+                        entry.setAttribute('restaurant', restaurant.name);
                         anchor.appendChild(entry);
                     })
                 }

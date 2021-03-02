@@ -1,7 +1,7 @@
 class MenuItem extends HTMLElement {
 
     static get observedAttributes() {
-        return ['entry', 'cost'];
+        return ['entry', 'cost', 'restaurant'];
     }
 
     constructor() {
@@ -32,6 +32,60 @@ class MenuItem extends HTMLElement {
 
         dish.innerHTML = d;
         cost.innerHTML = '$' + c;
+
+        var button = sr.getElementById('order');
+        button.onclick = this.placeOrder.bind(this);
+    }
+
+    storeOrder(order){
+
+        var orders = localStorage.getItem('KAFKA-ORDERS');
+
+        var orderlist;
+
+        if(orders == null){
+            orderlist = [];  
+        }else{
+            orderlist = JSON.parse(orders);
+        }
+
+        orderlist.push(order);  
+        localStorage.setItem('KAFKA-ORDERS',JSON.stringify(orderlist));
+    }
+
+
+    placeOrder(e) {
+
+        var dish = this.getAttribute('dish');
+        var cost = this.getAttribute('cost');
+        var restaurant = this.getAttribute('restaurant');
+
+        let orderinfo = {
+            'dish': dish,
+            'cost': cost,
+            'restaurant': restaurant,
+            'status': 'ORDERED'
+        };
+
+        this.storeOrder(orderinfo);
+
+        var component = this;
+
+        var customEvent = new CustomEvent('ORDER-PLACED', {
+            detail: {
+                eventData: {
+                    "order": orderinfo
+                }
+            },
+            bubbles: true
+        });
+
+        localStorage.kafkaOrders = 
+
+        component.dispatchEvent(customEvent);
+
+        console.log(orderinfo);
+
     }
 }
 
