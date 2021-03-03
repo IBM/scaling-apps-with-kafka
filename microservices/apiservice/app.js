@@ -61,6 +61,21 @@ app.post("/createOrder", (req, res) => {
     })
 })
 
+// get restaurants
+app.get("/restaurants", (req, res) => {
+    let requestId = uuidv4()
+    KafkaProducer.getRestaurants(requestId, (err) => {
+        if (err) {
+            console.log(err)
+            res.status('404').send({requestId, error: "Error sending message"})
+        } else {
+            redis.set(requestId, JSON.stringify({status: "processing"}))
+            res.status('202').send({requestId, status: "processing"})
+        }
+    })
+    redis.set(requestId, JSON.stringify({status: "processing"}))
+})
+
 // get status
 app.get("/status/:requestId", (req, res) => {
     let requestId = req.params.requestId
