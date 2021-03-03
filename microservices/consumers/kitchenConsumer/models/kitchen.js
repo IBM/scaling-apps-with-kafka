@@ -8,7 +8,8 @@ let uuidValidator = (id) => {
     }
 }
 let Menu = new Schema({
-    name: {type: String},
+    _id: false,
+    item: {type: String},
     price: {type: mongoose.Types.Decimal128}
 })
 
@@ -26,6 +27,7 @@ Kitchen.path('kitchenId').get((kitchenId) => {
 Menu.path('price').get((price) => {
     return Number(price.toString());
 })
+Menu.set('toJSON', { getters: true, virtuals: false});
 Kitchen.set('toJSON', { getters: true, virtuals: false});
 
 module.exports = mongoose.model("Kitchen", Kitchen)
