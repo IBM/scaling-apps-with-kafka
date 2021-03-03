@@ -1,6 +1,7 @@
 const { response } = require('express');
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const KafkaProducer = require('./KafkaProducer.js') 
 const { v4: uuidv4 } = require('uuid');
 const Redis = require('ioredis')
@@ -12,6 +13,7 @@ const redis = new Redis()
 const PORT = process.env.PORT || 8080
 
 app.use(express.json());
+app.use(cors())
 
 // {
 //     "orderId":"",

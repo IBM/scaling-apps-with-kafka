@@ -17,7 +17,7 @@ let Kitchen = new Schema({
     kitchenId: {type: Buffer, unique: true, subtype: 4, default: () => MUUID.v4(), validate: {validator: uuidValidator}},
     name: {type: String},
     image: {type: String},
-    category: {type: String},
+    type: {type: String},
     menu: [Menu]
 })
 
