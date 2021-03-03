@@ -75,7 +75,7 @@ KafkaWrapper.consumer.on('ready', function() {
                 KafkaWrapper.consumer.commitMessage(data)
                 break;
             case "kitchenNewSimulatedListRequest":
-                createKitchenList(payload, (err, restaurants) => {
+                createKitchenList(payload.restaurants, (err, restaurants) => {
                     let statusMessage
                     if (err) {
                         console.log("error saving kitchen list")
@@ -113,18 +113,16 @@ KafkaWrapper.consumer.on('ready', function() {
 });
 
 function createKitchenList(payload, callback) {
-    // let restaurants = payload.map(restaurant => {
-    //     restaurant.kitchenId = MUUID.from(restaurant.kitchenId)
-    //     return restaurant
-    // })
+    let restaurants = payload.map(restaurant => {
+        let kitchenId = restaurant.kitchenId || MUUID.v4().toString()
+        restaurant.kitchenId = MUUID.from(kitchenId)
+        return restaurant
+    })
     Kitchen.insertMany(restaurants, (err, restaurants) => {callback(err, restaurants)})
 }
 
 function getKitchenList(callback) {
-    Kitchen.find((err, docs) => {
-        console.log('find query')
-        console.log(err)
-        console.log(docs)
+    Kitchen.find({}, {__v: false, _id: false}, (err, docs) => {
         callback(err, docs)
     })
 }
