@@ -33,9 +33,16 @@ class Taste extends HTMLElement {
             b.onclick = component.showRestaurantOptions.bind(component);
         })
 
-        let outcome = await fetch('./components/restaurants.json')
-        var rlist = await outcome.text();
-        this.restaurants = JSON.parse(rlist);
+        let outcome = await getKitchenList()
+        let rlist
+        try {
+            // if read from json
+            rlistText = await outcome.text();
+            rlist = JSON.parse(rlistText)
+        } catch (error) {
+            rlist = outcome
+        }
+        this.restaurants = rlist;
         this.randomRestaurantList(this.restaurants);
     }
 
@@ -70,6 +77,7 @@ class Taste extends HTMLElement {
     }
 
     showRestaurantOptions(event) {
+        console.log(event) // firefox ?
 
         let id = event.currentTarget.id;
 
