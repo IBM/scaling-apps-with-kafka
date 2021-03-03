@@ -147,7 +147,7 @@ class Taste extends HTMLElement {
                     restaurant.menu.forEach(function (menuitem) {
                         let entry = document.createElement('menuitem-element');
                         entry.setAttribute('dish', menuitem.item);
-                        entry.setAttribute('cost', menuitem.cost);
+                        entry.setAttribute('cost', menuitem.price);
                         entry.setAttribute('restaurant', restaurant.name);
                         entry.setAttribute('type', restaurant.type);
                         anchor.appendChild(entry);

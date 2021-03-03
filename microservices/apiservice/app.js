@@ -61,6 +61,21 @@ app.post("/createOrder", (req, res) => {
     })
 })
 
+// create restaurants
+app.post("/restaurants", (req, res) => {
+    let requestId = uuidv4()
+    let restaurants = req.body
+    KafkaProducer.createRestaurants(requestId, restaurants, (err) => {
+        if (err) {
+            console.log(err)
+            res.status('404').send({requestId, error: "Error sending message"})
+        } else {
+            redis.set(requestId, JSON.stringify({status: "processing"}))
+            res.status('202').send({requestId, payloadSent: {restaurants}})
+        }
+    })
+})
+
 // get restaurants
 app.get("/restaurants", (req, res) => {
     let requestId = uuidv4()
