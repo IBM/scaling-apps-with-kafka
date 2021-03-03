@@ -43,7 +43,7 @@ KafkaWrapper.consumer.on('ready', function() {
         // {eventType, payload: {orderId,userId,kitchenId,requestId}, simulatorConfig}
         let eventType = dataObject.eventType
         let order = dataObject.payload
-        let simulatorConfig = dataObject.simulatorConfig
+        let simulatorConfig = dataObject.simulatorConfig || {}
         let courierDelay = simulatorConfig.courierSpeed || 5000
         switch (eventType) {
             case "orderValidated":

@@ -2,7 +2,7 @@ const KafkaWrapper = require('./KafkaWrapper.js')
 const mongoose = require('mongoose');
 const Redis = require('ioredis');
 const MUUID = require('uuid-mongodb').mode('relaxed');
-const Order = require('./models/order.js')
+const Kitchen = require('./models/kitchen.js')
 
 // connect to redis localhost
 const redis = new Redis()
@@ -39,22 +39,22 @@ KafkaWrapper.consumer.on('ready', function() {
 }).on('data', function(data) {
     try {
         let dataObject = JSON.parse(data.value.toString())
-        // dataObject
-        // {eventType, payload: {orderId,userId,kitchenId,requestId}}
+        // dataObject for orders
+        // {eventType, payload: {orderId,userId,kitchenId,requestId}, simulatorConfig: {}}
         let eventType = dataObject.eventType
-        let order = dataObject.payload
-        let simulatorConfig = dataObject.simulatorConfig
+        let payload = dataObject.payload
+        let simulatorConfig = dataObject.simulatorConfig || {}
         let kitchenDelay = simulatorConfig.kitchenSpeed || 5000
         switch (eventType) {
             case "courierMatched":
                 // simulate to 5 seconds process
                 setTimeout(() => {
-                    KafkaWrapper.preparingFoodEvent(order, simulatorConfig, err => {
+                    KafkaWrapper.preparingFoodEvent(payload, simulatorConfig, err => {
                         if (err) {
                             console.log("error producing event")
                             console.error(err)
                         } else {
-                            console.log(`kitchenPreparingFood event for ${order.orderId} created`)
+                            console.log(`kitchenPreparingFood event for ${payload.orderId} created`)
                         }
                     })
                 }, kitchenDelay)
@@ -63,15 +63,42 @@ KafkaWrapper.consumer.on('ready', function() {
             case "kitchenPreparingFood":
                 // simulate to 5 seconds process
                 setTimeout(() => {
-                    KafkaWrapper.foodReadyEvent(order, simulatorConfig, err => {
+                    KafkaWrapper.foodReadyEvent(payload, simulatorConfig, err => {
                         if (err) {
                             console.log("error producing event")
                             console.error(err)
                         } else {
-                            console.log(`kitchenFoodReady event for ${order.orderId} created`)
+                            console.log(`kitchenFoodReady event for ${payload.orderId} created`)
                         }
                     })
                 }, kitchenDelay)
+                KafkaWrapper.consumer.commitMessage(data)
+                break;
+            case "kitchenNewSimulatedListRequest":
+                createKitchenList(payload, (err, restaurants) => {
+                    let statusMessage
+                    if (err) {
+                        console.log("error saving kitchen list")
+                        console.error(err)
+                        statusMessage = {status: "Kitchen list failed saving in database"}
+                    } else {
+                        console.log(`Kitchen list saved`)
+                        statusMessage = {status: "kitchen list created"}
+                    }
+                    redis.set(payload.requestId, JSON.stringify(statusMessage))
+                })
+                KafkaWrapper.consumer.commitMessage(data)
+                break;
+            case "kitchenRestaurantsList":
+                getKitchenList((err, docs) => {
+                    if (err) {
+                        console.log("error getting restaurants")
+                        console.error(err);
+                        redis.set(payload.requestId, JSON.stringify({status: "error getting events"}))
+                    } else {
+                        redis.set(payload.requestId, JSON.stringify({status: "success", docs}))
+                    }
+                })
                 KafkaWrapper.consumer.commitMessage(data)
                 break;
             default:
@@ -85,27 +112,22 @@ KafkaWrapper.consumer.on('ready', function() {
     }
 });
 
-// function createOrderDocument(payload, callback) {
-//     let order = {
-//         orderId: MUUID.from(payload.orderId),
-//         userId: MUUID.from(payload.userId),
-//         kitchenId: MUUID.from(payload.kitchenId),
-//         status: "orderCreated",
-//         totalPrice: payload.totalPrice
-//     }
-//     let newOrder = new Order(order)
-//     newOrder.save(err => callback(err))
-// }
-
-function setOrderStatusTo(orderId, status, callback) {
-    let filter = { orderId: MUUID.from(orderId) }
-    let update = { status }
-
-    Order.findOneAndUpdate(filter, update, {new: true}, (err, doc) => {
-        callback(err, doc)
-    })
+function createKitchenList(payload, callback) {
+    // let restaurants = payload.map(restaurant => {
+    //     restaurant.kitchenId = MUUID.from(restaurant.kitchenId)
+    //     return restaurant
+    // })
+    Kitchen.insertMany(restaurants, (err, restaurants) => {callback(err, restaurants)})
 }
 
+function getKitchenList(callback) {
+    Kitchen.find((err, docs) => {
+        console.log('find query')
+        console.log(err)
+        console.log(docs)
+        callback(err, docs)
+    })
+}
 KafkaWrapper.producer.on('ready', () => {
     console.log('The producer has connected.')
     KafkaWrapper.consumer.connect()

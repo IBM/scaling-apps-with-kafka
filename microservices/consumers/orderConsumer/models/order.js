@@ -9,7 +9,7 @@ let uuidValidator = (id) => {
 }
 
 let Order = new Schema({
-    orderId: {type: Buffer, subtype: 4, default: () => MUUID.v4(), validate: {validator: uuidValidator}},
+    orderId: {type: Buffer, unique: true, subtype: 4, default: () => MUUID.v4(), validate: {validator: uuidValidator}},
     userId: {type: Buffer, subtype: 4, default: () => MUUID.v4(), validate: {validator: uuidValidator}},
     kitchenId: {type: Buffer, subtype: 4, default: () => MUUID.v4(), validate: {validator: uuidValidator}},
     status: {type: String},
