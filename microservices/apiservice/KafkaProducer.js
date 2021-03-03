@@ -79,6 +79,23 @@ class KafkaProducer {
             callback(err)
         }
     }
+
+    getRestaurants(requestId, callback) {
+        let topicName = 'orders'
+        let eventType = 'kitchenRestaurantsList'
+        let message = Buffer.from(JSON.stringify({eventType, payload: {requestId}}))
+        try {
+            this.producer.produce(
+                topicName,
+                null,
+                message
+            )
+            callback(null)
+        } catch (err) {
+            console.log('caught')
+            callback(err)
+        }
+    }
 }
 
 const kafkaProducer = new KafkaProducer(process.env.KAFKA_CREDENTIALS)
