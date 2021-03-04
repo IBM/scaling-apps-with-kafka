@@ -1,7 +1,11 @@
 class MenuItem extends HTMLElement {
 
     static get observedAttributes() {
+<<<<<<< HEAD
         return ['entry', 'cost', 'restaurant', 'type'];
+=======
+        return ['entry', 'cost', 'restaurant', 'kitchenId'];
+>>>>>>> Add more details to order document and integrate with frontend
     }
 
     constructor() {
@@ -60,12 +64,17 @@ class MenuItem extends HTMLElement {
         var cost = this.getAttribute('cost');
         var type = this.getAttribute('type');
         var restaurant = this.getAttribute('restaurant');
+        var kitchenId = this.getAttribute('kitchenId');
 
         let orderinfo = {
             'dish': dish,
-            'cost': cost,
+            'totalPrice': cost,
             'restaurant': restaurant,
+<<<<<<< HEAD
             'type': type,
+=======
+            kitchenId,
+>>>>>>> Add more details to order document and integrate with frontend
             'status': 'ORDERED'
         };
 

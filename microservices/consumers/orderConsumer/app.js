@@ -157,6 +157,10 @@ function createOrderDocument(payload, callback) {
         userId: MUUID.from(payload.userId),
         kitchenId: MUUID.from(payload.kitchenId),
         status: "orderCreated",
+        dish: payload.dish,
+        statusHistory: [
+            { status: "orderCreated"}
+        ],
         totalPrice: payload.totalPrice
     }
     let newOrder = new Order(order)
@@ -165,7 +169,7 @@ function createOrderDocument(payload, callback) {
 
 function setOrderStatusTo(orderId, status, callback) {
     let filter = { orderId: MUUID.from(orderId) }
-    let update = { status }
+    let update = { status, "$push": { statusHistory: {status} } }
 
     Order.findOneAndUpdate(filter, update, {new: true}, (err, doc) => {
         callback(err, doc)
