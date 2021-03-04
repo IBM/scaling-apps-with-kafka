@@ -157,7 +157,11 @@ class Taste extends HTMLElement {
                         entry.setAttribute('dish', menuitem.item);
                         entry.setAttribute('cost', menuitem.price);
                         entry.setAttribute('restaurant', restaurant.name);
+<<<<<<< HEAD
                         entry.setAttribute('type', restaurant.type);
+=======
+                        entry.setAttribute('kitchenId', restaurant.kitchenId);
+>>>>>>> Add more details to order document and integrate with frontend
                         anchor.appendChild(entry);
                     })
                 }
