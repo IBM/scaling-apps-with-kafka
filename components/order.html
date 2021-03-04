@@ -1,0 +1,50 @@
+<style>
+    .menuitem {
+        display: flex;
+        flex-direction: row;
+        width: 225px;
+        font-size: 12px;
+        align-items: center;
+        justify-items: center;
+        justify-content: center;
+        background: white;
+        border: 1px dashed #cfb1a4;
+        padding: 5px;
+        margin: 5px;
+        width: 210px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .divider {
+        display: flex;
+        flex-direction: column;
+        width: 70%;
+    }
+
+    .dish {
+        margin: 5px;
+    }
+
+    .cost {
+        margin: 5px;
+        font-style: italic;
+        color: #888;
+    }
+
+    .status {
+        order: none;
+        outline: none;
+        width: 24%;
+        height: 24px;
+        margin: 10px;
+    }
+</style>
+
+<section class="menuitem">
+    <div class="divider">
+        <label id="dish" class="dish"></label>
+        <label id="cost" class="cost"></label>
+    </div>
+    <div id="status" class="status"></div>
+</section>

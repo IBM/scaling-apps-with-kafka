@@ -1,7 +1,7 @@
 class MenuItem extends HTMLElement {
 
     static get observedAttributes() {
-        return ['entry', 'cost', 'restaurant'];
+        return ['entry', 'cost', 'restaurant', 'type'];
     }
 
     constructor() {
@@ -58,18 +58,22 @@ class MenuItem extends HTMLElement {
 
         var dish = this.getAttribute('dish');
         var cost = this.getAttribute('cost');
+        var type = this.getAttribute('type');
         var restaurant = this.getAttribute('restaurant');
 
         let orderinfo = {
             'dish': dish,
             'cost': cost,
             'restaurant': restaurant,
+            'type': type,
             'status': 'ORDERED'
         };
 
         this.storeOrder(orderinfo);
 
         var component = this;
+
+        /* Send an event for this order, so that other parts of the system can react */
 
         var customEvent = new CustomEvent('ORDER-PLACED', {
             detail: {

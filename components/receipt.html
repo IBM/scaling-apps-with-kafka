@@ -1,14 +1,175 @@
-<!-- <template id="transaction"> -->
+<!-- <template id="taste"> -->
 
     <style>
-        .receipt{
-
+        .taste {
+            width: 100%;
+            height: 100%;
+            background: #fdf9f0;
+            /* overflow: scroll; */
         }
-
-       
+    
+        .layout {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height:100%;
+        }
+    
+        .orderlabel {
+            margin: 10px;
+            font-size: 12px;
+        }
+    
+        .orderdescription {
+            margin: 10px;
+            font-size: 12px;
+            color: var(--loyalty-phone-color);
+        }
+    
+        .orderdestination {
+            /* margin: 10px; */
+            font-size: 12px;
+            color: f1685e;
+            font-weight: bold;
+        }
+    
+        .buttonrow {
+            display: flex;
+            flex-direction: row;
+            margin: 10px;
+        }
+    
+        .foodbutton {
+            margin: 10px;
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 1px dashed #999;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+        }
+    
+        .buttonlabels {
+            display: flex;
+            flex-direction: row;
+        }
+    
+        .foodlabel {
+            font-size: 10px;
+            color: #777;
+        }
+    
+        .foodselect {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    
+        .options {
+            display: flex;
+            flex-direction: row;
+        }
+    
+        .option {
+            background: #fcd89d;
+            border: none;
+            font-size: 10px;
+            margin: 10px;
+            padding: 6px;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+        }
+    
+        .dashed {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-items: center;
+            justify-content: center;
+            background: white;
+            border: 1px dashed #cfb1a4;
+            padding: 5px;
+            margin: 10px;
+            width: 210px;
+            border-radius: 4px;
+        }
+    
+        .curbside {
+            width: 160px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            justify-items: center;
+        }
+    
+        .pickuplabel {
+            color: #cfb1a4;
+            font-size: 10px;
+        }
+    
+        .tag {
+            width: 50px;
+        }
+    
+        .yourarea {
+            font-size: 11px;
+            width: 220px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    
+        .foodicon {
+            height: 24px;
+        }
+    
+        .ad {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+    
+        .adlabel {
+            color: #777;
+            font-size: 12px;
+            padding: 10px;
+        }
+    
+        .adsubtext {
+            color: #cfb1a4;
+            font-size: 12px;
+            padding: 10px;
+            width: 200px;
+            ;
+        }
+    
+        .orderList {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: scroll;
+        }
+    
+        .scrollable{
+            overflow-y: scroll;
+        }
     </style>
-
-    <div class="receipt">
+    
+    <div class="taste">
+        <div class="layout">
+            <label class="orderlabel">Order food for delivery to:</label>
+            <label class="orderdestination">123 Some Street</label>
         
+            <label id="caption" class="yourarea">Your order history ... </label>
+            <div class="scrollable">
+                <section class="orderList" id="orderList">
+                </section>
+            </div>
+        </div>
     </div>
-<!-- </template> -->
+    <!-- </template> -->

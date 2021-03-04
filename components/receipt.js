@@ -1,8 +1,5 @@
 class Receipt extends HTMLElement {
 
-    SELECTEDSUFFIX = '-selected.svg';
-    DESELECTEDSUFFIX = '-deselected.svg'
-
     static get observedAttributes() {
         return ['imagename','viewname','mode'];
     }
@@ -22,34 +19,28 @@ class Receipt extends HTMLElement {
         let res = await fetch('./components/receipt.html')
         var sr = this.shadowRoot;
         sr.innerHTML = await res.text();
-        this.showTaste();
+        this.showOrders();
     }
 
-    setMode(mode){
-        this.mode = mode;
+    showOrders() {
+        var orders = localStorage.getItem('KAFKA-ORDERS');
 
-        var imagestring = this.imagename;
+        var orderlist = JSON.parse(orders);
 
-        if(this.mode=='active'){
-            imagestring = imagestring + this.SELECTEDSUFFIX;
-        }else{
-            imagestring = imagestring + this.DESELECTEDSUFFIX;
-        }
+        var sr = this.shadowRoot;
 
-        this.buttonimage.src = './images/' + imagestring;
+        var anchor = sr.getElementById('orderList');
+
+        orderlist.forEach(element => {
+            console.log(element);
+            var order = document.createElement('order-element');
+            order.setAttribute('dish', element.dish);
+            order.setAttribute('cost', element.cost);
+            order.setAttribute('type', element.type);
+            order.setAttribute('status', element.status);
+            anchor.appendChild(order);
+        });
     }
-
-    setEnabled(){
-        this.setMode('active');
-    }
-
-    setDisabled(){
-        this.setMode('inactive');
-    }
-
-   showTaste(){
-
-   }
 }
 
 

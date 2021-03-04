@@ -143,7 +143,6 @@ class Taste extends HTMLElement {
 
             component.restaurants.forEach(function (restaurant) {
                 if (restaurant.name == selected) {
-                    console.log(restaurant);
 
                     component.setCaption('Menu for ' + restaurant.name + ' ...');
 
@@ -152,6 +151,7 @@ class Taste extends HTMLElement {
                         entry.setAttribute('dish', menuitem.item);
                         entry.setAttribute('cost', menuitem.cost);
                         entry.setAttribute('restaurant', restaurant.name);
+                        entry.setAttribute('type', restaurant.type);
                         anchor.appendChild(entry);
                     })
                 }
