@@ -71,7 +71,9 @@ class Taste extends HTMLElement {
 
     showRestaurantOptions(event) {
 
-        let id = event.path[1].id;
+        let id = event.currentTarget.id;
+
+        // let id = event.path[1].id;
 
         let component = this;
 
