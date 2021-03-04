@@ -54,7 +54,7 @@ class MenuItem extends HTMLElement {
     }
 
 
-    placeOrder(e) {
+    async placeOrder(e) {
 
         var dish = this.getAttribute('dish');
         var cost = this.getAttribute('cost');
@@ -69,7 +69,15 @@ class MenuItem extends HTMLElement {
             'status': 'ORDERED'
         };
 
-        this.storeOrder(orderinfo);
+        let createOrderRequest = await createOrder(orderinfo)
+        if (createOrderRequest == "noop") {
+            this.storeOrder(orderinfo);
+        } else {
+            if (createOrderRequest.status == "orderCreated") {
+                console.log(createOrderRequest)
+                this.storeOrder(orderinfo); // change orderinfo to backend data instead
+            }
+        }
 
         var component = this;
 

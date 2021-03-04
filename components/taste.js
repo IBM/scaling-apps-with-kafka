@@ -37,7 +37,7 @@ class Taste extends HTMLElement {
         let rlist
         try {
             // if read from json
-            rlistText = await outcome.text();
+            let rlistText = await outcome.text();
             rlist = JSON.parse(rlistText)
         } catch (error) {
             rlist = outcome
