@@ -41,12 +41,15 @@ app.post("/createOrder", (req, res) => {
     let orderId = uuidv4()
     let userId = req.body.userId || uuidv4() // assign unique user id for simulation
     let requestId = uuidv4()
-    let kitchenId = uuidv4()
+    let kitchenId = req.body.kitchenId || uuidv4()
+    let dish = req.body.dish || "testDish"
+    let totalPrice = req.body.totalPrice || (Math.random() * 100).toFixed(2)
     let order = {
         orderId,
         userId,
         kitchenId,
-        totalPrice: (Math.random() * 100).toFixed(2)
+        dish,
+        totalPrice
     }
     // simulatorConfig
     let kitchenSpeed = req.body.kitchenSpeed || 5000
