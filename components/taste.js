@@ -49,7 +49,13 @@ class Taste extends HTMLElement {
     randomRestaurantList(restaurants) {
 
         var arr = [];
-        while (arr.length < 5) {
+        let maxRandomLength
+        if (restaurants.length > 5) {
+            maxRandomLength = 5
+        } else {
+            maxRandomLength = restaurants.length
+        }
+        while (arr.length < maxRandomLength) {
             var r = Math.floor(Math.random() * this.restaurants.length - 1) + 1;
             if (arr.indexOf(r) === -1) arr.push(r);
         }
