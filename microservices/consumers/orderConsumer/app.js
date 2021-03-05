@@ -140,6 +140,30 @@ KafkaWrapper.consumer.on('ready', function() {
                 })
                 KafkaWrapper.consumer.commitMessage(data)
                 break;
+            case "getOrderFromId":
+                getOrderFromId(order.orderId, (err, doc) => {
+                    if (err) {
+                        console.log("error getting restaurants")
+                        console.error(err);
+                        redis.set(order.requestId, JSON.stringify({status: `error getting order of ${order.orderId}`}))
+                    } else {
+                        redis.set(order.requestId, JSON.stringify({status: "success", doc}))
+                    }
+                })
+                KafkaWrapper.consumer.commitMessage(data)
+                break;
+            case "getOrdersOfUser":
+                getOrdersOfUser(order.userId, (err, docs) => {
+                    if (err) {
+                        console.log("error getting restaurants")
+                        console.error(err);
+                        redis.set(order.requestId, JSON.stringify({status: `error getting orders of user ${order.userId}`}))
+                    } else {
+                        redis.set(order.requestId, JSON.stringify({status: "success", docs}))
+                    }
+                })
+                KafkaWrapper.consumer.commitMessage(data)
+                break;
             default:
                 console.log(`${dataObject.eventType} is not handled in this service`)
                 KafkaWrapper.consumer.commitMessage(data)
@@ -173,6 +197,22 @@ function setOrderStatusTo(orderId, status, callback) {
 
     Order.findOneAndUpdate(filter, update, {new: true}, (err, doc) => {
         callback(err, doc)
+    })
+}
+
+function getOrderFromId(orderId, callback) {
+    let filter = { orderId: MUUID.from(orderId) }
+
+    Order.findOne(filter, {__v: false, _id: false}, (err, doc) => {
+        callback(err, doc)
+    })
+}
+
+function getOrdersOfUser(userId, callback) {
+    let filter = { userId: MUUID.from(userId) }
+
+    Order.find(filter, {__v: false, _id: false}, (err, docs) => {
+        callback(err, docs)
     })
 }
 

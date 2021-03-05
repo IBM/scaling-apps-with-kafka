@@ -97,6 +97,23 @@ class KafkaProducer {
         }
     }
 
+    getOrdersOfUser(order, callback) {
+        let topicName = 'orders'
+        let eventType = 'getOrdersOfUser'
+        let message = Buffer.from(JSON.stringify({eventType, payload: order}))
+        try {
+            this.producer.produce(
+                topicName,
+                null,
+                message
+            )
+            callback(null)
+        } catch (err) {
+            console.log('caught')
+            callback(err)
+        }
+    }
+
     createRestaurants(requestId, restaurants, callback) {
         let topicName = 'orders'
         let eventType = 'kitchenNewSimulatedListRequest'
