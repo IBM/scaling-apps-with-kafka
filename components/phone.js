@@ -16,6 +16,7 @@ class Phone extends HTMLElement {
         var sr = this.shadowRoot;
         sr.innerHTML = await res.text();
         this.showPhone();
+        this.createUserUUID();
     }
 
     getMobileView(){
@@ -34,6 +35,12 @@ class Phone extends HTMLElement {
         var sr = this.shadowRoot;
         var nav = sr.getElementById("mobilenavigation");
         nav.style.display = "none";
+    }
+
+    createUserUUID() {
+        if (localStorage.getItem('userId') == null) {
+            localStorage.setItem('userId', uuidv4())
+        }
     }
     
     async showPhone() {
