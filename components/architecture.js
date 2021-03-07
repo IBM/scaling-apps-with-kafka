@@ -4,6 +4,8 @@ class Architecture extends HTMLElement {
         return ['title', 'left', 'right'];
     }
 
+    MICROSERVICE_WIDTH = 80
+
     constructor() {
         super();
         let templateContent = '<div></div>';
@@ -33,7 +35,6 @@ class Architecture extends HTMLElement {
         this.drawOpenShift();
         this.drawApiGateway(this.context);
         this.drawMicroservices(this.context);
-        this.drawMongo(this.context);
         this.drawKafka(this.context);
         this.drawKafkaTopics(this.context);
     }
@@ -87,44 +88,39 @@ class Architecture extends HTMLElement {
         ctx.lineWidth = "1";
         ctx.setLineDash([]);
         ctx.strokeStyle = "#CFB2A6";
-        ctx.rect(200, 400, 280, 40);
+        ctx.rect(200, 400, 320, 40);
         ctx.stroke();
         ctx.font = "12px Arial";
         ctx.fillStyle = "#333333";
-        ctx.fillText("Kafka", 324, 425);
+        ctx.fillText("Kafka", 345, 425);
     }
 
-    drawMongo(ctx) {
+    drawMongo(ctx, x, y){
         this.log('Drawing Mongo Box');
         // Mongo rectangle
         ctx.beginPath();
         ctx.lineWidth = "1";
         ctx.setLineDash([]);
         ctx.strokeStyle = "#CFB2A6";
-        ctx.rect(200, 40, 280, 40);
+        ctx.rect(x, y-100, this.MICROSERVICE_WIDTH, 40);
+
         ctx.stroke();
-        ctx.font = "12px Arial";
+        ctx.font = "11px Arial";
         ctx.fillStyle = "#333333";
-        ctx.fillText("Mongo DB", 310, 65);
+        ctx.fillText("Mongo DB", x + 15, y + 23-100);
 
+        let microserviceCentre = this.MICROSERVICE_WIDTH/2;
+ 
         ctx.beginPath();
-        this.drawArrow(ctx, 240, 190, 240, 80);
-        this.drawArrow(ctx, 340, 190, 340, 80);
-        this.drawArrow(ctx, 440, 190, 440, 80);
-        this.drawArrow(ctx, 240, 80, 240, 200);
-        this.drawArrow(ctx, 340, 80, 340, 200);
-        this.drawArrow(ctx, 440, 80, 440, 200);
+        this.drawArrow(ctx, x+microserviceCentre, 200, x+microserviceCentre, 140);
+        this.drawArrow(ctx, x+microserviceCentre, 140, x+microserviceCentre, 200);
         ctx.stroke();
-
     }
 
     drawMicroservices(ctx) {
         this.log('Drawing MicroServices');
         ctx.beginPath();
-        ctx.lineWidth = "1";
-        ctx.setLineDash([5, 3]);
-        ctx.strokeStyle = "#84827C";
-        ctx.rect(180, 180, 320, 120);
+
         ctx.stroke();
         ctx.beginPath();
         ctx.lineWidth = "1";
@@ -133,15 +129,13 @@ class Architecture extends HTMLElement {
         ctx.rect(250, 170, 80, 20);
         ctx.stroke();
         ctx.fill();
-        ctx.font = "10px Arial";
-        ctx.fillStyle = "#333333";
-        ctx.fillText("Microservices", 260, 182);
+ 
         this.drawService(ctx, 200, 200, 'Order', 8);
-        this.drawService(ctx, 300, 200, 'Driver', 4);
-        this.drawService(ctx, 400, 200, 'Kitchen', 2);
+        this.drawService(ctx, 320, 200, 'Driver', 4);
+        this.drawService(ctx, 440, 200, 'Kitchen', 2);
     }
 
-    drawService(ctx, x, y, label, workers) {
+    drawService(ctx, x, y, label, workers, events) {
         this.log('Drawing ' + label + ' service');
         ctx.beginPath();
         ctx.lineWidth = "1";
@@ -159,46 +153,49 @@ class Architecture extends HTMLElement {
         ctx.setLineDash([]);
         ctx.strokeStyle = "#CFB2A6";
         ctx.fillStyle = "#FCD89D";
-        ctx.rect(x + 69, y + 20, 22, 22);
+        ctx.rect(x + 64, y + 20, 22, 22);
         ctx.stroke();
         ctx.fill();
 
         ctx.fillStyle = "#333333";
         ctx.font = "12px Arial";
-        ctx.fillText(workers, x + 76, y + 36);
+        ctx.fillText(workers, x + 72, y + 36);
+        ctx.stroke();
+
+        this.drawMongo(ctx, x, y);
+
+        this.drawKafkaTopic(ctx, x, 5000)
+
+        /* dashed line */
+
+        ctx.lineWidth = "1";
+        ctx.setLineDash([5, 3]);
+        ctx.strokeStyle = "#84827C";
+        ctx.rect(x-10, y-110, 100, 200);
         ctx.stroke();
     }
 
-    drawKafkaTopics(ctx) {
+    drawKafkaTopic(ctx, x, count){
         this.log('Drawing Kafka Topics');
-        ctx.beginPath();
-        this.drawArrow(ctx, 240, 400, 240, 280);
-        this.drawArrow(ctx, 340, 400, 340, 280);
-        this.drawArrow(ctx, 440, 400, 440, 280);
-        this.drawArrow(ctx, 240, 290, 240, 400);
-        this.drawArrow(ctx, 340, 290, 340, 400);
-        this.drawArrow(ctx, 440, 290, 440, 400);
-        ctx.stroke();
 
+        let middle = this.MICROSERVICE_WIDTH/2;
+        ctx.beginPath();
+        this.drawArrow(ctx, x+middle, 400, x+middle, 280);
+        this.drawArrow(ctx, x+middle, 290, x+middle, 400);
+        ctx.stroke();
 
         ctx.beginPath();
         ctx.lineWidth = "0.5";
         ctx.setLineDash([]);
         ctx.strokeStyle = "#CFB2A6";
         ctx.fillStyle = "#FCD89D";
-        ctx.rect(210, 340, 60, 22);
-        ctx.rect(310, 340, 60, 22);
-        ctx.rect(410, 340, 60, 22);
-
-        ctx.stroke();
+        ctx.rect(x+10, 340, 60, 22);
         ctx.fill();
 
         ctx.fillStyle = "#333333";
         ctx.font = "12px Arial";
 
-        ctx.fillText("9000", 226, 356);
-        ctx.fillText("1000", 326, 356);
-        ctx.fillText("1000", 426, 356);
+        ctx.fillText(count, x+26, 356);
 
         ctx.stroke();
     }

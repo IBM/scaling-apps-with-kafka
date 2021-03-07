@@ -51,9 +51,9 @@ body {
 .grid-container {
     display: grid;
     grid-template-columns: 262px 600px;
-    grid-template-rows: 80px 620px 280px;
+    grid-template-rows: 80px 482px 325px;
     gap: 0px 0px;
-    height:1000px;
+    /* height:1000px; */
     grid-template-areas:
         "Banner Banner"
         "Phone ."
