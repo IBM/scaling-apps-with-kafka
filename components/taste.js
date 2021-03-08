@@ -57,16 +57,12 @@ class Taste extends HTMLElement {
 
         arr.forEach(function (index) {
             var restaurant = restaurants[index];
-
-            console.log('restaurant index: ' + index);
-
             var element = document.createElement('restaurant-element');
             element.setAttribute("restaurant", restaurant.name);
             element.setAttribute("type", restaurant.type);
             anchor.appendChild(element);
         })
 
-        console.log(arr);
     }
 
     showRestaurantOptions(event) {

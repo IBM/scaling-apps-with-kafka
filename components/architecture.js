@@ -6,6 +6,10 @@ class Architecture extends HTMLElement {
 
     MICROSERVICE_WIDTH = 80
 
+    TEXTCOLOR = '#333333'
+    COUNTFILLCOLOR = '#FCD89D'
+    MSLINECOLOR = '#CFB2A6'
+
     constructor() {
         super();
         let templateContent = '<div></div>';
@@ -36,7 +40,6 @@ class Architecture extends HTMLElement {
         this.drawApiGateway(this.context);
         this.drawMicroservices(this.context);
         this.drawKafka(this.context);
-        this.drawKafkaTopics(this.context);
     }
 
     log(string) {
@@ -44,7 +47,7 @@ class Architecture extends HTMLElement {
     }
 
     drawOpenShift() {
-        this.log('Drawing OpenShift Box');
+        this.log(' - Drawing OpenShift Box');
         let ctx = this.context;
         ctx.beginPath();
         ctx.lineWidth = "1";
@@ -58,7 +61,7 @@ class Architecture extends HTMLElement {
     }
 
     drawApiGateway(ctx) {
-        this.log('Drawing API Gateway');
+        this.log(' - Drawing API Gateway');
 
         var radius = 40;
 
@@ -70,7 +73,7 @@ class Architecture extends HTMLElement {
         ctx.fill();
 
         ctx.font = "10px Arial";
-        ctx.fillStyle = "#333333";
+        ctx.fillStyle = this.TEXTCOLOR;
         ctx.fillText("API", this.x-20, 235);
         ctx.fillText("Gateway", this.x-20, 255);
 
@@ -82,31 +85,31 @@ class Architecture extends HTMLElement {
     }
 
     drawKafka(ctx) {
-        this.log('Drawing Kakfa Box');
+        this.log(' - Drawing Kakfa Box');
         // Kafka rectangle
         ctx.beginPath();
         ctx.lineWidth = "1";
         ctx.setLineDash([]);
-        ctx.strokeStyle = "#CFB2A6";
+        ctx.strokeStyle = this.MSLINECOLOR;
         ctx.rect(200, 400, 320, 40);
         ctx.stroke();
         ctx.font = "12px Arial";
-        ctx.fillStyle = "#333333";
+        ctx.fillStyle = this.TEXTCOLOR;
         ctx.fillText("Kafka", 345, 425);
     }
 
     drawMongo(ctx, x, y){
-        this.log('Drawing Mongo Box');
+        this.log(' - Drawing Mongo Box');
         // Mongo rectangle
         ctx.beginPath();
         ctx.lineWidth = "1";
         ctx.setLineDash([]);
-        ctx.strokeStyle = "#CFB2A6";
+        ctx.strokeStyle = this.MSLINECOLOR;
         ctx.rect(x, y-100, this.MICROSERVICE_WIDTH, 40);
 
         ctx.stroke();
         ctx.font = "11px Arial";
-        ctx.fillStyle = "#333333";
+        ctx.fillStyle = this.TEXTCOLOR;
         ctx.fillText("Mongo DB", x + 15, y + 23-100);
 
         let microserviceCentre = this.MICROSERVICE_WIDTH/2;
@@ -118,7 +121,7 @@ class Architecture extends HTMLElement {
     }
 
     drawMicroservices(ctx) {
-        this.log('Drawing MicroServices');
+        this.log(' - Drawing MicroServices');
         ctx.beginPath();
 
         ctx.stroke();
@@ -136,35 +139,35 @@ class Architecture extends HTMLElement {
     }
 
     drawService(ctx, x, y, label, workers, events) {
-        this.log('Drawing ' + label + ' service');
+        this.log(' - Drawing ' + label + ' service');
         ctx.beginPath();
         ctx.lineWidth = "1";
         ctx.setLineDash([]);
-        ctx.strokeStyle = "#CFB2A6";
+        ctx.strokeStyle = this.MSLINECOLOR;
         ctx.rect(x, y, 80, 80);
         ctx.stroke();
         ctx.font = "10px Arial";
-        ctx.fillStyle = "#333333";
+        ctx.fillStyle = this.TEXTCOLOR;
         ctx.fillText(label, x + 10, y + 30);
         ctx.fillText("Service", x + 10, y + 50);
 
         ctx.beginPath();
         ctx.lineWidth = "1";
         ctx.setLineDash([]);
-        ctx.strokeStyle = "#CFB2A6";
-        ctx.fillStyle = "#FCD89D";
+        ctx.strokeStyle = this.MSLINECOLOR;
+        ctx.fillStyle = this.COUNTFILLCOLOR;
         ctx.rect(x + 64, y + 20, 22, 22);
         ctx.stroke();
         ctx.fill();
 
-        ctx.fillStyle = "#333333";
+        ctx.fillStyle = this.TEXTCOLOR;
         ctx.font = "12px Arial";
         ctx.fillText(workers, x + 72, y + 36);
         ctx.stroke();
 
         this.drawMongo(ctx, x, y);
 
-        this.drawKafkaTopic(ctx, x, 5000)
+
 
         /* dashed line */
 
@@ -173,10 +176,13 @@ class Architecture extends HTMLElement {
         ctx.strokeStyle = "#84827C";
         ctx.rect(x-10, y-110, 100, 200);
         ctx.stroke();
+
+        this.drawKafkaTopic(ctx, x, 5000)
+
     }
 
     drawKafkaTopic(ctx, x, count){
-        this.log('Drawing Kafka Topics');
+        this.log(' - Drawing Kafka Topics');
 
         let middle = this.MICROSERVICE_WIDTH/2;
         ctx.beginPath();
@@ -185,14 +191,15 @@ class Architecture extends HTMLElement {
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.lineWidth = "0.5";
+        ctx.lineWidth = "1";
         ctx.setLineDash([]);
-        ctx.strokeStyle = "#CFB2A6";
-        ctx.fillStyle = "#FCD89D";
+        ctx.strokeStyle = this.MSLINECOLOR;
+        ctx.fillStyle = this.COUNTFILLCOLOR;
         ctx.rect(x+10, 340, 60, 22);
+        ctx.stroke();
         ctx.fill();
 
-        ctx.fillStyle = "#333333";
+        ctx.fillStyle = this.TEXTCOLOR;
         ctx.font = "12px Arial";
 
         ctx.fillText(count, x+26, 356);
@@ -201,7 +208,7 @@ class Architecture extends HTMLElement {
     }
 
     drawArrow(context, fromx, fromy, tox, toy) {
-        var headlen = 10; // length of head in pixels
+        var headlen = 10; 
         var dx = tox - fromx;
         var dy = toy - fromy;
         var angle = Math.atan2(dy, dx);
