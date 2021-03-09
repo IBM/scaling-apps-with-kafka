@@ -5,7 +5,7 @@ const MUUID = require('uuid-mongodb').mode('relaxed');
 const Kitchen = require('./models/kitchen.js')
 
 // connect to redis localhost
-const redis = new Redis()
+// const redis = new Redis()
 
 // environment variables for mongodb connection
 const MONGODB_REPLICA_HOSTNAMES = process.env.MONGODB_REPLICA_HOSTNAMES
@@ -85,19 +85,25 @@ KafkaWrapper.consumer.on('ready', function() {
                         console.log(`Kitchen list saved`)
                         statusMessage = {status: "kitchen list created"}
                     }
-                    redis.set(payload.requestId, JSON.stringify(statusMessage))
+                    KafkaWrapper.updateHttpResponse({requestId: payload.requestId, message: JSON.stringify(statusMessage)}, simulatorConfig, (err) => {
+                        if (err) console.error(err)
+                    })
                 })
                 KafkaWrapper.consumer.commitMessage(data)
                 break;
             case "kitchenRestaurantsList":
                 getKitchenList((err, docs) => {
+                    let message
                     if (err) {
                         console.log("error getting restaurants")
                         console.error(err);
-                        redis.set(payload.requestId, JSON.stringify({status: "error getting events"}))
+                        message = {status: "error getting events"}
                     } else {
-                        redis.set(payload.requestId, JSON.stringify({status: "success", docs}))
+                        message = {status: "success", docs}
                     }
+                    KafkaWrapper.updateHttpResponse({requestId: payload.requestId, message: JSON.stringify(message)}, simulatorConfig, (err) => {
+                        if (err) console.error(err)
+                    })
                 })
                 KafkaWrapper.consumer.commitMessage(data)
                 break;

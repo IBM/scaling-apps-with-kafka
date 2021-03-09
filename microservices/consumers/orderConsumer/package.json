@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ioredis": "^4.22.0",
     "mongoose": "^5.11.15",
     "node-rdkafka": "^2.10.1",
     "uuid-mongodb": "^2.4.1"

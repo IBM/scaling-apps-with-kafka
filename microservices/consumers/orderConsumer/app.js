@@ -5,7 +5,7 @@ const MUUID = require('uuid-mongodb').mode('relaxed');
 const Order = require('./models/order.js')
 
 // connect to redis localhost
-const redis = new Redis()
+// const redis = new Redis()
 
 // environment variables for mongodb connection
 const MONGODB_REPLICA_HOSTNAMES = process.env.MONGODB_REPLICA_HOSTNAMES
@@ -56,7 +56,9 @@ KafkaWrapper.consumer.on('ready', function() {
                         console.log(`Order ID ${order.orderId} saved`)
                         statusMessage = {status: "orderCreated"}
                     }
-                    redis.set(order.requestId, JSON.stringify(statusMessage))
+                    KafkaWrapper.updateHttpResponse({requestId: order.requestId, message: JSON.stringify(statusMessage)}, simulatorConfig, (err) => {
+                        if (err) console.error(err)
+                    })
                     // produce kafka message with eventType orderCreated
                     KafkaWrapper.createdOrderEvent(order, simulatorConfig, err => {
                         if (err) {
@@ -142,25 +144,33 @@ KafkaWrapper.consumer.on('ready', function() {
                 break;
             case "getOrderFromId":
                 getOrderFromId(order.orderId, (err, doc) => {
+                    let message
                     if (err) {
                         console.log("error getting restaurants")
                         console.error(err);
-                        redis.set(order.requestId, JSON.stringify({status: `error getting order of ${order.orderId}`}))
+                        message = {status: `error getting order of ${order.orderId}`}
                     } else {
-                        redis.set(order.requestId, JSON.stringify({status: "success", doc}))
+                        message = {status: "success", doc}
                     }
+                    KafkaWrapper.updateHttpResponse({requestId: order.requestId, message: JSON.stringify(message)}, simulatorConfig, (err) => {
+                        if (err) console.error(err)
+                    })
                 })
                 KafkaWrapper.consumer.commitMessage(data)
                 break;
             case "getOrdersOfUser":
                 getOrdersOfUser(order.userId, (err, docs) => {
+                    let message
                     if (err) {
                         console.log("error getting restaurants")
                         console.error(err);
-                        redis.set(order.requestId, JSON.stringify({status: `error getting orders of user ${order.userId}`}))
+                        message = {status: `error getting orders of user ${order.userId}`}
                     } else {
-                        redis.set(order.requestId, JSON.stringify({status: "success", docs}))
+                        message = {status: "success", docs}
                     }
+                    KafkaWrapper.updateHttpResponse({requestId: order.requestId, message: JSON.stringify(message)}, simulatorConfig, (err) => {
+                        if (err) console.error(err)
+                    })
                 })
                 KafkaWrapper.consumer.commitMessage(data)
                 break;

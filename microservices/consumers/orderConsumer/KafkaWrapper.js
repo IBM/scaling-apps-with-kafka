@@ -111,6 +111,10 @@ class KafkaWrapper {
     validatedEvent(order, simulatorConfig, callback) {
         this.createEvent(order, 'orderValidated', simulatorConfig, callback)
     }
+
+    updateHttpResponse(payload, simulatorConfig, callback) {
+        this.createEvent(payload, 'updateHttpResponse', simulatorConfig, callback)
+    }
 }
 
 const kafkaWrapper = new KafkaWrapper(process.env.KAFKA_CREDENTIALS)
