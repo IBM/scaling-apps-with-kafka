@@ -19,7 +19,7 @@ class KafkaWrapper {
         };
         let consumerConfig = {
             // 'client.id': 'orderconsumer',+ UUID?
-            'group.id': 'kitchen-consumer-group',
+            'group.id': 'status-consumer-group',
         }
 
         for (var key in driver_options) {
@@ -102,19 +102,6 @@ class KafkaWrapper {
             console.log('caught')
             callback(err)
         }
-    }
-
-    preparingFoodEvent(order, simulatorConfig, callback) {
-        this.createEvent(order, 'kitchenPreparingFood', simulatorConfig, callback)
-    }
-
-    foodReadyEvent(order, simulatorConfig, callback) {
-        this.createEvent(order, 'kitchenFoodReady', simulatorConfig, callback)
-    }
-
-    updateHttpResponse(payload, simulatorConfig, callback) {
-        console.log(payload)
-        this.createEvent(payload, 'updateHttpResponse', simulatorConfig, callback)
     }
 }
 

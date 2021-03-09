@@ -116,7 +116,6 @@ app.get("/user/:userId/orders", (req, res) => {
 app.get("/status/:requestId", (req, res) => {
     let requestId = req.params.requestId
     redis.get(requestId).then(result => {
-        console.log(result)
         res.status('200').send(JSON.parse(result))
     }).catch(err => {
         console.log(err)

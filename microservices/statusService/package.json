@@ -1,5 +1,5 @@
 {
-  "name": "courier",
+  "name": "orderconsumer",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -9,8 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mongoose": "^5.11.15",
-    "node-rdkafka": "^2.10.1",
-    "uuid-mongodb": "^2.4.1"
+    "ioredis": "^4.22.0",
+    "node-rdkafka": "^2.10.1"
   }
 }
