@@ -47,12 +47,23 @@ KafkaWrapper.consumer.on('ready', function() {
         // {eventType, payload: {orderId,userId,kitchenId,requestId}}
         // add timestamp
         dataObject.timestamp = data.timestamp
-        wss.clients.forEach(client => {
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(JSON.stringify(dataObject));
-                console.log('sent')
-            }
-        });
+
+        // add filter for specific events only
+        if (dataObject.eventType == "orderRequested" || 
+            dataObject.eventType == "orderCreated" ||
+            dataObject.eventType == "orderValidated" ||
+            dataObject.eventType == "courierMatched" ||
+            dataObject.eventType == "courierPickedUp" ||
+            dataObject.eventType == "kitchenPreparingFood" ||
+            dataObject.eventType == "kitchenFoodReady" ||
+            dataObject.eventType == "delivered") {
+            wss.clients.forEach(client => {
+                if (client.readyState === WebSocket.OPEN) {
+                    client.send(JSON.stringify(dataObject));
+                    console.log('sent')
+                }
+            });
+        }
         KafkaWrapper.consumer.commitMessage(data)
     } catch (err) {
         console.error(err)

@@ -83,7 +83,6 @@ class Taste extends HTMLElement {
     }
 
     showRestaurantOptions(event) {
-        console.log(event) // firefox ?
 
         let id = event.currentTarget.id;
 
