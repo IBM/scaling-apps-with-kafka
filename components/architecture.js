@@ -1,17 +1,19 @@
 class Architecture extends HTMLElement {
 
     static get observedAttributes() {
-        return ['title', 'left', 'right'];
+        return ['kitchenEvents', 'orderEvents', 'driverEvents', 'kitchenWorkers', 'orderWorkers', 'driverWorkers'];
     }
 
-    TEXTCOLOR = '#333333'
+    TEXTCOLOR = '#000000'
     COUNTFILLCOLOR = '#FCD89D'
     MSLINECOLOR = '#CFB2A6'
     SERVICEHEIGHT = 60
     SERVICEWIDTH = 60
 
-    MICROSERVICETOP =  170
+    MICROSERVICETOP = 170
     KAFKATOP = 380
+
+    CORNERRADIUS = 5
 
     constructor() {
         super();
@@ -55,7 +57,7 @@ class Architecture extends HTMLElement {
         ctx.beginPath();
         ctx.lineWidth = "1";
         ctx.strokeStyle = "#84827C";
-        ctx.rect(this.x, this.y, 500, 480);
+        this.roundedRectangle(ctx, this.x, this.y, 500, 480, this.CORNERRADIUS);
         ctx.stroke();
 
         ctx.font = "10px Arial";
@@ -79,13 +81,17 @@ class Architecture extends HTMLElement {
 
         ctx.font = "10px Arial";
         ctx.fillStyle = this.TEXTCOLOR;
-        ctx.fillText("API", this.x-20, y);
-        ctx.fillText("Gateway", this.x-20, y+10);
+        ctx.fillText("API", this.x - 20, y);
+        ctx.fillText("Gateway", this.x - 20, y + 10);
 
         ctx.beginPath();
-        this.drawArrow(ctx, 110, 275, 150, 215);
-        this.drawArrow(ctx, 150, 215, 110, 275);
-        this.drawArrow(ctx, 0, y, this.x-radius, y);
+        // this.drawArrow(ctx, 110, 275, 150, 215);
+        this.drawArrow(ctx, 145, 100, 110, 275);
+        this.drawArrow(ctx, 0, y, this.x - radius, y);
+        this.drawArrow(ctx, this.x - radius, y, 0, y);
+
+        this.drawArrow(ctx, 110, 325, 150, 400);
+
         ctx.stroke();
     }
 
@@ -98,14 +104,15 @@ class Architecture extends HTMLElement {
         ctx.lineWidth = "1";
         ctx.setLineDash([]);
         ctx.strokeStyle = this.MSLINECOLOR;
-        ctx.rect(150, this.KAFKATOP, 380, 40);
+        this.roundedRectangle(ctx, 150, this.KAFKATOP, 380, 40, this.CORNERRADIUS);
+
         ctx.stroke();
         ctx.font = "12px Arial";
         ctx.fillStyle = this.TEXTCOLOR;
         ctx.fillText("Kafka", 325, 405);
     }
 
-    drawDB(ctx, x, y, db){
+    drawDB(ctx, x, y, db) {
         this.log(' - Drawing Mongo Box');
         // Mongo rectangle
 
@@ -118,18 +125,18 @@ class Architecture extends HTMLElement {
         ctx.lineWidth = "1";
         ctx.setLineDash([]);
         ctx.strokeStyle = this.MSLINECOLOR;
-        ctx.rect(x, y-DISTANCE, this.SERVICEWIDTH, HEIGHT);
+        this.roundedRectangle(ctx, x, y - DISTANCE, this.SERVICEWIDTH, HEIGHT, this.CORNERRADIUS);
 
         ctx.stroke();
         ctx.font = "11px Arial";
         ctx.fillStyle = this.TEXTCOLOR;
-        ctx.fillText(db, x + 5, y + 23-100);
+        ctx.fillText(db, x + 5, y + 23 - 100);
 
-        let microserviceCentre = this.SERVICEWIDTH/2;
- 
+        let microserviceCentre = this.SERVICEWIDTH / 2;
+
         ctx.beginPath();
-        this.drawArrow(ctx, x+microserviceCentre, y-DISTANCE+HEIGHT, x+microserviceCentre, y);
-        this.drawArrow(ctx, x+microserviceCentre, y, x+microserviceCentre, y-DISTANCE+HEIGHT);
+        this.drawArrow(ctx, x + microserviceCentre, y - DISTANCE + HEIGHT, x + microserviceCentre, y);
+        this.drawArrow(ctx, x + microserviceCentre, y, x + microserviceCentre, y - DISTANCE + HEIGHT);
         ctx.stroke();
     }
 
@@ -142,17 +149,17 @@ class Architecture extends HTMLElement {
         ctx.lineWidth = "1";
         ctx.fillStyle = "#FFFFFF";
         ctx.strokeStyle = "#FFFFFF";
-        ctx.rect(250, 170, this.SERVICEHEIGHT, 20);
+        this.roundedRectangle(ctx, 250, 170, this.SERVICEHEIGHT, 20, this.CORNERRADIUS);
         ctx.stroke();
         ctx.fill();
- 
+
         this.drawService(ctx, 145, this.MICROSERVICETOP, 'Status', 'Redis', 8);
         this.drawService(ctx, 255, this.MICROSERVICETOP, 'Order', 'MongoDB', 4);
         this.drawService(ctx, 365, this.MICROSERVICETOP, 'Driver', 'MongoDB', 2);
         this.drawService(ctx, 475, this.MICROSERVICETOP, 'Kitchen', 'MongoDB', 2);
     }
 
-    drawService(ctx, x, y, label, db, workers ) {
+    drawService(ctx, x, y, label, db, workers) {
         this.log(' - Drawing ' + label + ' service');
 
         /* box for service */
@@ -161,12 +168,12 @@ class Architecture extends HTMLElement {
         ctx.lineWidth = "1";
         ctx.setLineDash([]);
         ctx.strokeStyle = this.MSLINECOLOR;
-        ctx.rect(x, y, this.SERVICEWIDTH, this.SERVICEHEIGHT);
+        this.roundedRectangle(ctx, x, y, this.SERVICEWIDTH, this.SERVICEHEIGHT, this.CORNERRADIUS);
         ctx.stroke();
         ctx.font = "10px Arial";
         ctx.fillStyle = this.TEXTCOLOR;
-        ctx.fillText(label, x + 10, y + 30);
-        ctx.fillText("Service", x + 10, y + 50);
+        ctx.fillText(label, x + 10, y + 25);
+        ctx.fillText("Service", x + 10, y + 40);
 
 
         /* worker count */
@@ -178,7 +185,7 @@ class Architecture extends HTMLElement {
         ctx.setLineDash([]);
         ctx.strokeStyle = this.MSLINECOLOR;
         ctx.fillStyle = this.COUNTFILLCOLOR;
-        ctx.rect(x + this.SERVICEWIDTH - COUNTERWIDTH/2, y + 20, COUNTERWIDTH, COUNTERWIDTH);
+        this.roundedRectangle( ctx, x + this.SERVICEWIDTH - COUNTERWIDTH / 2, y + 20, COUNTERWIDTH, COUNTERWIDTH, this.CORNERRADIUS);
         ctx.stroke();
         ctx.fill();
 
@@ -196,27 +203,27 @@ class Architecture extends HTMLElement {
         ctx.lineWidth = "1";
         ctx.setLineDash([5, 3]);
         ctx.strokeStyle = "#84827C";
-        ctx.rect(x-margin, y-114, this.SERVICEWIDTH+(margin*2), 190);
+        ctx.rect(x - margin, y - 114, this.SERVICEWIDTH + (margin * 2), 190);
         ctx.stroke();
 
         this.drawKafkaTopic(ctx, x, y, 5000)
     }
 
-    drawKafkaTopic(ctx, x, y, count){
+    drawKafkaTopic(ctx, x, y, count) {
         this.log(' - Drawing Kafka Topics');
 
         let TOPICARROW = 70;
 
-        let middle = this.SERVICEWIDTH/2;
+        let middle = this.SERVICEWIDTH / 2;
 
         // ctx.beginPath();
-        this.drawArrow(ctx, x+middle, y + this.SERVICEHEIGHT, x+middle, this.KAFKATOP);
-        this.drawArrow(ctx, x+middle, this.KAFKATOP, x+middle, y + this.SERVICEHEIGHT);
+        this.drawArrow(ctx, x + middle, y + this.SERVICEHEIGHT, x + middle, this.KAFKATOP);
+        this.drawArrow(ctx, x + middle, this.KAFKATOP, x + middle, y + this.SERVICEHEIGHT);
         ctx.stroke();
 
         /* Topic Count */
 
-        let topicBox = this.KAFKATOP - this.SERVICEHEIGHT ;
+        let topicBox = this.KAFKATOP - this.SERVICEHEIGHT;
 
         let topicHeight = 22;
 
@@ -225,20 +232,20 @@ class Architecture extends HTMLElement {
         ctx.setLineDash([]);
         ctx.strokeStyle = this.MSLINECOLOR;
         ctx.fillStyle = this.COUNTFILLCOLOR;
-        ctx.rect(x, topicBox, 60, topicHeight);
+        this.roundedRectangle(ctx, x, topicBox, 60, topicHeight, 5);
         ctx.stroke();
         ctx.fill();
 
         ctx.fillStyle = this.TEXTCOLOR;
         ctx.font = "12px Arial";
 
-        ctx.fillText(count, x+16, topicBox+15);
+        ctx.fillText(count, x + 16, topicBox + 15);
 
         ctx.stroke();
     }
 
     drawArrow(context, fromx, fromy, tox, toy) {
-        var headlen = 10; 
+        var headlen = 10;
         var dx = tox - fromx;
         var dy = toy - fromy;
         var angle = Math.atan2(dy, dx);
@@ -247,6 +254,24 @@ class Architecture extends HTMLElement {
         context.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
         context.moveTo(tox, toy);
         context.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
+    }
+
+    roundedRectangle(context, x, y, w, h, radius) {
+        var r = x + w;
+        var b = y + h;
+        context.beginPath();
+        // context.strokeStyle = "green";
+        // context.lineWidth = "4";
+        context.moveTo(x + radius, y);
+        context.lineTo(r - radius, y);
+        context.quadraticCurveTo(r, y, r, y + radius);
+        context.lineTo(r, y + h - radius);
+        context.quadraticCurveTo(r, b, r - radius, b);
+        context.lineTo(x + radius, b);
+        context.quadraticCurveTo(x, b, x, b - radius);
+        context.lineTo(x, y + radius);
+        context.quadraticCurveTo(x, y, x + radius, y);
+        context.stroke();
     }
 }
 
