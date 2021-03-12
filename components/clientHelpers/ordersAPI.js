@@ -1,11 +1,13 @@
-async function createOrder(order) {
+async function createOrder(order, config, sendOnly) {
     if (STATIC_DATA) {
         console.log(STATIC_DATA)
         return new Promise(resolve => {
             resolve("noop")
         })
     } else {
-        let jsonBodyRequest = {...order, kitchenSpeed: 1000, courierSpeed: 1000}
+        let temp = config || {}
+        let kitchenSpeed = temp.kitchenSpeed || 1000, courierSpeed = temp.courierSpeed || 1000
+        let jsonBodyRequest = {...order, kitchenSpeed, courierSpeed}
         let invocationRequest = await fetch(API_URL.concat("/createOrder"), {
             method: 'POST',
             headers: {
@@ -16,6 +18,10 @@ async function createOrder(order) {
         let invocationResponse = await invocationRequest.json()
         let invocationId = invocationResponse.requestId
         let count = 10 // 10 tries
+        if (sendOnly) {
+            count = 0
+            return invocationResponse
+        }
         while (count > 0) {
             let inlineDelay = await new Promise(resolve => setTimeout(resolve, 250)) // 250ms
             statusRequest = await fetch(API_URL.concat("/status/").concat(invocationId))
