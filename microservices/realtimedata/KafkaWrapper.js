@@ -15,10 +15,11 @@ class KafkaWrapper {
             'sasl.username': 'token',
             'sasl.password': apiKey,
             'log.connection.close' : false,
-            'enable.auto.commit': false
+            'enable.auto.commit': false,
+            'statistics.interval.ms': 1000
         };
         let consumerConfig = {
-            // 'client.id': 'orderconsumer',+ UUID?
+            'client.id': 'realtimedataconsumer',
             'group.id': 'realtimedata-consumer-group',
         }
 
@@ -36,6 +37,11 @@ class KafkaWrapper {
         consumer.on('event.error', function(err) {
             console.error('Error from consumer:' + JSON.stringify(err));
         });
+        // Register stats listener
+        // consumer.on('event.stats', function(log) {
+        //     console.log('Log from consumer:');
+        //     console.log(JSON.parse(log.message))
+        // });
 
         this.consumer = consumer
     }

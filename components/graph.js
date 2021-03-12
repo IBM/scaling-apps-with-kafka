@@ -27,15 +27,15 @@ class Graph extends HTMLElement {
     async updateData(){
         let min = 40;
         let max = 60;
-        let value = Math.floor(Math.random() * (max - min) + min);
-        this.data.push(value);
-        this.data.shift();
+        // let value = Math.floor(Math.random() * (max - min) + min);
+        // this.data.push(value);
+        // this.data.shift();
         while(true) {
-            this.percent.innerText = "Current Capacity: " + this.data[this.data.length - 1] + "%";
-            value = Math.floor(Math.random() * (max - min) + min)
-            this.data.push(value);
-            this.data.shift();
-            await this.sleep(150);
+            this.percent.innerText = "Time to complete order: " + this.data[this.data.length - 1].toFixed(2) + "s";
+            // let value = Math.floor(Math.random() * (max - min) + min)
+            // this.data.push(value);
+            // this.data.shift();
+            await this.sleep(1000);
         }
     }
 

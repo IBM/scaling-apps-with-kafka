@@ -5,6 +5,7 @@ const KafkaWrapper = require('./KafkaWrapper.js')
 
 const server = http.createServer();
 const wss = new WebSocket.Server({ noServer: true });
+let PORT = process.env.PORT || 8080
 
 wss.on('connection', (ws) => {
 
@@ -27,9 +28,14 @@ KafkaWrapper.consumer.on('ready', function() {
     console.log('The consumer has connected.');
     KafkaWrapper.consumer.subscribe(['orders']);
     KafkaWrapper.consumer.consume()
+    // setInterval(() => {
+    //     KafkaWrapper.consumer.committed(1000, (err, topicPartitions) => {
+    //         console.log(topicPartitions)
+    //     })
+    // }, 1000)
 
     // start server
-    server.listen(8081);
+    server.listen(PORT);
 }).on('data', data => {
     // data 
     // {
@@ -60,7 +66,7 @@ KafkaWrapper.consumer.on('ready', function() {
             wss.clients.forEach(client => {
                 if (client.readyState === WebSocket.OPEN) {
                     client.send(JSON.stringify(dataObject));
-                    console.log('sent')
+                    // console.log('sent')
                 }
             });
         }
