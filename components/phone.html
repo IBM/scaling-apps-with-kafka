@@ -7,12 +7,22 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        border: 1px solid #aaa;
+        /* border: 1px solid #aaa; */
+        background: #f3f3f3;
         box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12);
         /* border-radius: 20px;
     background: #FFFFFF;
     box-shadow:  31px 31px 71px #7d7d7d, 
                  -31px -31px 71px #ffffff; */
+    }
+
+    .sensorbar{
+        background:white;
+        width: 100%;
+        display: flex;
+        height:20px;
+        justify-content: center;
+        align-items: center;
     }
 
     .sensors {
@@ -89,12 +99,12 @@
 </style>
 
 <div class="frame">
-    <div class="sensors">
-        <div class="sensor"></div>
-        <div class="sensor"></div>
-        <div class="sensor"></div>
-        <div class="sensor"></div>
-    </div>
+        <div class="sensors">
+            <div class="sensor"></div>
+            <div class="sensor"></div>
+            <div class="sensor"></div>
+            <div class="sensor"></div>
+        </div>
     <div id="mobileview" class="view">
         <taste-element></taste-element>
     </div>

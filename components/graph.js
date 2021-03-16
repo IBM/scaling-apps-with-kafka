@@ -49,6 +49,7 @@ class Graph extends HTMLElement {
 
         let brown = "#cfb1a4";
         let orange = "#fcd89d";
+        let blue = "#569BC6";
         let grey = "lightgray";
 
 
@@ -61,7 +62,7 @@ class Graph extends HTMLElement {
         //draw the graph line
         context.beginPath();
         context.lineWidth = 3;
-        context.strokeStyle = orange;
+        context.strokeStyle = blue;
         context.moveTo(0, canvas.height - ((canvas.height * this.data[0]) / 100));
         for(let i = 1; i < 19; i++){
             context.lineTo(i * ((canvas.width - 40) / 18), canvas.height - ((canvas.height * this.data[i]) / 100));
@@ -72,7 +73,7 @@ class Graph extends HTMLElement {
     
         //fill
         context.globalAlpha = 0.2;
-        context.fillStyle = "#fcd89d";
+        context.fillStyle = "#569BC6";
         context.lineTo(canvas.width - 40, canvas.height);
         context.lineTo(1, canvas.height);
         context.closePath();
@@ -99,7 +100,7 @@ class Graph extends HTMLElement {
 
         context.font = "12px Arial bold";
         for (let index = 1; index < 10; index++) {
-            context.strokeStyle = 'black';
+            context.strokeStyle = 'white';
             context.strokeText(100 - (index * 10), canvas.width - 20, (horizontalLine * index) - 1);
         }
 
