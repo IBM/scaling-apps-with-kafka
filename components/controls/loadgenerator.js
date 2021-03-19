@@ -82,7 +82,9 @@ resetbutton.addEventListener('click', e => {
 })
 
 // listen to socket
-const socket = new WebSocket('ws://localhost:8081/events');
+let loc = window.location;
+let wsurl = "ws://" + loc.host + loc.pathname + "events"
+const socket = new WebSocket(wsurl);
 
 // Listen for messages
 socket.addEventListener('message', function (event) {

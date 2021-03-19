@@ -1,11 +1,7 @@
 const KafkaWrapper = require('./KafkaWrapper.js')
 const mongoose = require('mongoose');
-const Redis = require('ioredis');
 const MUUID = require('uuid-mongodb').mode('relaxed');
 const Order = require('./models/order.js')
-
-// connect to redis localhost
-// const redis = new Redis()
 
 // environment variables for mongodb connection
 const MONGODB_REPLICA_HOSTNAMES = process.env.MONGODB_REPLICA_HOSTNAMES

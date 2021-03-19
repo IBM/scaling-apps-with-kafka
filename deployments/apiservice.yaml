@@ -1,0 +1,40 @@
+# single replica - no persistence
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apiservice
+spec:
+  selector:
+    matchLabels:
+      name: apiservice
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: apiservice
+    spec:
+      containers:
+        - image: anthonyamanse/apiservice:1.0
+          name: apiservice
+          ports:
+            - containerPort: 8080
+          env:
+            - name: REDIS_URL
+              value: 'redis'
+            - name: REDIS_PORT
+              value: '6379'
+          envFrom:
+            - secretRef:
+                name: kafka-credentials
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apiservice
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    name: apiservice

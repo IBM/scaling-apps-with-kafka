@@ -1,0 +1,41 @@
+# single replica - no persistence
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: status
+spec:
+  selector:
+    matchLabels:
+      name: status
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: status
+    spec:
+      containers:
+        - image: anthonyamanse/statusservice:1.0
+          name: status
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: REDIS_URL
+              value: 'redis'
+            - name: REDIS_PORT
+              value: '6379'
+          envFrom:
+            - secretRef:
+                name: kafka-credentials
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: status
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    name: status

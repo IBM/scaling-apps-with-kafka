@@ -1,0 +1,88 @@
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: orderconsumer-scaler
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: orders
+  pollingInterval: 1 # example
+  cooldownPeriod:  30 # example - takes > 5 mins?
+  minReplicaCount: 2
+  maxReplicaCount: 6
+  triggers:
+    - type: kafka
+      metadata:
+        topic: orders
+        bootstrapServers: pkc-419q3.us-east4.gcp.confluent.cloud:9092
+        consumerGroup: orders-consumer-group
+        lagThreshold: '5'
+      authenticationRef:
+        name: keda-trigger-auth-kafka-credential
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: kitchenconsumer-scaler
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: kitchen
+  pollingInterval: 1 # example
+  cooldownPeriod:  30 # example
+  minReplicaCount: 2
+  maxReplicaCount: 6
+  triggers:
+    - type: kafka
+      metadata:
+        topic: orders
+        bootstrapServers: pkc-419q3.us-east4.gcp.confluent.cloud:9092
+        consumerGroup: kitchen-consumer-group
+        lagThreshold: '5'
+      authenticationRef:
+        name: keda-trigger-auth-kafka-credential
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: courierconsumer-scaler
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: courier
+  pollingInterval: 1 # example
+  cooldownPeriod:  30 # example
+  minReplicaCount: 2
+  maxReplicaCount: 6
+  triggers:
+    - type: kafka
+      metadata:
+        topic: orders
+        bootstrapServers: pkc-419q3.us-east4.gcp.confluent.cloud:9092
+        consumerGroup: courier-consumer-group
+        lagThreshold: '5'
+      authenticationRef:
+        name: keda-trigger-auth-kafka-credential
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: statusconsumer-scaler
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: status
+  pollingInterval: 1 # example
+  cooldownPeriod:  30 # example
+  minReplicaCount: 2
+  maxReplicaCount: 6
+  triggers:
+    - type: kafka
+      metadata:
+        topic: orders
+        bootstrapServers: pkc-419q3.us-east4.gcp.confluent.cloud:9092
+        consumerGroup: status-consumer-group
+        lagThreshold: '5'
+      authenticationRef:
+        name: keda-trigger-auth-kafka-credential

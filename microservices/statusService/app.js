@@ -2,7 +2,11 @@ const KafkaWrapper = require('./KafkaWrapper.js')
 const Redis = require('ioredis');
 
 // connect to redis localhost
-const redis = new Redis()
+const redis = new Redis({
+    host: process.env.REDIS_URL,
+    port: process.env.REDIS_PORT,
+    db: 0
+})
 
 KafkaWrapper.consumer.on('ready', function() {
     console.log('The consumer has connected.');
