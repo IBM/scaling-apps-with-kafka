@@ -45,7 +45,7 @@ function startLoadSimulator(start) {
     if (start) {
         clearInterval(apiRequestInterval)
         apiRequestInterval = setInterval(() => {
-            console.log(simulatorConfig)
+            // console.log(simulatorConfig)
             let config = {
                 kitchenSpeed: simulatorConfig.speedOfKitchens,
                 courierSpeed: simulatorConfig.speedOfCouriers

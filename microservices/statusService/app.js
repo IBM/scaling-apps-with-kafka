@@ -31,7 +31,8 @@ KafkaWrapper.consumer.on('ready', function() {
     }
 });
 
-KafkaWrapper.producer.on('ready', () => {
-    console.log('The producer has connected.')
-    KafkaWrapper.consumer.connect()
-})
+KafkaWrapper.consumer.connect()
+// KafkaWrapper.producer.on('ready', () => {
+//     console.log('The producer has connected.')
+//     KafkaWrapper.consumer.connect()
+// })
