@@ -1,0 +1,35 @@
+# single replica - no persistence
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: realtimedata
+spec:
+  selector:
+    matchLabels:
+      name: realtimedata
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: realtimedata
+    spec:
+      containers:
+        - image: anthonyamanse/realtimedata:1.0
+          name: realtimedata
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: kafka-credentials
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: realtimedata
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    name: realtimedata

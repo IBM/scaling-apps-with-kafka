@@ -7,7 +7,11 @@ const { v4: uuidv4 } = require('uuid');
 const Redis = require('ioredis')
 
 // connect to redis localhost
-const redis = new Redis()
+const redis = new Redis({
+    host: process.env.REDIS_URL,
+    port: process.env.REDIS_PORT,
+    db: 0
+})
 // catch error connection redis
 
 const PORT = process.env.PORT || 8080
