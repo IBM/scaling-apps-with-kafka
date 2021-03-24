@@ -1,5 +1,5 @@
 {
-  "name": "realtimedatawebsocket",
+  "name": "poddata",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -9,9 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "http": "0.0.1-security",
-    "kafkajs": "^1.15.0",
-    "node-rdkafka": "^2.10.1",
-    "ws": "^7.4.3"
+    "@kubernetes/client-node": "^0.14.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "uuid": "^8.3.2"
   }
 }

@@ -84,22 +84,25 @@ resetbutton.addEventListener('click', e => {
 // listen to socket
 let loc = window.location;
 let wsurl = "ws://" + loc.host + loc.pathname + "events"
+// let wsurl = "ws://localhost:8080/events"
 const socket = new WebSocket(wsurl);
 
 // Listen for messages
 socket.addEventListener('message', function (event) {
     try {
-        let eventObject = JSON.parse(event.data) // {eventType, payload: order, timestamp}
-        let eventType = eventObject.eventType
-        let order = eventObject.payload
-        // calculate order completion time
-        if (eventType === "delivered") {
-            if (ordersDataMap.has(order.orderId)) {
-                let originalTimestamp = ordersDataMap.get(order.orderId)
-                completedOrdersMap.set(order.orderId, eventObject.timestamp - originalTimestamp)
-                ordersDataMap.delete(order.orderId)
+        let eventObject = JSON.parse(event.data) // [{eventType, payload: order, timestamp}]
+        eventObject.forEach(event => {
+            let eventType = event.eventType
+            let order = event.payload
+            // calculate order completion time
+            if (eventType === "delivered") {
+                if (ordersDataMap.has(order.orderId)) {
+                    let originalTimestamp = ordersDataMap.get(order.orderId)
+                    completedOrdersMap.set(order.orderId, event.timestamp - originalTimestamp)
+                    ordersDataMap.delete(order.orderId)
+                }
             }
-        }
+        })
         // calculate consumed messages per second per consumer group?
     } catch (err) {
         console.error(err)
