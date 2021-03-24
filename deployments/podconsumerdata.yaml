@@ -1,0 +1,34 @@
+# single replica - no persistence
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: podconsumerdata
+spec:
+  selector:
+    matchLabels:
+      name: podconsumerdata
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: podconsumerdata
+    spec:
+      serviceAccountName: deployer
+      containers:
+        - image: anthonyamanse/poddata:0.1
+          ports:
+            - containerPort: 8080
+          name: podconsumerdata
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: podconsumerdata
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    name: podconsumerdata

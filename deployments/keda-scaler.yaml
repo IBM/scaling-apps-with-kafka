@@ -8,7 +8,7 @@ spec:
     kind: Deployment
     name: orders
   pollingInterval: 1 # example
-  cooldownPeriod:  30 # example - takes > 5 mins?
+  cooldownPeriod:  300 # example
   minReplicaCount: 2
   maxReplicaCount: 6
   triggers:
@@ -30,7 +30,7 @@ spec:
     kind: Deployment
     name: kitchen
   pollingInterval: 1 # example
-  cooldownPeriod:  30 # example
+  cooldownPeriod:  300 # example
   minReplicaCount: 2
   maxReplicaCount: 6
   triggers:
@@ -52,7 +52,7 @@ spec:
     kind: Deployment
     name: courier
   pollingInterval: 1 # example
-  cooldownPeriod:  30 # example
+  cooldownPeriod:  300 # example
   minReplicaCount: 2
   maxReplicaCount: 6
   triggers:
@@ -74,7 +74,7 @@ spec:
     kind: Deployment
     name: status
   pollingInterval: 1 # example
-  cooldownPeriod:  30 # example
+  cooldownPeriod:  300 # example
   minReplicaCount: 2
   maxReplicaCount: 6
   triggers:
