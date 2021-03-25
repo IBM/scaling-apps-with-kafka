@@ -4,17 +4,19 @@ const app = express();
 const cors = require('cors');
 const KafkaProducer = require('./KafkaProducer.js') 
 const { v4: uuidv4 } = require('uuid');
-const Redis = require('ioredis')
-
-// connect to redis localhost
-const redis = new Redis({
-    host: process.env.REDIS_URL,
-    port: process.env.REDIS_PORT,
-    db: 0
-})
-// catch error connection redis
+const { createProxyMiddleware } = require('http-proxy-middleware')
+const needle = require('needle');
 
 const PORT = process.env.PORT || 8080
+
+const STATUS_SERVICE = process.env.STATUS_SERVICE || 'http://status:8080'
+
+app.use('/status', createProxyMiddleware({ target: STATUS_SERVICE, changeOrigin: true }))
+
+function setStatus(key, value) {
+    let data = { value }
+    return needle('post', STATUS_SERVICE + '/status/' + key, data, { json: true })
+}
 
 app.use(express.json());
 app.use(cors())
@@ -64,8 +66,13 @@ app.post("/createOrder", (req, res) => {
             console.log(err)
             res.status('404').send({requestId, error: "Error sending message"})
         } else {
-            redis.set(requestId, JSON.stringify({status: "processing"}))
-            res.status('202').send({requestId, payloadSent: order})
+            setStatus(requestId, JSON.stringify({status: "processing"}))
+                .then(response => {
+                    res.status('202').send({requestId, payloadSent: order})
+                })
+                .catch(err => {
+                    res.status('404').send({requestId, error: "Error sending message", err})
+                })
         }
     })
 })
@@ -79,8 +86,14 @@ app.post("/restaurants", (req, res) => {
             console.log(err)
             res.status('404').send({requestId, error: "Error sending message"})
         } else {
-            redis.set(requestId, JSON.stringify({status: "processing"}))
-            res.status('202').send({requestId, payloadSent: {restaurants}})
+            setStatus(requestId, JSON.stringify({status: "processing"}))
+                .then(response => {
+                    res.status('202').send({requestId, payloadSent: {restaurants}})
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.status('404').send({requestId, error: "Error sending message", err})
+                })
         }
     })
 })
@@ -93,11 +106,15 @@ app.get("/restaurants", (req, res) => {
             console.log(err)
             res.status('404').send({requestId, error: "Error sending message"})
         } else {
-            redis.set(requestId, JSON.stringify({status: "processing"}))
-            res.status('202').send({requestId, status: "processing"})
+            setStatus(requestId, JSON.stringify({status: "processing"}))
+                .then(response => {
+                    res.status('202').send({requestId, status: "processing"})
+                })
+                .catch(err => {
+                    res.status('404').send({requestId, error: "Error sending message", err})
+                })
         }
     })
-    redis.set(requestId, JSON.stringify({status: "processing"}))
 })
 
 // get status
@@ -109,21 +126,14 @@ app.get("/user/:userId/orders", (req, res) => {
             console.log(err)
             res.status('404').send({requestId, error: "Error sending message"})
         } else {
-            redis.set(requestId, JSON.stringify({status: "processing"}))
-            res.status('202').send({requestId, status: "processing"})
+            setStatus(requestId, JSON.stringify({status: "processing"}))
+                .then(response => {
+                    res.status('202').send({requestId, status: "processing"})
+                })
+                .catch(err => {
+                    res.status('404').send({requestId, error: "Error sending message", err})
+                })
         }
-    })
-    redis.set(requestId, JSON.stringify({status: "processing"}))
-})
-
-// get status
-app.get("/status/:requestId", (req, res) => {
-    let requestId = req.params.requestId
-    redis.get(requestId).then(result => {
-        res.status('200').send(JSON.parse(result))
-    }).catch(err => {
-        console.log(err)
-        res.send('404').send(err)
     })
 })
 

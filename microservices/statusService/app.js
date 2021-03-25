@@ -1,5 +1,8 @@
 const KafkaWrapper = require('./KafkaWrapper.js')
 const Redis = require('ioredis');
+const express = require('express');
+const app = express();
+const cors = require('cors');
 
 // connect to redis localhost
 const redis = new Redis({
@@ -7,6 +10,38 @@ const redis = new Redis({
     port: process.env.REDIS_PORT,
     db: 0
 })
+
+const PORT = process.env.PORT || 8080
+
+app.use(express.json());
+app.use(cors())
+
+app.get("/status/:requestId", (req, res) => {
+    let requestId = req.params.requestId
+    redis.get(requestId).then(result => {
+        res.status('200').send(JSON.parse(result))
+    }).catch(err => {
+        console.log(err)
+        res.status('404').send(err)
+    })
+})
+
+app.post("/status/:requestId", (req, res) => {
+    let requestId = req.params.requestId
+    let value = req.body.value
+    redis.get(requestId).then(result => {
+        if (!result) {
+            redis.set(requestId, value, 'EX', 3600)
+        }
+    }).catch(err => {
+        console.log(err)
+    })
+    res.status('200').send('OK')
+})
+
+app.listen(PORT, () => {
+    console.log(`listening on port ${PORT}`);
+});
 
 KafkaWrapper.consumer.on('ready', function() {
     console.log('The consumer has connected.');

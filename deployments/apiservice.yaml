@@ -17,13 +17,12 @@ spec:
       containers:
         - image: anthonyamanse/apiservice:1.0
           name: apiservice
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:
-            - name: REDIS_URL
-              value: 'redis'
-            - name: REDIS_PORT
-              value: '6379'
+            - name: STATUS_SERVICE
+              value: 'http://status:8080'
           envFrom:
             - secretRef:
                 name: kafka-credentials
