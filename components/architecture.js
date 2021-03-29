@@ -4,16 +4,18 @@ class Architecture extends HTMLElement {
         return ['kitchenEvents', 'orderEvents', 'driverEvents', 'kitchenWorkers', 'orderWorkers', 'driverWorkers'];
     }
 
-    TEXTCOLOR = '#000000'
-    COUNTFILLCOLOR = '#FCD89D'
-    MSLINECOLOR = '#CFB2A6'
-    SERVICEHEIGHT = 60
-    SERVICEWIDTH = 60
+    TEXTCOLOR = '#FFFFFF';
+    COUNTFILLCOLOR =  '#569BC6' // 'rgba(141,214,249,.5)'; // #FCD89D'
+    MSLINECOLOR = '#ACC9D8'; 
+    SERVICEHEIGHT = 60;
+    SERVICEWIDTH = 60;
 
-    MICROSERVICETOP = 170
-    KAFKATOP = 380
+    MICROSERVICETOP = 170;
+    KAFKATOP = 380;
 
-    CORNERRADIUS = 5
+    CORNERRADIUS = 5;
+
+    DASHEDLINES = '#536B78';
 
     constructor() {
         super();
@@ -56,7 +58,7 @@ class Architecture extends HTMLElement {
         let ctx = this.context;
         ctx.beginPath();
         ctx.lineWidth = "1";
-        ctx.strokeStyle = "#84827C";
+        ctx.strokeStyle = this.MSLINECOLOR;
         this.roundedRectangle(ctx, this.x, this.y, 500, 480, this.CORNERRADIUS);
         ctx.stroke();
 
@@ -74,13 +76,13 @@ class Architecture extends HTMLElement {
 
         ctx.lineWidth = "1";
         ctx.beginPath();
-        ctx.fillStyle = "#FDF9F0";
+        ctx.fillStyle = this.MSLINECOLOR;
         ctx.arc(this.x, y, radius, 0, 2 * Math.PI);
         ctx.stroke();
         ctx.fill();
 
         ctx.font = "10px Arial";
-        ctx.fillStyle = this.TEXTCOLOR;
+        ctx.fillStyle = 'black';
         ctx.fillText("API", this.x - 20, y);
         ctx.fillText("Gateway", this.x - 20, y + 10);
 
@@ -144,15 +146,6 @@ class Architecture extends HTMLElement {
         this.log(' - Drawing MicroServices');
         ctx.beginPath();
 
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.lineWidth = "1";
-        ctx.fillStyle = "#FFFFFF";
-        ctx.strokeStyle = "#FFFFFF";
-        this.roundedRectangle(ctx, 250, 170, this.SERVICEHEIGHT, 20, this.CORNERRADIUS);
-        ctx.stroke();
-        ctx.fill();
-
         this.drawService(ctx, 145, this.MICROSERVICETOP, 'Status', 'Redis', 8);
         this.drawService(ctx, 255, this.MICROSERVICETOP, 'Order', 'MongoDB', 4);
         this.drawService(ctx, 365, this.MICROSERVICETOP, 'Driver', 'MongoDB', 2);
@@ -178,20 +171,20 @@ class Architecture extends HTMLElement {
 
         /* worker count */
 
-        let COUNTERWIDTH = 20;
+        let COUNTERWIDTH = 24;
 
         ctx.beginPath();
         ctx.lineWidth = "1";
         ctx.setLineDash([]);
         ctx.strokeStyle = this.MSLINECOLOR;
         ctx.fillStyle = this.COUNTFILLCOLOR;
-        this.roundedRectangle( ctx, x + this.SERVICEWIDTH - COUNTERWIDTH / 2, y + 20, COUNTERWIDTH, COUNTERWIDTH, this.CORNERRADIUS);
+        this.roundedRectangle( ctx, x + this.SERVICEWIDTH - COUNTERWIDTH / 2, y-(COUNTERWIDTH/2), COUNTERWIDTH, COUNTERWIDTH, this.CORNERRADIUS);
         ctx.stroke();
         ctx.fill();
 
         ctx.fillStyle = this.TEXTCOLOR;
-        ctx.font = "12px Arial";
-        ctx.fillText(workers, x + this.SERVICEWIDTH, y + 36);
+        ctx.font = "15px Arial";
+        ctx.fillText(workers, x-1 + this.SERVICEWIDTH, y +4);
         ctx.stroke();
 
         this.drawDB(ctx, x, y, db);
@@ -202,7 +195,7 @@ class Architecture extends HTMLElement {
 
         ctx.lineWidth = "1";
         ctx.setLineDash([5, 3]);
-        ctx.strokeStyle = "#84827C";
+        ctx.strokeStyle = this.DASHEDLINES;
         ctx.rect(x - margin, y - 114, this.SERVICEWIDTH + (margin * 2), 190);
         ctx.stroke();
 
@@ -237,9 +230,9 @@ class Architecture extends HTMLElement {
         ctx.fill();
 
         ctx.fillStyle = this.TEXTCOLOR;
-        ctx.font = "12px Arial";
+        ctx.font = "15px Arial";
 
-        ctx.fillText(count, x + 16, topicBox + 15);
+        ctx.fillText(count, x + 16, topicBox + 16);
 
         ctx.stroke();
     }

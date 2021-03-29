@@ -24,6 +24,7 @@ class Graph extends HTMLElement {
 
     //generate random data
     data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
     async updateData(){
         let min = 40;
         let max = 60;
@@ -43,14 +44,12 @@ class Graph extends HTMLElement {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    
-
-    draw(){
+    draw(dataset, color){
 
         let brown = "#cfb1a4";
         let orange = "#fcd89d";
+        let blue = "#569BC6";
         let grey = "lightgray";
-
 
         var canvas = this.canvas;
         var context = this.context;
@@ -61,10 +60,10 @@ class Graph extends HTMLElement {
         //draw the graph line
         context.beginPath();
         context.lineWidth = 3;
-        context.strokeStyle = orange;
-        context.moveTo(0, canvas.height - ((canvas.height * this.data[0]) / 100));
+        context.strokeStyle = color;
+        context.moveTo(0, canvas.height - ((canvas.height * dataset[0]) / 100));
         for(let i = 1; i < 19; i++){
-            context.lineTo(i * ((canvas.width - 40) / 18), canvas.height - ((canvas.height * this.data[i]) / 100));
+            context.lineTo(i * ((canvas.width - 40) / 18), canvas.height - ((canvas.height * dataset[i]) / 100));
         }
         context.stroke();
     
@@ -72,16 +71,13 @@ class Graph extends HTMLElement {
     
         //fill
         context.globalAlpha = 0.2;
-        context.fillStyle = "#fcd89d";
+        context.fillStyle = blue;
         context.lineTo(canvas.width - 40, canvas.height);
         context.lineTo(1, canvas.height);
         context.closePath();
         context.fill();
 
         context.globalAlpha = 1;
-    
-        //outline frame
-        // context.strokeRect(0, 0, canvas.width - 30, canvas.height);
         
         //markers
         context.beginPath();
@@ -99,7 +95,7 @@ class Graph extends HTMLElement {
 
         context.font = "12px Arial bold";
         for (let index = 1; index < 10; index++) {
-            context.strokeStyle = 'black';
+            context.strokeStyle = 'white';
             context.strokeText(100 - (index * 10), canvas.width - 20, (horizontalLine * index) - 1);
         }
 
@@ -114,12 +110,10 @@ class Graph extends HTMLElement {
         this.percent = sr.getElementById("percent");
         this.updateData();
         this.render(this.context);
-        
     }
 
-
     render(){ 
-        this.draw();
+        this.draw(this.data, "#569BC6");
         requestAnimationFrame(this.render.bind(this));
     }
 }
