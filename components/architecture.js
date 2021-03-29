@@ -171,20 +171,20 @@ class Architecture extends HTMLElement {
 
         /* worker count */
 
-        let COUNTERWIDTH = 20;
+        let COUNTERWIDTH = 24;
 
         ctx.beginPath();
         ctx.lineWidth = "1";
         ctx.setLineDash([]);
         ctx.strokeStyle = this.MSLINECOLOR;
         ctx.fillStyle = this.COUNTFILLCOLOR;
-        this.roundedRectangle( ctx, x + this.SERVICEWIDTH - COUNTERWIDTH / 2, y + 20, COUNTERWIDTH, COUNTERWIDTH, this.CORNERRADIUS);
+        this.roundedRectangle( ctx, x + this.SERVICEWIDTH - COUNTERWIDTH / 2, y-(COUNTERWIDTH/2), COUNTERWIDTH, COUNTERWIDTH, this.CORNERRADIUS);
         ctx.stroke();
         ctx.fill();
 
         ctx.fillStyle = this.TEXTCOLOR;
-        ctx.font = "12px Arial";
-        ctx.fillText(workers, x + this.SERVICEWIDTH, y + 36);
+        ctx.font = "15px Arial";
+        ctx.fillText(workers, x-1 + this.SERVICEWIDTH, y +4);
         ctx.stroke();
 
         this.drawDB(ctx, x, y, db);
@@ -230,9 +230,9 @@ class Architecture extends HTMLElement {
         ctx.fill();
 
         ctx.fillStyle = this.TEXTCOLOR;
-        ctx.font = "12px Arial";
+        ctx.font = "15px Arial";
 
-        ctx.fillText(count, x + 16, topicBox + 15);
+        ctx.fillText(count, x + 16, topicBox + 16);
 
         ctx.stroke();
     }
