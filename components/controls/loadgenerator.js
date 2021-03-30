@@ -38,6 +38,8 @@ slidersElement.forEach(element => {
 
 let ordersDataMap = new Map()
 let completedOrdersMap = new Map()
+let ordersPlacedCount = 0
+let ordersFulfilledCount = 0
 
 let apiRequestInterval
 let aggregateDataPerSecondInterval
@@ -54,6 +56,7 @@ function startLoadSimulator(start) {
             while (counter < simulatorConfig.rateOfOrders) {
                 createOrder({}, config, true).then(response => {
                     ordersDataMap.set(response.payloadSent.orderId, Date.now())
+                    ordersPlacedCount++
                 })
                 counter++
             }
@@ -100,6 +103,7 @@ socket.addEventListener('message', function (event) {
                     let originalTimestamp = ordersDataMap.get(order.orderId)
                     completedOrdersMap.set(order.orderId, event.timestamp - originalTimestamp)
                     ordersDataMap.delete(order.orderId)
+                    ordersFulfilledCount++
                 }
             }
         })
@@ -120,15 +124,25 @@ function aggregateData() {
             }
             averageTimeToComplete = sum / size
         }
-        graphElement.data.push(averageTimeToComplete / 1000)
+        // graphElement.data.push(averageTimeToComplete / 1000)
+        graphElement.data.push(ordersPlacedCount)
         graphElement.data.shift()
+        graphElement.dataB.push(ordersFulfilledCount)
+        graphElement.dataB.shift()
         completedOrdersMap.clear()
+
+        // set attributes
+        graphElement.setAttribute('timetocomplete', averageTimeToComplete / 1000)
+        graphElement.setAttribute('ordersplaced', ordersPlacedCount)
+        graphElement.setAttribute('ordersfulfilled', ordersFulfilledCount)
     }, 1000)
 }
 if (STATIC_DATA) {
     setInterval(() => {
         graphElement.data.push(Math.floor(Math.random() * (20) + 40))
         graphElement.data.shift()
+        graphElement.dataB.push(Math.floor(Math.random() * (20) + 20))
+        graphElement.dataB.shift()
     }, 1000)
 } else {
     aggregateData()

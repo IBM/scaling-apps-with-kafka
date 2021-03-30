@@ -1,7 +1,7 @@
 class Graph extends HTMLElement {
 
     static get observedAttributes() {
-        return ['title','left','right'];
+        return ['title','left','right','ordersplaced','ordersfulfilled', 'timetocomplete'];
     }
 
     constructor() {
@@ -19,11 +19,13 @@ class Graph extends HTMLElement {
         let res = await fetch('./components/graph.html')
         var sr = this.shadowRoot;
         sr.innerHTML = await res.text();
+        this.canvasScaled = 100
         this.startGraph();
     }
 
     //generate random data
     data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    dataB = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     async updateData(){
         let min = 40;
@@ -32,10 +34,15 @@ class Graph extends HTMLElement {
         // this.data.push(value);
         // this.data.shift();
         while(true) {
-            this.percent.innerText = "Time to complete order: " + this.data[this.data.length - 1].toFixed(2) + "s";
+            let timetocomplete = Number(this.getAttribute('timetocomplete') || '0')
+            this.percent.innerText = "Average fulfillment time: " + timetocomplete.toFixed(2) + "s";
             // let value = Math.floor(Math.random() * (max - min) + min)
             // this.data.push(value);
             // this.data.shift();
+            let ordersPlacedElement = this.shadowRoot.getElementById('ordersplacedcount')
+            let ordersFulfilledElement = this.shadowRoot.getElementById('ordersfulfilledcount')
+            ordersPlacedElement.innerText = this.getAttribute('ordersplaced') || '0'
+            ordersFulfilledElement.innerText = this.getAttribute('ordersfulfilled') || '0'
             await this.sleep(1000);
         }
     }
@@ -44,7 +51,7 @@ class Graph extends HTMLElement {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    draw(dataset, color){
+    draw(dataset, datasetB, color, colorB){
 
         let brown = "#cfb1a4";
         let orange = "#fcd89d";
@@ -56,14 +63,33 @@ class Graph extends HTMLElement {
 
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.moveTo(0, 0);
+
+        let canvasScaled = this.canvasScaled
+
+        // scale to +100 when data exceeds initial 100
+        if (dataset[dataset.length - 1] > canvasScaled || datasetB[datasetB.length - 1] > canvasScaled) {
+            canvasScaled = canvasScaled + 100
+            this.canvasScaled = canvasScaled
+        }
         
         //draw the graph line
         context.beginPath();
         context.lineWidth = 3;
         context.strokeStyle = color;
-        context.moveTo(0, canvas.height - ((canvas.height * dataset[0]) / 100));
+        context.moveTo(0, canvas.height - ((canvas.height * dataset[0]) / canvasScaled));
         for(let i = 1; i < 19; i++){
-            context.lineTo(i * ((canvas.width - 40) / 18), canvas.height - ((canvas.height * dataset[i]) / 100));
+            context.lineTo(i * ((canvas.width - 40) / 18), canvas.height - ((canvas.height * dataset[i]) / canvasScaled));
+        }
+        context.stroke();
+
+        //draw the graph line for second dataset
+        context.moveTo(0, 0); // move back to 0,0
+        context.beginPath();
+        context.lineWidth = 3;
+        context.strokeStyle = colorB;
+        context.moveTo(0, canvas.height - ((canvas.height * datasetB[0]) / canvasScaled));
+        for(let i = 1; i < 19; i++){
+            context.lineTo(i * ((canvas.width - 40) / 18), canvas.height - ((canvas.height * datasetB[i]) / canvasScaled));
         }
         context.stroke();
     
@@ -96,7 +122,7 @@ class Graph extends HTMLElement {
         context.font = "12px Arial bold";
         for (let index = 1; index < 10; index++) {
             context.strokeStyle = 'white';
-            context.strokeText(100 - (index * 10), canvas.width - 20, (horizontalLine * index) - 1);
+            context.strokeText(canvasScaled - (index * (canvasScaled/10)), canvas.width - 20, (horizontalLine * index) - 1);
         }
 
         context.strokeText("0", canvas.width - 16, canvas.height - 1);
@@ -113,7 +139,7 @@ class Graph extends HTMLElement {
     }
 
     render(){ 
-        this.draw(this.data, "#569BC6");
+        this.draw(this.data, this.dataB, "#FF7E00", "#569BC6");
         requestAnimationFrame(this.render.bind(this));
     }
 }

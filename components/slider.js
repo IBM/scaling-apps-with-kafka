@@ -35,7 +35,12 @@ class Slider extends HTMLElement {
         this.showSlider();
 
         let input = sr.getElementById("myRange")
-        // this.addListener(input, this.titletext)
+
+        // set range of rate of orders
+        if (this.titletext === 'rate of orders') {
+            input.setAttribute('max', 20)
+            input.setAttribute('value', 1)
+        }
 
         // add slider connected event to assign default values
         let customEvent = new CustomEvent('slider-input-connected', {
