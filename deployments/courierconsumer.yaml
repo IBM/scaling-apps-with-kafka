@@ -1,0 +1,25 @@
+# single replica - no persistence
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: courier
+spec:
+  selector:
+    matchLabels:
+      name: courier
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: courier
+    spec:
+      containers:
+        - image: anthonyamanse/courierconsumer:1.0
+          name: courier
+          env:
+            - name: MONGODB_REPLICA_HOSTNAMES
+              value: 'mongo:27017'
+          envFrom:
+            - secretRef:
+                name: kafka-credentials

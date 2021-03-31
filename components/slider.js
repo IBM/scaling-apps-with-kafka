@@ -33,6 +33,38 @@ class Slider extends HTMLElement {
         right.innerHTML = this.righttext;
 
         this.showSlider();
+
+        let input = sr.getElementById("myRange")
+
+        // set range of rate of orders
+        if (this.titletext === 'rate of orders') {
+            input.setAttribute('max', 20)
+            input.setAttribute('value', 1)
+        }
+
+        // add slider connected event to assign default values
+        let customEvent = new CustomEvent('slider-input-connected', {
+            detail: {
+                eventData: {
+                    "value": input.value
+                }
+            },
+            bubbles: true
+        });
+        this.dispatchEvent(customEvent)
+
+        // add input change event
+        input.addEventListener('change', e => {
+            let customEvent = new CustomEvent('slider-input-change', {
+                detail: {
+                    eventData: {
+                        "value": e.target.value
+                    }
+                },
+                bubbles: true
+            });
+            this.dispatchEvent(customEvent)
+        })
     }
     
     async showSlider() {

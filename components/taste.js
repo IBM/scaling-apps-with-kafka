@@ -33,16 +33,29 @@ class Taste extends HTMLElement {
             b.onclick = component.showRestaurantOptions.bind(component);
         })
 
-        let outcome = await fetch('./components/restaurants.json')
-        var rlist = await outcome.text();
-        this.restaurants = JSON.parse(rlist);
+        let outcome = await getKitchenList()
+        let rlist
+        try {
+            // if read from json
+            let rlistText = await outcome.text();
+            rlist = JSON.parse(rlistText)
+        } catch (error) {
+            rlist = outcome
+        }
+        this.restaurants = rlist;
         this.randomRestaurantList(this.restaurants);
     }
 
     randomRestaurantList(restaurants) {
 
         var arr = [];
-        while (arr.length < 5) {
+        let maxRandomLength
+        if (restaurants.length > 5) {
+            maxRandomLength = 5
+        } else {
+            maxRandomLength = restaurants.length
+        }
+        while (arr.length < maxRandomLength) {
             var r = Math.floor(Math.random() * this.restaurants.length - 1) + 1;
             if (arr.indexOf(r) === -1) arr.push(r);
         }
@@ -147,9 +160,10 @@ class Taste extends HTMLElement {
                     restaurant.menu.forEach(function (menuitem) {
                         let entry = document.createElement('menuitem-element');
                         entry.setAttribute('dish', menuitem.item);
-                        entry.setAttribute('cost', menuitem.cost);
+                        entry.setAttribute('cost', menuitem.price);
                         entry.setAttribute('restaurant', restaurant.name);
                         entry.setAttribute('type', restaurant.type);
+                        entry.setAttribute('kitchenId', restaurant.kitchenId);
                         anchor.appendChild(entry);
                     })
                 }

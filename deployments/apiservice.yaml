@@ -1,0 +1,39 @@
+# single replica - no persistence
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apiservice
+spec:
+  selector:
+    matchLabels:
+      name: apiservice
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: apiservice
+    spec:
+      containers:
+        - image: anthonyamanse/apiservice:1.0
+          name: apiservice
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: STATUS_SERVICE
+              value: 'http://status:8080'
+          envFrom:
+            - secretRef:
+                name: kafka-credentials
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apiservice
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    name: apiservice

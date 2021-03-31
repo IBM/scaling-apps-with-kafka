@@ -1,7 +1,7 @@
 class Architecture extends HTMLElement {
 
     static get observedAttributes() {
-        return ['kitchenEvents', 'orderEvents', 'driverEvents', 'kitchenWorkers', 'orderWorkers', 'driverWorkers'];
+        return ['kitchenEvents', 'orderEvents', 'driverEvents', 'kitchenworkers', 'orderworkers', 'driverworkers', 'statusworkers'];
     }
 
     TEXTCOLOR = '#FFFFFF';
@@ -32,7 +32,14 @@ class Architecture extends HTMLElement {
         var sr = this.shadowRoot;
         sr.innerHTML = await res.text();
         console.log('Initializing Architecture Component');
+        // this.logger = true
         this.showArchitecture();
+    }
+
+    updateArchitecture() {
+        // clear canvas
+        this.context.clearRect(0,0,600,500)
+        this.showArchitecture()
     }
 
     async showArchitecture() {
@@ -50,7 +57,9 @@ class Architecture extends HTMLElement {
     }
 
     log(string) {
-        console.log(string);
+        if (this.logger) {
+            console.log(string);
+        }
     }
 
     drawOpenShift() {
@@ -87,8 +96,8 @@ class Architecture extends HTMLElement {
         ctx.fillText("Gateway", this.x - 20, y + 10);
 
         ctx.beginPath();
-        // this.drawArrow(ctx, 110, 275, 150, 215);
-        this.drawArrow(ctx, 145, 100, 110, 275);
+        this.drawArrow(ctx, 110, 275, 150, 215);
+        // this.drawArrow(ctx, 145, 100, 110, 275);
         this.drawArrow(ctx, 0, y, this.x - radius, y);
         this.drawArrow(ctx, this.x - radius, y, 0, y);
 
@@ -146,13 +155,24 @@ class Architecture extends HTMLElement {
         this.log(' - Drawing MicroServices');
         ctx.beginPath();
 
-        this.drawService(ctx, 145, this.MICROSERVICETOP, 'Status', 'Redis', 8);
-        this.drawService(ctx, 255, this.MICROSERVICETOP, 'Order', 'MongoDB', 4);
-        this.drawService(ctx, 365, this.MICROSERVICETOP, 'Driver', 'MongoDB', 2);
-        this.drawService(ctx, 475, this.MICROSERVICETOP, 'Kitchen', 'MongoDB', 2);
+        let status, order, driver, kitchen
+        status = this.getAttribute('statusworkers') || 2
+        order = this.getAttribute('orderworkers') || 2
+        driver = this.getAttribute('driverworkers') || 2
+        kitchen = this.getAttribute('kitchenworkers') || 2
+        let statusDiff, orderDiff, driverDiff, kitchenDiff
+        statusDiff = this.getAttribute('statusworkers-offsetdifference') || 0
+        orderDiff = this.getAttribute('orderworkers-offsetdifference') || 0
+        driverDiff = this.getAttribute('driverworkers-offsetdifference') || 0
+        kitchenDiff = this.getAttribute('kitchenworkers-offsetdifference') || 0
+
+        this.drawService(ctx, 145, this.MICROSERVICETOP, 'Status', 'Redis', status, statusDiff);
+        this.drawService(ctx, 255, this.MICROSERVICETOP, 'Order', 'MongoDB', order, orderDiff);
+        this.drawService(ctx, 365, this.MICROSERVICETOP, 'Driver', 'MongoDB', driver, driverDiff);
+        this.drawService(ctx, 475, this.MICROSERVICETOP, 'Kitchen', 'MongoDB', kitchen, kitchenDiff);
     }
 
-    drawService(ctx, x, y, label, db, workers) {
+    drawService(ctx, x, y, label, db, workers, offsetdifference) {
         this.log(' - Drawing ' + label + ' service');
 
         /* box for service */
@@ -199,7 +219,7 @@ class Architecture extends HTMLElement {
         ctx.rect(x - margin, y - 114, this.SERVICEWIDTH + (margin * 2), 190);
         ctx.stroke();
 
-        this.drawKafkaTopic(ctx, x, y, 5000)
+        this.drawKafkaTopic(ctx, x, y, offsetdifference)
     }
 
     drawKafkaTopic(ctx, x, y, count) {

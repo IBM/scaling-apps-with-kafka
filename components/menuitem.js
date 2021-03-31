@@ -1,7 +1,7 @@
 class MenuItem extends HTMLElement {
 
     static get observedAttributes() {
-        return ['entry', 'cost', 'restaurant', 'type'];
+        return ['entry', 'cost', 'restaurant', 'type', 'kitchenId'];
     }
 
     constructor() {
@@ -54,22 +54,34 @@ class MenuItem extends HTMLElement {
     }
 
 
-    placeOrder(e) {
+    async placeOrder(e) {
 
         var dish = this.getAttribute('dish');
         var cost = this.getAttribute('cost');
         var type = this.getAttribute('type');
         var restaurant = this.getAttribute('restaurant');
+        var kitchenId = this.getAttribute('kitchenId');
 
+        let userId = localStorage.getItem("userId")
         let orderinfo = {
             'dish': dish,
-            'cost': cost,
+            'totalPrice': cost,
             'restaurant': restaurant,
             'type': type,
+            kitchenId,
+            userId,
             'status': 'ORDERED'
         };
 
-        this.storeOrder(orderinfo);
+        let createOrderRequest = await createOrder(orderinfo)
+        if (createOrderRequest == "noop") {
+            this.storeOrder(orderinfo);
+        } else {
+            if (createOrderRequest.status == "orderCreated") {
+                console.log(createOrderRequest)
+                this.storeOrder(orderinfo); // change orderinfo to backend data instead
+            }
+        }
 
         var component = this;
 

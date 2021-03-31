@@ -1,0 +1,20 @@
+{
+  "name": "apiservice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "http-proxy-middleware": "^1.0.6",
+    "needle": "^2.6.0",
+    "node-rdkafka": "^2.10.0",
+    "openssl": "^1.1.0",
+    "uuid": "^8.3.2"
+  }
+}
