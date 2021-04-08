@@ -108,6 +108,7 @@ async function getOffsets() {
     let kitchen = await KafkaWrapper.admin.fetchOffsets({ groupId: 'kitchen-consumer-group', topic: 'orders'})
     let courier = await KafkaWrapper.admin.fetchOffsets({ groupId: 'courier-consumer-group', topic: 'orders'})
     let status = await KafkaWrapper.admin.fetchOffsets({ groupId: 'status-consumer-group', topic: 'orders'})
+    // console.log(orders)
     orders = getSumOfPartitionsOffset(orders)
     kitchen = getSumOfPartitionsOffset(kitchen)
     courier = getSumOfPartitionsOffset(courier)
@@ -121,7 +122,7 @@ async function getOffsets() {
         difference.kitchen = currentOffset.kitchen - previousOffset.kitchen
         difference.courier = currentOffset.courier - previousOffset.courier
         difference.status = currentOffset.status - previousOffset.status
-        console.log(difference)
+        // console.log(difference)
         wss.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN && client.PATHNAME === '/events/consumergroupsoffset') {
                 client.send(JSON.stringify(difference));
