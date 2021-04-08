@@ -26,6 +26,7 @@ class Graph extends HTMLElement {
     //generate random data
     data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     dataB = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    // index is meant to be used as data per second
 
     async updateData(){
         let min = 40;
@@ -51,8 +52,13 @@ class Graph extends HTMLElement {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    draw(dataset, datasetB, color, colorB){
-
+    // offset width to allow smooth animation
+    previoustimestamp = 0
+    secondPassed = 0
+    offsetframe = 0
+    tempdatasetA
+    tempdatasetB
+    draw(dataset, datasetB, color, colorB, timestamp){
         let brown = "#cfb1a4";
         let orange = "#fcd89d";
         let blue = "#569BC6";
@@ -61,13 +67,29 @@ class Graph extends HTMLElement {
         var canvas = this.canvas;
         var context = this.context;
 
+        this.secondPassed = (timestamp - this.previoustimestamp) / 1000
+        this.previoustimestamp = timestamp
+        let offsettemp = this.secondPassed * (190/18)
+
+        if (!this.tempdatasetA) this.tempdatasetA = [...dataset]
+        if (!this.tempdatasetB) this.tempdatasetB = [...datasetB]
+        if (offsettemp >= 0) {
+            this.offsetframe += offsettemp
+
+            if (this.offsetframe > (190/18)) { // after one second, set offset to 0 and get new data
+                this.offsetframe = 0
+                this.tempdatasetA = [...dataset]
+                this.tempdatasetB = [...datasetB]
+            }
+        }
+
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.moveTo(0, 0);
 
         let canvasScaled = this.canvasScaled
 
-        // scale to +100 when data exceeds initial 100
-        if (dataset[dataset.length - 1] > canvasScaled || datasetB[datasetB.length - 1] > canvasScaled) {
+        // scale to +100 when data exceeds initial 10099
+        if (this.tempdatasetA[this.tempdatasetA.length - 1] > canvasScaled || this.tempdatasetB[this.tempdatasetB.length - 1] > canvasScaled) {
             canvasScaled = canvasScaled + 100
             this.canvasScaled = canvasScaled
         }
@@ -76,9 +98,9 @@ class Graph extends HTMLElement {
         context.beginPath();
         context.lineWidth = 3;
         context.strokeStyle = color;
-        context.moveTo(0, canvas.height - ((canvas.height * dataset[0]) / canvasScaled));
-        for(let i = 1; i < 19; i++){
-            context.lineTo(i * ((canvas.width - 40) / 18), canvas.height - ((canvas.height * dataset[i]) / canvasScaled));
+        context.moveTo(0 - this.offsetframe, canvas.height - ((canvas.height * this.tempdatasetA[0]) / canvasScaled));
+        for(let i = 1; i < 20; i++){
+            context.lineTo((i * ((canvas.width - 40) / 18)) - this.offsetframe, canvas.height - ((canvas.height * this.tempdatasetA[i]) / canvasScaled));
         }
         context.stroke();
 
@@ -87,9 +109,9 @@ class Graph extends HTMLElement {
         context.beginPath();
         context.lineWidth = 3;
         context.strokeStyle = colorB;
-        context.moveTo(0, canvas.height - ((canvas.height * datasetB[0]) / canvasScaled));
-        for(let i = 1; i < 19; i++){
-            context.lineTo(i * ((canvas.width - 40) / 18), canvas.height - ((canvas.height * datasetB[i]) / canvasScaled));
+        context.moveTo(0 - this.offsetframe, canvas.height - ((canvas.height * this.tempdatasetB[0]) / canvasScaled));
+        for(let i = 1; i < 20; i++){
+            context.lineTo(i * ((canvas.width - 40) / 18) - this.offsetframe, canvas.height - ((canvas.height * this.tempdatasetB[i]) / canvasScaled));
         }
         context.stroke();
     
@@ -102,6 +124,9 @@ class Graph extends HTMLElement {
         context.lineTo(1, canvas.height);
         context.closePath();
         context.fill();
+
+        // clear out of bounds line stroke
+        context.clearRect(190,0,190/18 + 3,canvas.height)
 
         context.globalAlpha = 1;
         
@@ -135,11 +160,11 @@ class Graph extends HTMLElement {
         this.context = this.canvas.getContext("2d");
         this.percent = sr.getElementById("percent");
         this.updateData();
-        this.render(this.context);
+        this.render(0);
     }
 
-    render(){ 
-        this.draw(this.data, this.dataB, "#FF7E00", "#569BC6");
+    render(timestamp){ 
+        this.draw(this.data, this.dataB, "#FF7E00", "#569BC6", timestamp);
         requestAnimationFrame(this.render.bind(this));
     }
 }
