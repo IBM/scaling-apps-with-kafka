@@ -30,6 +30,7 @@ function getOffsetsConsumerGroups() {
     let loc = window.location;
     let wsurl = "ws://" + loc.host + loc.pathname + "events/consumergroupsoffset"
     // let wsurl = "ws://localhost:8080/events/consumergroupsoffset"
+    // let wsurl = "ws://example-food-food-delivery.anthonyamanse-4-5-f2c6cdc6801be85fd188b09d006f13e3-0000.us-east.containers.appdomain.cloud/events/consumergroupsoffset"
     const socket = new WebSocket(wsurl);
     socket.addEventListener('message', function (event) {
         try {

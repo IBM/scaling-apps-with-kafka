@@ -88,6 +88,7 @@ resetbutton.addEventListener('click', e => {
 let loc = window.location;
 let wsurl = "ws://" + loc.host + loc.pathname + "events"
 // let wsurl = "ws://localhost:8080/events"
+// let wsurl = "ws://example-food-food-delivery.anthonyamanse-4-5-f2c6cdc6801be85fd188b09d006f13e3-0000.us-east.containers.appdomain.cloud/events"
 const socket = new WebSocket(wsurl);
 
 // Listen for messages
