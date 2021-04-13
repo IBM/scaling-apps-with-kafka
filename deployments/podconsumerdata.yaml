@@ -1,4 +1,3 @@
-# single replica - no persistence
 ---
 apiVersion: apps/v1
 kind: Deployment

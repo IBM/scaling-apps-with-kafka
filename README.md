@@ -51,6 +51,37 @@ git clone https://github.com/IBM/scaling-apps-with-kafka
 
 ### 2. Create and configure the Kafka service
 
+This code pattern uses a Kafka cluster in Confluent Cloud. You can get a free trial on their [website](https://www.confluent.io/confluent-cloud/).
+
+In their platform, create a basic cluster for development.
+
+![create-cluster-screenshot](docs/images/createcluster.png)
+
+Then create a topic named `orders` in the **Topics** tab. Use 6 partitions and leave the other configurations in default.
+
+![create-topic-screenshot](docs/images/topic.png)
+
+Then create an API Key in the **Clients** tab. Take note of the **Key** and **Secret**.
+
+![apikey-screenshot](docs/images/apikey.png)
+
+In the `deployments/kafka-secret.yaml` file, replace the **SASL_USERNAME** and **SASL_PASSWORD** with the **Key** and **Secret** respectively. Replace the BOOTSRAP_SERVERS with the value in `bootstap.servers` you got from above. You can also find this in the **Cluster Settings** tab.
+```
+...
+  BOOTSTRAP_SERVERS: 'pkc-***.us-east4.gcp.confluent.cloud:9092'
+  SECURITY_PROTOCOL: 'SASL_SSL'
+  SASL_MECHANISMS: 'PLAIN'
+  SASL_USERNAME: '****'
+  SASL_PASSWORD: '***'
+...
+```
+
+Then create the secret in your OpenShift cluster so your microservices can access the Kafka service.
+
+```
+oc apply -f deployments/kafka-secret.yaml
+```
+
 ### 3. Deploy the microservices
 
 > In this step you can either use the prebuilt images in the yaml files or you can build and push from source on your own Docker Hub. You can follow the instructions here to [build your own container images](building-container-images.md).
@@ -85,13 +116,25 @@ Check their status using `oc get pods`. When all the pods are ready, you can now
 
 ### 4. Install KEDA
 
-On your Openshift's OperatorHub, locate and install KEDA operator to namespace `keda`. The operator will create the namespace for you if it doesn't exist.
+On your OperatorHub of your OpenShift console, locate and install KEDA operator to namespace `keda`. The operator will create the namespace for you if it doesn't exist. It may take a few minutes for it to completely install.
 
-![]()
+![keda](docs/images/keda.png)
 
-Then create a `KedaController` named `keda` in the namespace `keda`
+Then create a `KedaController` named `keda` in the namespace `keda` using the OpenShift console.
 
-![]()
+![keda](docs/images/kedacontroller.png)
+
+You can verify the installation using the command below. You should get a similar output.
+
+```
+oc get pods -n keda
+
+### OUTPUT
+NAME                                     READY   STATUS    RESTARTS   AGE
+keda-metrics-apiserver-87dbd8f8b-zrj72   1/1     Running   0          25d
+keda-olm-operator-59c5cbbddb-2f5r5       1/1     Running   0          25d
+keda-operator-68d68b797-84qvb            1/1     Running   0          25d
+```
 
 ### 5. Deploy KEDA ScaledObjects
 
@@ -103,11 +146,13 @@ oc apply -f deployments/keda-auth.yaml
 
 This yaml file uses the `kafka-credentials` secret you created in Step 2.
 
-You can now create the `ScaledObjects` in `deployments/keda-scaler.yaml`. The `TriggerAuthentication` is referenced in this file. Create using the oc cli:
+You can now create the `ScaledObject` in `deployments/keda-scaler.yaml`. The `TriggerAuthentication` is referenced in this file. Create using the oc cli:
 
 ```
 oc apply -f deployments/keda-scaler.yaml
 ```
+
+In the ScaledObject definition, the `lagThreshold: '5'` is the consumer lag that scales the target deployment when it meets this threshold. You can read more about the Kafka scaler [here](https://keda.sh/docs/2.2/scalers/apache-kafka/)
 
 To check the status of your scalers:
 
@@ -153,18 +198,31 @@ oc apply -f deployments/routes.yaml
 
 The routes maps the URL paths to its intended target service. You can verify your routes using: `oc get routes`
 
+You can now execute one of the APIs using the terminal. You should get a similar response. Replace the hostname in the command below:
+
+```
+curl -X POST -H "Content-Type: application/json" -d @restaurants.json http://YOUR_HOSTNAME/restaurants
+
+### OUTPUT
+{"requestId":"e2bdbb26-b8ba-406a-acbe-b10e2cfd599b","payloadSent":{"restaurants":[...]}}
+```
+
+This should populate the restaurants list in the frontend's mobile simulator.
+
 You can now access the simulator in your browser with the hostname you got from above. (ex. example-food-food-delivery.***.appdomain.cloud). Check the sample output below to see what you can do with the simulator.
 
 # Sample output
 
-<!-- show screenshot 1 order per second -->
-![]()
-<!-- show screenshot max order per second -->
-![]()
+You can move the sliders in the bottom section to adjust the rate of orders and speed of kitchen and couriers. The number above the microservices is the number of pods or consumers. The number below is the number of messages being consumed.
 
-# Troubleshooting
+Try setting it to the minimum rate of orders first. You should see the graph plot data points of orders created and orders fulfilled. At the same time, the number of pods should stay the same as the consumers can handle the 1 order per second.
+![](docs/images/sample-output-1.png)
 
-<!-- keep this -->
+Then, you can try and increase the rate of orders to the maximum. You should see the number of pods in the architecture image increase as well.
+![](docs/images/sample-output-2.png)
+
+You can also use the mobile simulator to manually create orders.
+
 ## License
 
 This code pattern is licensed under the Apache License, Version 2. Separate third-party code objects invoked within this code pattern are licensed by their respective providers pursuant to their own separate licenses. Contributions are subject to the [Developer Certificate of Origin, Version 1.1](https://developercertificate.org/) and the [Apache License, Version 2](https://www.apache.org/licenses/LICENSE-2.0.txt).

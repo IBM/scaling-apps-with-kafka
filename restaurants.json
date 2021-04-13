@@ -1,0 +1,285 @@
+[{
+    "type": "vegan",
+    "image": "sprout.svg",
+    "name": "Pure Kitchen",
+    "deal": "",
+    "menu": [{
+        "item": "Radical Cauliflour Wings",
+        "price": "16.50"
+    }, {
+        "item": "Thrive Bowl",
+        "price": "17.50"
+    }, {
+        "item": "Warrior Bowl",
+        "price": "21.00"
+    }, {
+        "item": "Artisinal Sandwich",
+        "price": "18.75"
+    }]
+}, {
+    "type": "vegan",
+    "image": "sprout.svg",
+    "name": "Chipotle",
+    "deal": "",
+    "menu": [{
+        "item": "Burrito",
+        "price": "11.00"
+    }, {
+        "item": "Tacos",
+        "price": "11.50"
+    }, {
+        "item": "Salad",
+        "price": "12.00"
+    }]
+}, {
+    "type": "vegan",
+    "image": "sprout.svg",
+    "name": "Clover",
+    "deal": "",
+    "menu": [{
+        "item": "Sage & Squash Risotto",
+        "price": "18.00"
+    }, {
+        "item": "Beet & Lemongrass Sopa",
+        "price": "17.50"
+    }, {
+        "item": "Panko Squash Tacos",
+        "price": "21.00"
+    }, {
+        "item": "Peanutbutter Tofu Noodles",
+        "price": "20.00"
+    }, {
+        "item": "Pakora Garden",
+        "price": "18.00"
+    }, {
+        "item": "Clover Dragon Bowl",
+        "price": "21.00"
+    }, {
+        "item": "Clover Avocado Toast",
+        "price": "15.00"
+    }]
+}, {
+    "type": "vegan",
+    "image": "sprout.svg",
+    "name": "Fresh",
+    "deal": "",
+    "menu": [{
+        "item": "Buddha Bowl",
+        "price": "18.50"
+    }, {
+        "item": "Charred Greens & Feta Flatbread",
+        "price": "18.50"
+    }, {
+        "item": "All Star Salad",
+        "price": "17.00"
+    }, {
+        "item": "Essential Greens Bowl",
+        "price": "18.00"
+    }]
+}, {
+    "type": "seafood",
+    "image": "fish.svg",
+    "name": "Sushi Go",
+    "deal": "",
+    "menu": [{
+        "item": "10 Alaska Rolls",
+        "price": "30.00"
+    }, {
+        "item": "10 King Crab Rolls",
+        "price": "20.00"
+    }, {
+        "item": "10 Dragon Rolls",
+        "price": "22.00"
+    }, {
+        "item": "10 Spider Rolls",
+        "price": "20.00"
+    }]
+
+}, {
+    "type": "seafood",
+    "image": "fish.svg",
+    "name": "Simply Seafood",
+    "deal": "",
+    "menu": [{
+        "item": "Grilled Halibut with Peach and Pepper Salsa",
+        "price": "18.00"
+    }, {
+        "item": "Lemon Pepper Shrimp Scampi",
+        "price": "21.00"
+    }, {
+        "item": "Simple Lobster Risotto",
+        "price": "21.00"
+    }, {
+        "item": "Tilapia with Thai Coconut-Curry Sauce",
+        "price": "20.00"
+    }]
+}, {
+    "type": "seafood",
+    "image": "fish.svg",
+    "name": "Crab Cakes",
+    "deal": "",
+    "menu": [{
+            "item": "Crab Cakes",
+            "price": "18.00"
+        }, {
+            "item": "Paella",
+            "price": "21.00"
+        }, {
+            "item": "Lemon risotto with calamari",
+            "price": "21.00"
+        }, {
+            "item": "Bondi burger",
+            "price": "20.00"
+        }]
+}, {
+    "type": "seafood",
+    "image": "fish.svg",
+    "name": "Red Lobster",
+    "deal": "",
+    "menu": [{
+        "item": "Ultimate Surf & Turf",
+        "price": "45.00"
+    }, {
+        "item": "Admiral's Feast",
+        "price": "25.00"
+    }, {
+        "item": "Simple Lobster Risotto",
+        "price": "21.00"
+    }, {
+        "item": "Coconut Shrimp Family Meal",
+        "price": "45.00"
+    }]
+}, {
+    "type": "cafe",
+    "image": "cafe.svg",
+    "name": "Planet Coffee",
+    "deal": "",
+    "menu": [{
+        "item": "Latte",
+        "price": "6.00"
+    }, {
+        "item": "Espresso",
+        "price": "4.00"
+    }, {
+        "item": "Cappuccino",
+        "price": "6.00"
+    }, {
+        "item": "Americano",
+        "price": "4.00"
+    }]
+}, {
+    "type": "cafe",
+    "image": "cafe.svg",
+    "name": "Mountain Goat",
+    "deal": "",
+    "menu": [{
+        "item": "Latte",
+        "price": "6.00"
+    }, {
+        "item": "Espresso",
+        "price": "4.00"
+    }, {
+        "item": "Cappuccino",
+        "price": "6.00"
+    }, {
+        "item": "Americano",
+        "price": "4.00"
+    }]
+}, {
+    "type": "cafe",
+    "image": "cafe.svg",
+    "name": "Starbucks",
+    "deal": "",
+    "menu": [{
+        "item": "Latte",
+        "price": "6.00"
+    }, {
+        "item": "Espresso",
+        "price": "4.00"
+    }, {
+        "item": "Cappuccino",
+        "price": "6.00"
+    }, {
+        "item": "Americano",
+        "price": "4.00"
+    }]
+}, {
+    "type": "noodles",
+    "image": "noodle-bowl.svg",
+    "name": "Lemongrass",
+    "deal": "",
+    "menu": [{
+        "item": "Pad Thai",
+        "price": "18.00"
+    }, {
+        "item": "Tom Yum Soup",
+        "price": "21.00"
+    }, {
+        "item": "Shirodashi Ramen",
+        "price": "21.00"
+    }, {
+        "item": "Pad See Ew",
+        "price": "20.00"
+    }]
+}, {
+    "type": "noodles",
+    "image": "noodle-bowl.svg",
+    "name": "Oodles of Noodles",
+    "deal": "",
+    "menu": [{
+        "item": "Pad Thai",
+        "price": "18.00"
+    }, {
+        "item": "Tom Yum Soup",
+        "price": "21.00"
+    }, {
+        "item": "Shirodashi Ramen",
+        "price": "21.00"
+    }, {
+        "item": "Pad See Ew",
+        "price": "20.00"
+    }]
+}, {
+    "type": "noodles",
+    "image": "noodle-bowl.svg",
+    "name": "Sweet Basil",
+    "deal": "",
+    "menu": [{
+        "item": "Pad Thai",
+        "price": "18.00"
+    }, {
+        "item": "Tom Yum Soup",
+        "price": "21.00"
+    }, {
+        "item": "Shirodashi Ramen",
+        "price": "21.00"
+    }, {
+        "item": "Pad See Ew",
+        "price": "20.00"
+    }]
+}, {
+    "type": "noodles",
+    "image": "noodle-bowl.svg",
+    "name": "Wagamama",
+    "deal": "",
+    "menu": [{
+        "item": "Tofu Firecracker",
+        "price": "18.00"
+    }, {
+        "item": "Miso-glazed Cod Ramen",
+        "price": "21.00"
+    }, {
+        "item": "Shirodashi Ramen",
+        "price": "21.00"
+    }, {
+        "item": "Triyaki Chicken Donburi",
+        "price": "20.00"
+    }]
+}]
+
+
+
+
+
+
+
