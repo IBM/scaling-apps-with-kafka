@@ -1,5 +1,5 @@
 # Scaling an Event Driven architecture using an Event Driven autoscaler
-In this code pattern, you will deploy an example food delivery application that is using Kafka and OpenShift. The examle application is utilizing a Kafka topic to produce and consume records of orders. The application has multiple microservices that consume and process these records/messages. The architecture below will explain the roles of these microservices. To scale them based on the incoming messages instead of the default Horizontal Pod Autoscaler (HPA) that uses cpu and memory thresholds, you will us KEDA or Kubernetes Event-Driven Autoscaler.
+In this code pattern, you will deploy an example food delivery application that is using Kafka and OpenShift. The examle application is utilizing a Kafka topic to produce and consume records of orders. The application has multiple microservices that consume and process these records/messages. The architecture below will explain the roles of these microservices. To scale them based on the incoming messages instead of the default Horizontal Pod Autoscaler (HPA) that uses cpu and memory thresholds, you will use KEDA or Kubernetes Event-Driven Autoscaler.
 
 With the KEDA operator, you can scale your OpenShift resources based on events. In the case of Kafka, you can scale them based on the consumer lag. Consumer lag is the difference between the most recent produced message and the current message that's consumed. If the consumer lag starts to grow, this usually means that the consumer is not able to keep up with the incoming records or messages in a Kafka topic. With KEDA, you can autoscale the number of consumers so that your group of consumers can consume and process more messages to try and keep up with the pace of incoming messages. [KEDA](https://keda.sh/) is an open source project and also supports more event sources besides Kafka.
 
@@ -49,6 +49,12 @@ Clone the `scaling-apps-with-kafka` repo locally. In a terminal, run:
 git clone https://github.com/IBM/scaling-apps-with-kafka
 ```
 
+Then in your OpenShift cluster, create a project called `food-delivery` for you to deploy the code pattern resources in.
+
+```
+oc new-project food-delivery
+```
+
 ### 2. Create and configure the Kafka service
 
 This code pattern uses a Kafka cluster in Confluent Cloud. You can get a free trial on their [website](https://www.confluent.io/confluent-cloud/).
@@ -84,13 +90,7 @@ oc apply -f deployments/kafka-secret.yaml
 
 ### 3. Deploy the microservices
 
-> In this step you can either use the prebuilt images in the yaml files or you can build and push from source on your own Docker Hub. You can follow the instructions here to [build your own container images](building-container-images.md).
-
-Create a project called `food-delivery` for you to deploy the microservices in.
-
-```
-oc new-project food-delivery
-```
+In this step you can either use the prebuilt images in the yaml files or you can build and push from source on your own Docker Hub. You can follow the instructions here to [build your own container images](building-container-images.md).
 
 Then, deploy MongoDB and Redis instances. These instances are configured for development purposes only and don't have any persistence.
 
@@ -106,8 +106,8 @@ oc apply -f deployments/frontend.yaml
 oc apply -f deployments/apiservice.yaml
 oc apply -f deployments/statusservice.yaml
 oc apply -f deployments/orderconsumer.yaml
-oc apply -f deployments/kitckenconsumer.yaml
-oc apply -f deployments/courierconsumes.yaml
+oc apply -f deployments/kitchenconsumer.yaml
+oc apply -f deployments/courierconsumer.yaml
 oc apply -f deployments/realtimedata.yaml
 oc apply -f deployments/podconsumerdata.yaml
 ```
@@ -146,7 +146,17 @@ oc apply -f deployments/keda-auth.yaml
 
 This yaml file uses the `kafka-credentials` secret you created in Step 2.
 
-You can now create the `ScaledObject` in `deployments/keda-scaler.yaml`. The `TriggerAuthentication` is referenced in this file. Create using the oc cli:
+You can now create the `ScaledObject` in `deployments/keda-scaler.yaml`. The `TriggerAuthentication` is referenced in this file. First, modify `bootstrapServers: YOUR_BOOTSTRAP_SERVER` with the ones you have. 
+
+> Your bootstrap server is in your deployments/kafka-secret.yaml file.
+
+Modify the instances of this line:
+
+```
+          bootstrapServers: pkc-lzvrd.us-west4.gcp.confluent.cloud:9092
+```
+
+Then create using the oc cli:
 
 ```
 oc apply -f deployments/keda-scaler.yaml
