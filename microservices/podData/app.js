@@ -4,6 +4,7 @@ const app = express();
 const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
 const PORT = process.env.PORT || 8080
+const POD_NAMESPACE = process.env.POD_NAMESPACE || 'food-delivery'
 
 
 const k8sApi = k8s.Config.fromCluster()
@@ -35,7 +36,7 @@ function toggleInterval(flag) {
 }
 
 function k8sGetPods(callback) {
-    k8sApi.listNamespacedPod('food-delivery').then(res => {
+    k8sApi.listNamespacedPod(POD_NAMESPACE).then(res => {
         // console.log(res.body.items)
         
         // console.log(res.body.items[0].metadata)

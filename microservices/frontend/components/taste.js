@@ -2,6 +2,7 @@ class Taste extends HTMLElement {
 
     SELECTEDSUFFIX = '-selected.svg';
     DESELECTEDSUFFIX = '-deselected.svg'
+    lastFavoritesReceived
 
     static get observedAttributes() {
         return ['imagename', 'viewname', 'mode'];
@@ -34,6 +35,13 @@ class Taste extends HTMLElement {
         })
 
         let outcome = await getKitchenList()
+        let popular = null
+        try {
+            popular = await getFavoriteRestaurants()
+            this.lastFavoritesReceived = popular
+        } catch (error) {
+            popular = 'noop'
+        }
         let rlist
         try {
             // if read from json
@@ -43,7 +51,95 @@ class Taste extends HTMLElement {
             rlist = outcome
         }
         this.restaurants = rlist;
-        this.randomRestaurantList(this.restaurants);
+        if (popular == "noop") {
+            this.randomRestaurantList(this.restaurants);
+        } else {
+            this.showPopularRestaurantsList(this.restaurants, popular, false)
+        }
+        
+        // connect to socket
+        this.socketConnection()
+    }
+
+    socketConnection() {
+        socketFavoriteRestaurants(dataObject => {
+            console.log(dataObject)
+            if (!_.isEqual(dataObject,this.lastFavoritesReceived)) {
+                // update view
+                this.lastFavoritesReceived = dataObject
+                this.showPopularRestaurantsList(this.restaurants, dataObject, true)
+            }
+        })
+    }
+
+    showPopularRestaurantsList(restaurants, popular, notify) {
+        if(Object.keys(popular.favorites).length == 0) {
+            console.log("showing randomized")
+            this.randomRestaurantList(this.restaurants)
+        } else {
+            let popularIds = Object.keys(popular.favorites)
+            let popularIdsTemp = Object.keys(popular.favorites)
+            // console.log(popular.favorites[popularIds[0]])
+            console.log("showing popular")
+            let arrayOfRestaurants = restaurants.filter(obj => {
+                let foundMatch = false
+                for (let i in popularIdsTemp) {
+                    if (obj.kitchenId == popularIdsTemp[i]) {
+                        foundMatch = true
+                        const index = popularIdsTemp.indexOf(popularIdsTemp[i]);
+                        if (index > -1) {
+                            popularIdsTemp.splice(index, 1);
+                        }
+                    }
+                }
+                return foundMatch;
+
+            })
+            let popularRestaurantsArray = arrayOfRestaurants.map(obj => {
+                for (let i in popularIds) {
+                    if (obj.kitchenId == popularIds[i]) {
+                        obj.popularity = popular.favorites[popularIds[i]]
+                        console.log(popular.favorites[popularIds[i]])
+                    }
+                }
+                return obj
+            }).sort((a, b) => b.popularity - a.popularity)
+            
+            var component = this;
+
+            var sr = component.shadowRoot;
+
+            var anchor = sr.getElementById('restaurantlist');
+            anchor.innerHTML = "";
+            console.log(popularRestaurantsArray)
+
+
+            popularRestaurantsArray.forEach(obj => {
+                var element = document.createElement('restaurant-element');
+                element.setAttribute("restaurant", obj.name);
+                element.setAttribute("type", obj.type);
+                anchor.appendChild(element);
+            })
+            
+            let label = sr.getElementById('caption')
+            label.innerHTML = "Popular in your area ... "
+            
+            if (notify) this.showNotification(sr, 'New popular list in your area!')
+        }
+    }
+
+    showNotification(shadowRoot, notificationText) {
+        var notifcationArea = shadowRoot.getElementById('notificationarea');
+        notifcationArea.innerHTML = '';
+
+        var message = document.createElement('div');
+        message.innerHTML = notificationText
+        message.className = 'notification';
+        notifcationArea.appendChild(message);
+
+        setTimeout(function(){
+            message.remove()
+        }, 5000);
     }
 
     randomRestaurantList(restaurants) {
@@ -75,7 +171,8 @@ class Taste extends HTMLElement {
             element.setAttribute("type", restaurant.type);
             anchor.appendChild(element);
         })
-
+        let label = sr.getElementById('caption')
+        label.innerHTML = "Random recommendation of restaurants"
     }
 
     showRestaurantOptions(event) {
