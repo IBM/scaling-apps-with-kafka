@@ -1,10 +1,28 @@
-# Process streams and extract insights with KsqlDB
+# Process streams and extract insights with ksqlDB
 
 <!-- intro -->
+The previous code pattern [Scaling an Event Driven architecture using an Event Driven autoscaler](https://github.com/IBM/scaling-apps-with-kafka/) walked you through creating a Kafka cluster and creating microservices to interact with it and deploy an example food ordering application. In this code pattern, you will extend that code pattern and create a [ksqlDB](https://ksqldb.io/). You will then create a microservice to connect to that ksqslDB and expose the data in it.
 
-<!-- ![architecture](docs/images/architecture.png) -->
+With the ksqlDB, you can easily process streams in your application. The ksqlDB leverages the existing Kafka cluster and add new capabilities in your applications. In this code pattern, you will add a new feature in the app that shows the most popular restaurants. The ksqlDB would then process the streams of orders to create that materialized view in real-time. A node.js is used to do [push queries](https://docs.ksqldb.io/en/latest/concepts/queries/#push) and expose that data to the UI in real-time.
+
+When you have completed this code pattern, you will understand how to:
+
+* Create a ksqlDB and create streams and tables
+* Add new capabilities in an existing application
+* Create a microservice to query the ksqlDB
+
+
+![architecture](docs/images/architecture-with-ksqldb.png)
 
 ## Flow
+
+**1 - 10** in the architecture is the same in the previous code pattern [Scaling an Event Driven architecture using an Event Driven autoscaler](https://github.com/IBM/scaling-apps-with-kafka/).
+
+11. Streams are created from the kafka topic. A table is also created to get the most popular restaurants.
+
+12. A Node.js microservice is using the available REST API to do a push query in the "favorite restaurants" table.
+
+13. The frontend UI is connected to the ksqlDB microservice using websockets. The UI is updated whenever there are new popular restaurants.
 
 # Prerequisites
 
@@ -16,17 +34,17 @@ Make sure you are logged in your target openshift cluster when you are doing `oc
 # Steps
 
 1. [Complete previous code pattern](#1-Complete-previous-code-pattern).
-2. [Create and configure the ksqlDB](#2-Create-and-configure-the-Kafka-service).
-3. [Execute KSQL statements](#3-Deploy-the-microservices).
-4. [Build microservice that exposes data from ksqlDB](#4-Install-KEDA)
-5. [Create ksqlDB credentials then deploy microservice](#5-Deploy-KEDA-ScaledObjects).
+2. [Create and configure ksqlDB](#2-Create-and-configure-ksqlDB).
+3. [Execute KSQL statements](#3-Execute-KSQL-statements).
+4. [Build microservice that exposes data from ksqlDB](#4-Build-microservice-that-exposes-data-from-ksqlDB)
+5. [Create ksqlDB credentials then deploy microservice](#5-Create-ksqlDB-credentials-then-deploy-microservice).
 6. [Run the application](#6-Run-the-application).
 
 ### 1. Complete previous code pattern
 
 This code pattern extends the [Scaling an Event Driven architecture using an Event Driven autoscaler](https://github.com/IBM/scaling-apps-with-kafka/). Complete that code pattern before proceeding to the next step.
 
-### 2. Create and configure the ksqlDB
+### 2. Create and configure ksqlDB
 
 * Select your Kafka cluster and go to **ksqlDB** section
 
@@ -149,7 +167,25 @@ oc apply -f deployments/ksqlcontroller.yaml
 
 ### 6. Run the application
 
-# Sample output
+Now, you can go back to the example applications frontend. You can find the URL again using the command below:
+
+```
+oc get route example-food -o jsonpath='{.spec.host}'
+
+example-food-food-delivery.***.appdomain.cloud
+```
+
+Initally, you'll find a random list of restaurants in the mobile simulator like the one below:
+
+![outputt random](docs/images/output-random-initial.png)
+
+Choose one of those restaurants and create an order. Since we added a new microservice that leverages ksqlDB, the application should now show favorite restaurants. The image below shows an example output:
+
+![output 1](docs/images/output-1.png)
+
+You can choose another restaurant in one of the categories "Vegan, Seafood, Noodles, Coffee". Make sure to choose a new restaurant. After a few seconds, the mobile simulator should show the new restaurant in its list.
+
+![output 2](docs/images/output-2.png)
 
 ## License
 
