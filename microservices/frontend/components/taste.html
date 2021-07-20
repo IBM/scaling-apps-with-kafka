@@ -158,10 +158,42 @@
     .scrollable{
         overflow-y: scroll;
     }
+
+    .notificationarea{
+        height:30px;
+        width:100%;
+        margin-top:10px;display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        position: absolute;
+        /* border: 2px solid black;
+        border-radius: 4px;  */
+        /* background: pink; */
+    }
+
+    .notification{
+        width: 230px;
+        height: 100%;
+        border: 2px solid black;
+        border-radius: 4px;
+        
+        background: var(--loyalty-highlight-color);
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        font-size: 11px;
+        font-weight: bold;
+    }
 </style>
 
 <div class="taste">
     <div class="layout">
+        <div id="notificationarea" class="notificationarea">
+            <!-- <div class="notification">New popular list in your area!</div> -->
+        </div>
         <label class="orderlabel">Order food for delivery to:</label>
         <label class="orderdestination">123 Some Street</label>
         <section class="buttonrow">

@@ -1,0 +1,41 @@
+# no persistence
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ksql-controller
+spec:
+  selector:
+    matchLabels:
+      name: ksql-controller
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: ksql-controller
+        version: v1
+    spec:
+      containers:
+        - image: YOUR_DOCKER_USER/ksqlcontroller:1.0
+          name: ksql-controller
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: KSQL_ENDPOINT
+              value: 'https://pksqlc-xyz.confluent.cloud:443'
+            - name: KSQL_API_KEY
+              value: 'APIXYZ'
+            - name: KSQL_API_SECRET
+              value: 'APISECRETXYZ'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ksql-controller
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    name: ksql-controller
