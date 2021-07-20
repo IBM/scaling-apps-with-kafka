@@ -175,17 +175,20 @@ oc get route example-food -o jsonpath='{.spec.host}'
 example-food-food-delivery.***.appdomain.cloud
 ```
 
-Initally, you'll find a random list of restaurants in the mobile simulator like the one below:
+* Initally, you'll find a random list of restaurants in the mobile simulator like the one in the gif shown below below:
 
-![outputt random](docs/images/output-random-initial.png)
+<!-- ![outputt random](docs/images/output-random-initial.png) -->
 
-Choose one of those restaurants and create an order. Since we added a new microservice that leverages ksqlDB, the application should now show favorite restaurants. The image below shows an example output:
+* Choose one of those restaurants and create an order. Since we added a new microservice that leverages ksqlDB, the application should now show favorite restaurants.
 
-![output 1](docs/images/output-1.png)
+<!-- ![output 1](docs/images/output-1.png) -->
 
-You can choose another restaurant in one of the categories "Vegan, Seafood, Noodles, Coffee". Make sure to choose a new restaurant. After a few seconds, the mobile simulator should show the new restaurant in its list.
+* Then choose another restaurant in one of the categories "Vegan, Seafood, Noodles, Coffee". Make sure to choose a new restaurant. After a few seconds, the mobile simulator should show the new restaurant in its list.
 
-![output 2](docs/images/output-2.png)
+![output 2](docs/images/output-animation.gif)
+
+You have finally deployed an application and extended its capabilities by leveraging ksqlDB! The application is now doing real-time stream processing that shows users the most popular restaurants. You can learn more about ksqlDB in their [official docs](https://docs.ksqldb.io/en/latest/) and find more interesting [use cases](https://ksqldb.io/news-and-community.html).
+<!-- ![output 2](docs/images/output-2.png) -->
 
 ## License
 
