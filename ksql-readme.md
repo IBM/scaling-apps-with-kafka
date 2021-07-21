@@ -3,7 +3,7 @@
 <!-- intro -->
 The previous code pattern [Scaling an Event Driven architecture using an Event Driven autoscaler](https://github.com/IBM/scaling-apps-with-kafka/) walked you through creating a Kafka cluster and creating microservices to interact with it and deploy an example food ordering application. In this code pattern, you will extend that code pattern and create a [ksqlDB](https://ksqldb.io/). You will then create a microservice to connect to that ksqslDB and expose the data in it.
 
-With the ksqlDB, you can easily process streams in your application. The ksqlDB leverages the existing Kafka cluster and add new capabilities in your applications. In this code pattern, you will add a new feature in the app that shows the most popular restaurants. The ksqlDB would then process the streams of orders to create that materialized view in real-time. A node.js is used to do [push queries](https://docs.ksqldb.io/en/latest/concepts/queries/#push) and expose that data to the UI in real-time.
+With the ksqlDB, you can easily process streams in your application without writing a significant amount of code. The ksqlDB leverages the existing Kafka cluster and you can quickly add new capabilities in your applications. In this code pattern, you will add a new feature in the app that shows the most popular restaurants. The ksqlDB would then process the streams of orders to create that materialized view in real-time. A node.js is used to do [push queries](https://docs.ksqldb.io/en/latest/concepts/queries/#push) and expose that data to the UI in real-time.
 
 When you have completed this code pattern, you will understand how to:
 
@@ -189,6 +189,12 @@ example-food-food-delivery.***.appdomain.cloud
 
 You have finally deployed an application and extended its capabilities by leveraging ksqlDB! The application is now doing real-time stream processing that shows users the most popular restaurants. You can learn more about ksqlDB in their [official docs](https://docs.ksqldb.io/en/latest/) and find more interesting [use cases](https://ksqldb.io/news-and-community.html).
 <!-- ![output 2](docs/images/output-2.png) -->
+
+Using ksqlDB dramatically simplifies processing on an event stream. To perform the same exercise without ksqlDB you would to have create a microservice to process the event stream from the beginning, filter for the order created events, and the occurrences for each restaurant. You would then have to store that information somewhere to avoid doing it all again every time the microservice restarts. You’d also need to continue watching the stream in order to keep the count up to date, and find a way to inform the application of updates.
+
+Kafka does have some mechanisms (KTable, KStreams) that help here but you’d need to learn how to use them and there is still a significant amount of code to write. ksqlDB reduces the work to just a couple of SQL statements to express what we want from the event stream.
+
+You can imagine how easy it would be to satisfy additional requirements, such as re-routing drivers to areas where orders are increasing faster than the current drivers can manage. SQL is sufficiently intuitive that you can even imagine enabling less technical users to write their own business rules in order to self-serve their simple analytical needs.
 
 ## License
 
