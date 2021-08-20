@@ -1,28 +1,20 @@
 const Kafka = require('node-rdkafka');
 
 class KafkaProducer {
-    constructor(brokers, protocol, mechanism, username, password) {
-        // ibm cloud service credentials
-        // let jsonCredentials = JSON.parse(ibmcloud_credentials)
-        // let brokers = jsonCredentials.kafka_brokers_sasl
-        // let apiKey = jsonCredentials.api_key
-        // producer
-        // let driver_options = {
-        //     //'debug': 'all',
-        //     'metadata.broker.list': brokers,
-        //     'security.protocol': 'SASL_SSL',
-        //     'sasl.mechanisms': 'PLAIN',
-        //     'sasl.username': 'token',
-        //     'sasl.password': apiKey,
-        //     'log.connection.close' : false
-        // };
+    constructor(brokers, protocol, mechanism, username, password, ca_location) {
+        let jsonCredentials
+        try { // if first param is ibmcloud credentials in JSON
+            jsonCredentials = JSON.parse(brokers)
+        } catch (err) {}
+        brokers = jsonCredentials ? jsonCredentials.kafka_brokers_sasl : brokers
+        let apiKey = jsonCredentials ? jsonCredentials.api_key:undefined
         let driver_options = {
             //'debug': 'all',
             'metadata.broker.list': brokers,
-            'security.protocol': protocol,
-            'sasl.mechanisms': mechanism,
-            'sasl.username': username,
-            'sasl.password': password,
+            'security.protocol': protocol ? protocol:'SASL_SSL',
+            'sasl.mechanisms': mechanism ? mechanism:'PLAIN',
+            'sasl.username': username ? username:'token',
+            'sasl.password': password ? password:apiKey,
             'log.connection.close' : false
         };
         let producerConfig = {
@@ -41,11 +33,6 @@ class KafkaProducer {
         }
         let producer = new Kafka.Producer(producerConfig, topicConfig)
         producer.setPollInterval(100)
-
-        // debug
-        // producer.on('event.log', function(log) {
-        //     console.log(log);
-        // });
 
         // Register error listener
         producer.on('event.error', function(err) {
@@ -142,11 +129,11 @@ class KafkaProducer {
 }
 
 // const kafkaProducer = new KafkaProducer(process.env.KAFKA_CREDENTIALS)
-const kafkaProducer = new KafkaProducer(process.env.BOOTSTRAP_SERVERS,
+const kafkaProducer = new KafkaProducer(process.env.BOOTSTRAP_SERVERS ? process.env.BOOTSTRAP_SERVERS: process.env.EVENT_STREAMS_CREDENTIALS,
                                         process.env.SECURITY_PROTOCOL,
                                         process.env.SASL_MECHANISMS,
                                         process.env.SASL_USERNAME,
-                                        process.env.SASL_PASSWORD)
+                                        process.env.SASL_PASSWORD, process.env.SSL_CA_LOCATION);
 Object.freeze(kafkaProducer)
 
 module.exports = kafkaProducer

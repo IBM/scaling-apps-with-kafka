@@ -1,32 +1,23 @@
 const Kafka = require('node-rdkafka');
+const fs = require('fs')
 
 const { Kafka: KafkaJS } = require('kafkajs')
 
 class KafkaWrapper {
-    constructor(brokers, protocol, mechanism, username, password) {
-        // ibm cloud service credentials
-        // let jsonCredentials = JSON.parse(ibmcloud_credentials)
-        // let brokers = jsonCredentials.kafka_brokers_sasl
-        // let apiKey = jsonCredentials.api_key
-        // producer
-        // let driver_options = {
-        //     //'debug': 'all',
-        //     'metadata.broker.list': brokers,
-        //     'security.protocol': 'SASL_SSL',
-        //     'sasl.mechanisms': 'PLAIN',
-        //     'sasl.username': 'token',
-        //     'sasl.password': apiKey,
-        //     'log.connection.close' : false,
-        //     'enable.auto.commit': false,
-        //     'statistics.interval.ms': 1000
-        // };
+    constructor(brokers, protocol, mechanism, username, password, ca_location) {
+        let jsonCredentials
+        try { // if first param is ibmcloud credentials in JSON
+            jsonCredentials = JSON.parse(brokers)
+        } catch (err) {}
+        brokers = jsonCredentials ? jsonCredentials.kafka_brokers_sasl : brokers
+        let apiKey = jsonCredentials ? jsonCredentials.api_key:undefined
         let driver_options = {
             //'debug': 'all',
             'metadata.broker.list': brokers,
-            'security.protocol': protocol,
-            'sasl.mechanisms': mechanism,
-            'sasl.username': username,
-            'sasl.password': password,
+            'security.protocol': protocol ? protocol:'SASL_SSL',
+            'sasl.mechanisms': mechanism ? mechanism:'PLAIN',
+            'sasl.username': username ? username:'token',
+            'sasl.password': password ? password:apiKey,
             'log.connection.close' : false,
             'enable.auto.commit': false,
             'statistics.interval.ms': 1000
@@ -51,39 +42,18 @@ class KafkaWrapper {
             console.error('Error from consumer:' + JSON.stringify(err));
         });
         let prevCommitted = 0
-        // Register stats listener
-        // consumer.on('event.stats', function(log) {
-        //     console.log('Log from consumer:');
-        //     console.log(JSON.parse(log.message))
-
-        //     let stats = JSON.parse(log.message)
-        //     // console.log(stats)
-        //     if (stats.topics['orders']) {
-        //         let partitionStats = stats.topics.orders.partitions['0']
-        //         // console.log(stats.topics.orders.partitions['0'])
-        //         let commitPerSecond = 0
-        //         if (prevCommitted) {
-        //             commitPerSecond = partitionStats.committed_offset - prevCommitted
-        //         }
-        //         if (partitionStats.consumer_lag) {
-        //             // console.log('consumer lag: ' + partitionStats.consumer_lag)
-        //         }
-        //         // console.log(commitPerSecond)
-        //         prevCommitted = partitionStats.committed_offset
-        //     }
-        // });
 
         this.consumer = consumer
 
         // KafkaJS admin client
         let adminKafka = new KafkaJS({
             clientId: 'admin',
-            brokers: brokers.split(','),
+            brokers: Array.isArray(brokers) ? brokers:brokers.split(","),
             ssl: true,
             sasl: {
-                mechanism,
-                username,
-                password
+                mechanism: mechanism ? mechanism:'PLAIN',
+                username: username ? username:'token',
+                password: password ? password:apiKey
             }
         }).admin()
         this.admin = adminKafka
@@ -93,12 +63,13 @@ class KafkaWrapper {
       this.consumer.on(event, callback)
     }
 }
-// const kafkaWrapper = new KafkaWrapper(process.env.KAFKA_CREDENTIALS)
-const kafkaWrapper = new KafkaWrapper(process.env.BOOTSTRAP_SERVERS,
+// const kafkaWrapper = new KafkaWrapper(process.env.EVENT_STREAMS_CREDENTIALS)
+const kafkaWrapper = new KafkaWrapper(process.env.BOOTSTRAP_SERVERS ? process.env.BOOTSTRAP_SERVERS: process.env.EVENT_STREAMS_CREDENTIALS,
                                       process.env.SECURITY_PROTOCOL,
                                       process.env.SASL_MECHANISMS,
                                       process.env.SASL_USERNAME,
-                                      process.env.SASL_PASSWORD)
+                                      process.env.SASL_PASSWORD,
+                                      process.env.SSL_CA_LOCATION);
 Object.freeze(kafkaWrapper)
 
 module.exports = kafkaWrapper
