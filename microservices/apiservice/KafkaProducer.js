@@ -1,28 +1,12 @@
 const Kafka = require('node-rdkafka');
 
 class KafkaProducer {
-    constructor(brokers, protocol, mechanism, username, password) {
-        // ibm cloud service credentials
-        // let jsonCredentials = JSON.parse(ibmcloud_credentials)
-        // let brokers = jsonCredentials.kafka_brokers_sasl
-        // let apiKey = jsonCredentials.api_key
-        // producer
-        // let driver_options = {
-        //     //'debug': 'all',
-        //     'metadata.broker.list': brokers,
-        //     'security.protocol': 'SASL_SSL',
-        //     'sasl.mechanisms': 'PLAIN',
-        //     'sasl.username': 'token',
-        //     'sasl.password': apiKey,
-        //     'log.connection.close' : false
-        // };
+    constructor(brokers, protocol, mechanism, username, password, ca_location) {
         let driver_options = {
             //'debug': 'all',
             'metadata.broker.list': brokers,
-            'security.protocol': protocol,
-            'sasl.mechanisms': mechanism,
-            'sasl.username': username,
-            'sasl.password': password,
+            'security.protocol': protocol ? protocol : 'ssl',
+            'ssl.ca.location': ca_location ? ca_location : '/etc/ssl-kafka/ca.crt',
             'log.connection.close' : false
         };
         let producerConfig = {
@@ -41,11 +25,6 @@ class KafkaProducer {
         }
         let producer = new Kafka.Producer(producerConfig, topicConfig)
         producer.setPollInterval(100)
-
-        // debug
-        // producer.on('event.log', function(log) {
-        //     console.log(log);
-        // });
 
         // Register error listener
         producer.on('event.error', function(err) {
@@ -146,7 +125,7 @@ const kafkaProducer = new KafkaProducer(process.env.BOOTSTRAP_SERVERS,
                                         process.env.SECURITY_PROTOCOL,
                                         process.env.SASL_MECHANISMS,
                                         process.env.SASL_USERNAME,
-                                        process.env.SASL_PASSWORD)
+                                        process.env.SASL_PASSWORD, process.env.SSL_CA_LOCATION);
 Object.freeze(kafkaProducer)
 
 module.exports = kafkaProducer
