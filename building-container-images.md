@@ -9,10 +9,10 @@ export DOCKER_HUB_USERNAME=PLACE_YOUR_DOCKERHUB_USERNAME_HERE
 
 docker build -t $DOCKER_HUB_USERNAME/example-food-frontend:1.0 microservices/frontend
 docker build -t $DOCKER_HUB_USERNAME/apiservice:1.0 microservices/apiservice
-docker build -t $DOCKER_HUB_USERNAME/statusservice:1.0 microservices/statusservice
-docker build -t $DOCKER_HUB_USERNAME/courierconsumer:1.0 microservices/consumers/courierconsumer
-docker build -t $DOCKER_HUB_USERNAME/kitchenconsumer:1.0 microservices/consumers/kitchenconsumer
-docker build -t $DOCKER_HUB_USERNAME/orderconsumer:1.0 microservices/consumers/orderconsumer
+docker build -t $DOCKER_HUB_USERNAME/statusservice:1.0 microservices/statusService
+docker build -t $DOCKER_HUB_USERNAME/courierconsumer:1.0 microservices/consumers/courierConsumer
+docker build -t $DOCKER_HUB_USERNAME/kitchenconsumer:1.0 microservices/consumers/kitchenConsumer
+docker build -t $DOCKER_HUB_USERNAME/orderconsumer:1.0 microservices/consumers/orderConsumer
 docker build -t $DOCKER_HUB_USERNAME/realtimedata:1.0 microservices/realtimedata
 docker build -t $DOCKER_HUB_USERNAME/poddata:1.0 microservices/podData
 ```
