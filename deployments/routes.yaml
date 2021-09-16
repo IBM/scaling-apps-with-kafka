@@ -76,3 +76,16 @@ spec:
     kind: Service
     name: podconsumerdata
 ---
+apiVersion: v1
+kind: Route
+metadata:
+  name: favorites-path
+spec:
+  host: HOSTNAME
+  path: "/favorites"
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: ksql-controller
+---
