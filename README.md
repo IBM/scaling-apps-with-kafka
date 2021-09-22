@@ -26,7 +26,7 @@ When you have completed this code pattern, you will understand how to:
 
 # Prerequisites
 
-* OpenShift cluster
+* OpenShift cluster **(Tested with IBM Cloud and AWS)**
 * OpenShift CLI (oc)
 
 Make sure you are logged in your target openshift cluster when you are doing `oc` commands in this code pattern.
