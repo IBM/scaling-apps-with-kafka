@@ -3,6 +3,8 @@ In this code pattern, you will deploy an example food delivery application that 
 
 With the KEDA operator, you can scale your OpenShift resources based on events. In the case of Kafka, you can scale them based on the consumer lag. Consumer lag is the difference between the most recent produced message and the current message that's consumed. If the consumer lag starts to grow, this usually means that the consumer is not able to keep up with the incoming records or messages in a Kafka topic. With KEDA, you can autoscale the number of consumers so that your group of consumers can consume and process more messages to try and keep up with the pace of incoming messages. [KEDA](https://keda.sh/) is an open source project and also supports more event sources besides Kafka.
 
+This code pattern has been tested on **Red Hat OpenShift on [IBM Cloud](https://www.ibm.com/cloud/openshift) and [AWS](https://aws.amazon.com/quickstart/architecture/openshift/)**.
+
 When you have completed this code pattern, you will understand how to:
 
 * Deploy microservices with Kafka integration
