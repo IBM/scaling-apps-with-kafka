@@ -1,0 +1,30 @@
+{
+  "name": "eemsubscriber",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "./__tests__/utils/startContainers.sh && jest --detectOpenHandles; ./__tests__/utils/stopContainers.sh"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.23.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "ioredis": "^4.27.11",
+    "needle": "^3.0.0",
+    "node-rdkafka": "^2.10.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "dockerode": "^3.3.1",
+    "jest": "^27.2.5",
+    "supertest": "^6.1.6"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "__tests__/utils"
+    ]
+  }
+}
