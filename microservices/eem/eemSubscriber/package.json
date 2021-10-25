@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "./__tests__/utils/startContainers.sh && jest --detectOpenHandles; ./__tests__/utils/stopContainers.sh"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "dockerode": "^3.3.1",
+    "ioredis-mock": "^5.6.0",
     "jest": "^27.2.5",
     "supertest": "^6.1.6"
   },

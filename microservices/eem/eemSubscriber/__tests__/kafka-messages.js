@@ -14,7 +14,7 @@ let example_message = {
 }
 
 jest.mock('axios');
-describe("Test Kafka example message", () => {
+describe("Test Kafka consume example message", () => {
     let example_response = {
         status: 200,
         data: {
@@ -22,7 +22,7 @@ describe("Test Kafka example message", () => {
             message_sent: "A new order of " + example_message.payload.dish + " has been placed."
         }
     }
-    axios.post.mockResolvedValue(example_response);
+
     let requestBody;
     test("Order was created: Convert payload to request body", () => {
          requestBody = NotifyHelper.payloadToRequestBody(example_message.payload, example_message.eventType);
@@ -33,8 +33,10 @@ describe("Test Kafka example message", () => {
 
     test("Order was created: Send notification", () => {
         // Mocked
+        axios.post.mockResolvedValue(example_response);
         return NotifyHelper.notifyOnCallbackURL("http://localhost:8080/callback", requestBody).then(response => {
             expect(response).toBe(example_response);
+            expect(requestBody.message).toBe(response.data.message_sent);
             expect(response.status).toBe(200);
         });
     });
@@ -49,8 +51,11 @@ describe("Test Kafka example message", () => {
 
     test("Order was delivered", () => {
         // Mocked
+        example_response.data.message_sent = "Delivered! 10 Alaska Rolls has been delivered.";
+        axios.post.mockResolvedValue(example_response);
         return NotifyHelper.notifyOnCallbackURL("http://localhost:8080/callback", requestBody).then(response => {
             expect(response).toBe(example_response);
+            expect(requestBody.message).toBe(response.data.message_sent);
             expect(response.status).toBe(200);
         });
     });

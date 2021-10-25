@@ -1,6 +1,8 @@
 const request = require("supertest");
 const {app, disconnect} = require("../app");
 
+jest.mock('ioredis', () => require('ioredis-mock/jest'));
+
 describe("Test REST APIs", () => {
 
     test("GET Path '/' should return 404", async () => {
