@@ -2,12 +2,13 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const Redis = require('ioredis');
-const redis = new Redis({
+let redis_config = {
     host: process.env.REDIS_URL,
     port: process.env.REDIS_PORT,
     db: 1
-});
-
+}
+const redis = new Redis(redis_config);
+const publisher = new Redis(redis_config);
 const channel = process.env.REDIS_CHANNEL || "notification-pubsub"
 
 const PORT = process.env.PORT || 8080
@@ -28,7 +29,7 @@ app.post("/callback", (req, res) => {
             },
             status: 200
         }
-        redis.publish(channel, JSON.stringify(response_data));
+        publisher.publish(channel, JSON.stringify(response_data));
         res.status('200').send(response_data);
     } else {
         res.status('404').send("Invalid Request body.");
@@ -37,5 +38,6 @@ app.post("/callback", (req, res) => {
 
 // redis subscribe will send to websocket
 module.exports = {
-    app
+    app,
+    redis
 }

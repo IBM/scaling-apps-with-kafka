@@ -41,7 +41,7 @@ describe("Test Kafka consume example message", () => {
         });
     });
 
-    test("Order was created: Convert payload to request body", () => {
+    test("Order was delivered: Convert payload to request body", () => {
         example_message.eventType = "delivered"
         requestBody = NotifyHelper.payloadToRequestBody(example_message.payload, example_message.eventType);
         expect(requestBody.message).toBe("Delivered! 10 Alaska Rolls has been delivered.");

@@ -21,7 +21,7 @@ describe("Test REST APIs", () => {
         expect(response.statusCode).toBe(404);
     });
 
-    test("POST '/notification/8b8d17c8-5823-49bc-b08d-c238eca3aeb4' with INVALID JSON should return 404 Invalid JSON.", async () => {
+    test("POST '/notification/8b8d17c8-5823-49bc-b08d-c238eca3aeb4' with INVALID JSON should return 400 Invalid JSON.", async () => {
         let response = await request(app)
             .post("/notification/8b8d17c8-5823-49bc-b08d-c238eca3aeb4")
             .send('{url: "http://example.org"}')

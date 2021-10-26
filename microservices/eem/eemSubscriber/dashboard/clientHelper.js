@@ -19,6 +19,16 @@ async function getRestaurants(delayBetweenRequests) {
     return "Failed to get restaurants list in 10 tries"
 }
 
+function showRestaurants(container, restaurants) {
+    restaurants.forEach(element => {
+        let optionElement = document.createElement('option');
+        optionElement.value = element.kitchenId;
+        optionElement.text = element.name;
+        container.appendChild(optionElement);
+    })
+}
+
 module.exports = {
-    getRestaurants
+    getRestaurants,
+    showRestaurants
 }

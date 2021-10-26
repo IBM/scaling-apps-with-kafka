@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 const { default: axios } = require('axios');
 const ClientHelper = require('../dashboard/clientHelper');
 
@@ -19,13 +23,42 @@ describe("Test Client requests", () => {
             json: () => Promise.resolve(example_response)
         })
     })
+
     test("Get Restaurants should return lists of restaurants", async () => {
         let response = await ClientHelper.getRestaurants(0);
         expect(response).toEqual(example_response.docs)
     });
+
+    test("showRestaurants should update \"select\" DOM with restaurant list", () => {
+      document.body.innerHTML = `
+      <select name="restaurantDropdown" id="restaurantDropdown">
+      </select>
+      `;
+
+      
+      const selectContainer = document.getElementById('restaurantDropdown');
+      let restaurants = example_response.docs
+      ClientHelper.showRestaurants(selectContainer, restaurants);
+
+      let tempSelectContainter = document.createElement('select');
+      restaurants.forEach(element => {
+        let optionElement = document.createElement('option');
+        optionElement.value = element.kitchenId;
+        optionElement.text = element.name;
+        tempSelectContainter.appendChild(optionElement);
+      })
+
+      expect(selectContainer.children).toEqual(tempSelectContainter.children);
+  })
+
     test("Get Restaurants failed to return lists of restaurants", async () => {
         example_response = {status: "processing"}
         let response = await ClientHelper.getRestaurants(0);
         expect(response).toEqual("Failed to get restaurants list in 10 tries")
     });
+
+    test.todo('Add test here to show current webhook url when restaurant <select> has one selected');
+    test.todo('Add test here to change input text of webhook url to enable when edit <button> is clicked');
+    test.todo('Add test here to successfully changed webhook url when save <button> is clicked');
+
 });

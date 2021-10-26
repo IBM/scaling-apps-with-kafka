@@ -2,9 +2,9 @@
   "name": "examplenotificationreceiver",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "test": "jest",
+    "test": "TEST_JEST=true jest --detectOpenHandles --verbose",
     "start": "node server.js"
   },
   "author": "",
@@ -17,6 +17,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "ioredis": "^4.28.0"
+    "ioredis": "^4.28.0",
+    "ws": "^8.2.3"
   }
 }
