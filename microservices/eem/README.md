@@ -119,7 +119,44 @@ Create the secret using the oc cli:
 oc create -f asyncapi-secret.yaml
 ```
 
-<!-- Create secret for username -->
+> If you have a self signed certificate, proceed below. If not, you can continue on Step 5.
+
+If you have a self signed certificate for your event gateway, you will need to get and pass the CA certificate for the microservice in the next step to connect properly.
+
+
+To check if you have a self signed certificate, you can use the `openssl` command in your terminal:
+
+```
+openssl s_client -connect <event-gateway>:443 -servername <event-gateway-domain-name>
+```
+
+If it's self signed, it should show in the output like the one below:
+
+```
+...
+---
+Server certificate
+-----BEGIN CERTIFICATE-----
+........redcated...........
+-----END CERTIFICATE-----
+...
+---
+SSL handshake has read 1296 bytes and written 447 bytes
+Verification error: self signed certificate
+---
+...
+```
+
+Copy the certificate from the output above. Copy the lines from `BEGIN CERTIFICATE` to `END CERTIFICATE` and create a file for it named `ca.pem`.
+
+```
+oc create secret generic event-gateway-ca --from-file=ca.pem
+```
+
+Then **uncomment the lines 22-23, and 27-37** in the `eem-subscriber.yaml` file.
+
+You can now proceed to deploying the microservices in the next step.
+
 ### 5. Deploy the microservices
 In this step you can either use the prebuilt images in the yaml files or you can build and push from source on your own Docker Hub. You can follow the instructions here to [build your own container images](building-container-images.md).
 

@@ -19,9 +19,22 @@ spec:
           env:
             - name: BACKEND_URL
               value: 'http://PREVIOUS_CODE_PATTERN_URL'
+            # - name: CA_LOCATION
+            #   value: '/etc/event-gateway-tls/ca.pem'
           envFrom:
             - secretRef:
                 name: asyncapi-endpoint-credentials
+      #     volumeMounts:
+      #       - name: eg-ca-pem
+      #         mountPath: "/etc/event-gateway-tls"
+      #         readOnly: true
+      # volumes:
+      #   - name: eg-ca-pem
+      #     secret:
+      #       secretName: event-gateway-ca
+      #       items:
+      #       - key: ca.pem
+      #         path: ca.pem
 ---
 apiVersion: v1
 kind: Service
