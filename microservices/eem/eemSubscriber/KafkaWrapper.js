@@ -1,7 +1,7 @@
 const Kafka = require('node-rdkafka');
 
 class KafkaWrapper {
-    constructor(brokers, protocol, mechanism, username, password) {
+    constructor(brokers, protocol, mechanism, username, password, clientId, certificateLocation) {
         let driver_options = {
             //'debug': 'all',
             'metadata.broker.list': brokers,
@@ -12,9 +12,18 @@ class KafkaWrapper {
             'log.connection.close' : false,
             'enable.auto.commit': false
         };
+
+        if (certificateLocation) {
+            driver_options['ssl.ca.location'] = certificateLocation;
+        }
+
         let consumerConfig = {
-            'client.id': 'eem-subscriber-consumer',
+            'client.id': '2c04144b-01c5-454f-9eba-45bac93dcfc2',
             'group.id': 'eem-subscriber-consumer-group',
+        }
+
+        if (clientId) {
+            driver_options['client.id'] = clientId;
         }
 
         for (var key in driver_options) {
@@ -76,7 +85,7 @@ class KafkaWrapper {
 
         this.producer = producer
     }
-  
+
     on(event, callback) {
       this.consumer.on(event, callback)
     }
@@ -105,7 +114,9 @@ const kafkaWrapper = new KafkaWrapper(process.env.BOOTSTRAP_SERVERS,
                                       process.env.SECURITY_PROTOCOL,
                                       process.env.SASL_MECHANISMS,
                                       process.env.SASL_USERNAME,
-                                      process.env.SASL_PASSWORD)
+                                      process.env.SASL_PASSWORD,
+                                      process.env.CLIENT_ID,
+                                      process.env.CA_LOCATION)
 Object.freeze(kafkaWrapper)
 
 module.exports = kafkaWrapper

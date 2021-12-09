@@ -1,32 +1,59 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Restaurant Webhook manager</title>
+  <head>
+    <title>Restaurant Webhook Manager</title>
+    <link rel="stylesheet" href="./style/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&family=Roboto:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
 
-  <div class="headerText">
-    Restaurant Webhook manager
-  </div>
+  <section class="container">
+    <div class="grid-container">
+        <div class="Banner">
+            <section class="bar">
+                <label class="appname">Restaurant Webhook Manager leveraging EEM connection</label>
+                <label class="info">Interactive Example</label>
+            </section>
+        </div>
+        <section class="phonearea">
 
-  <div class="restaurantSelectionForm">
+          <div class="restaurantSelectionForm">
 
-    <div class="restaurantSelectionSelect">
-      <select name="restaurantDropdown" id="restaurantDropdown">
-        <option disabled selected hidden>Select restaurant here</option>
-        <!-- <option>Example restaurant</option> -->
-      </select>
+            <div class="restaurantSelectionSelect">
+              <select name="restaurantDropdown" id="restaurantDropdown">
+                <option disabled selected hidden>Select restaurant here</option>
+                <!-- <option>Example restaurant</option> -->
+              </select>
+            </div>
+
+            <div class="restaurantSelectionButtons">
+              <input type="text" id="webhookInput" name="webhookInput" placeholder="Current webhook URL" disabled/>
+            </div>
+
+            <div class="restaurantSelectionButtons">
+              <button type="button" id="editWebhook">Edit</button>
+              <button type="button" id="saveWebhook">Save</button>
+            </div>
+
+          </div>
+
+          <section class="linksarea">
+            <div class="linkstitle">OpenShift Apps With Kafka</div>
+            <div class="scalinglink"> - Scaling Apps With Kafka [Code Pattern]</div>
+            <div class="scalinglink"> - Scaling Options And Comparisons [Article]</div>
+            <div class="scalinglink"> - Scaling Apps On OpenShift [Video]</div>
+            <div class="scalinglink"> - Scaling Workshop [Event]</div>
+          </section>
+
+        </section>
     </div>
-    <div class="restaurantSelectionButtons">
-      <input type="text" id="webhookInput" name="webhookInput" placeholder="Current webhook URL" disabled/>
-    </div>
-    <div class="restaurantSelectionButtons">
-      <button type="button" id="edit">Edit</button>
-      <button type="button" id="save">Save</button>
-    </div>
 
-  </div>
-
+  <script src="clientHelper.js"></script>
+  <script src="restaurantDropdown.js"></script>
+  <script src="webhookURLeditor.js"></script>
 
 </body>
 </html> 

@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-app-eem-subscriber
+spec:
+  selector:
+    matchLabels:
+      name: external-app-eem-subscriber
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: external-app-eem-subscriber
+    spec:
+      containers:
+        - image: anthonyamanse/eem-subscriber:1.0
+          name: external-app-eem-subscriber
+          env:
+            - name: BACKEND_URL
+              value: 'http://PREVIOUS_CODE_PATTERN_URL'
+          envFrom:
+            - secretRef:
+                name: asyncapi-endpoint-credentials
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-app-eem-subscriber
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    name: external-app-eem-subscriber

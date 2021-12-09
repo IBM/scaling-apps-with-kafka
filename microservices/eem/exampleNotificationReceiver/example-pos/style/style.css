@@ -1,0 +1,190 @@
+:root {
+    --loyalty-background-color: white;
+    --loyalty-app-color: white;
+    --loyalty-text-color: #494A4B;
+    --loyalty-button-color: #FF7E00;
+    --loyalty-highlight-color: #FF002E;
+    --loyalty-phone-color: #569BC6;
+    --loyalty-sensor-color: #FFFFFF;
+    --loyalty-divide-color: aliceblue;
+    --loyalty-highlight-color: #fff2e5;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    color: var(--lyrics-analysis-ink-color);
+    font-family: 'Roboto', sans-serif;
+    background: #2C3A42;
+    /* font-family: 'IBM Plex Sans', sans-serif; */
+}
+
+.panel {
+    background: var(--farrow-panel-background);
+}
+
+.appname {
+    /* font-weight:bold; */
+    color: white;
+}
+
+.info {
+    /* font-weight:bold; */
+    color: white;
+}
+
+.container {
+    padding: 0;
+    margin: 0;
+    /* #F5F8FA; #33729b; #9f805e; */
+    /*    font-family: 'Open Sans', sans-serif;*/
+    /* font-family: 'IBM Plex Sans', sans-serif; */
+    /* font-family: 'Questrial', sans-serif; */
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--farrow-background-color);
+    /* padding-bottom: 100px; */
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 262px 600px;
+    grid-template-rows: 80px 482px 325px;
+    gap: 0px 0px;
+    /* height:1000px; */
+    grid-template-areas:
+        "Banner Banner"
+        "Phone ."
+        "Phone .";
+}
+
+.Banner {
+    grid-area: Banner;
+    height: 0px;
+}
+
+.Phone {
+    grid-area: Phone;
+    /* padding: 20px;; */
+}
+
+
+.bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+}
+
+.appname {
+    /* margin: 20px; */
+}
+
+.info {
+    margin: 10px;
+}
+
+.architecture {
+    /* margin:20px; */
+    /* border-radius:5px;
+    border:1px solid var(--loyalty-phone-color);
+    box-shadow: 0 5px 5px -3px rgb(0 0 0 / 20%), 0 8px 10px 1px rgb(0 0 0 / 14%), 0 3px 14px 2px rgb(0 0 0 / 12%); */
+}
+
+.management {
+    display: flex;
+    flex-direction: row;
+}
+
+.connector {
+    width: 90px;
+}
+
+.controls {
+    border: 1px solid #ACC9D8;
+    width: 238px;
+    height: 280px;
+    margin: 20px;
+    margin-left: 0;
+}
+
+.analysis {
+    border: 1px solid #ACC9D8;
+    width: 238px;
+    height: 280px;
+    margin: 20px;
+    margin-right: 0;
+    margin-left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.linksarea {
+    background: #f3f3f3;
+    margin-top: 40px;
+    height: 280px;
+    border-radius: 4px;
+}
+
+.linkstitle {
+    font-size: 12px;
+    padding: 10px;
+    padding-top: 12px;
+    font-weight: bold;
+}
+
+.scalinglink {
+    font-size: 12px;
+    padding: 10px;
+}
+
+.controlbuttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px dotted #ACC9D8;
+    margin-top: 10px;
+    height: 36px;
+}
+
+.controlbutton {
+    background: #ACC9D8;
+    border: none;
+    font-size: 10px;
+    margin: 10px;
+    padding: 6px;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+#notificationArea {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 862px;
+}
+
+.notificationText {
+    color: #FFF;
+    background-color: #455b68;
+    max-width: 250px;
+    margin: 10px;
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    padding: 10px;
+    border-radius: 20px 10px;
+}
+
+.notificationText::-webkit-scrollbar {
+    display: none;
+}

@@ -18,7 +18,7 @@ function showMessageDOM(container, notification_text) {
     let divNotification = document.createElement('div');
     divNotification.className = "notificationText";
     divNotification.innerHTML = notification_text;
-    container.appendChild(divNotification);
+    container.prepend(divNotification);
 }
 
 module.exports = {

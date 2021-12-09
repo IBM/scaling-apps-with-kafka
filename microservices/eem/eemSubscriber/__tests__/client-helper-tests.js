@@ -57,8 +57,9 @@ describe("Test Client requests", () => {
         expect(response).toEqual("Failed to get restaurants list in 10 tries")
     });
 
+    test.todo('Add tests here for REST calls to server');
     test.todo('Add test here to show current webhook url when restaurant <select> has one selected');
-    test.todo('Add test here to change input text of webhook url to enable when edit <button> is clicked');
+    test.todo('Add test here to change <input> of webhook url to enable when edit <button> is clicked');
     test.todo('Add test here to successfully changed webhook url when save <button> is clicked');
 
 });

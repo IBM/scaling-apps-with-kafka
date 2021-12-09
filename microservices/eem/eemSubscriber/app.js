@@ -9,6 +9,8 @@ const redis = new Redis({
     db: 1
 });
 
+const BACKEND_URL = process.env.BACKEND_URL
+
 app.use(express.json());
 app.use((err, req, res, next) => {
     if (err) {
@@ -22,6 +24,11 @@ app.use((err, req, res, next) => {
     }
 })
 app.use(cors());
+app.use('/dashboard', express.static('dashboard'));
+
+app.get("/backend_url", (req, res) => {
+    res.send(BACKEND_URL);
+});
 
 // result is callback url for kitchen
 app.get("/notification/:kitchenId", (req, res) => {
@@ -55,9 +62,7 @@ app.post("/notification/:kitchenId", (req, res) => {
     }
     if (!url) return;
     redis.get(kitchenId).then(result => {
-        if (!result) {
-            redis.set(kitchenId, value);
-        }
+        redis.set(kitchenId, value);
     }).catch(err => {
         console.log(err)
     });

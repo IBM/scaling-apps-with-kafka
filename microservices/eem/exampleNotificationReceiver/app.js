@@ -16,6 +16,9 @@ const PORT = process.env.PORT || 8080
 app.use(express.json());
 app.use(cors());
 
+app.use('/', express.static('example-pos'));
+
+
 // example callback to receive notification
 app.post("/callback", (req, res) => {
     // req.body.message is the notification

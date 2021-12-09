@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-restaurant-pos
+spec:
+  selector:
+    matchLabels:
+      name: example-restaurant-pos
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: example-restaurant-pos
+    spec:
+      containers:
+        - image: anthonyamanse/example-restaurant-pos:1.0
+          name: example-restaurant-pos
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: REDIS_URL
+              value: 'redis'
+            - name: REDIS_PORT
+              value: '6379'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-restaurant-pos
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    name: example-restaurant-pos
