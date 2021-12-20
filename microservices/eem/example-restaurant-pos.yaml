@@ -21,7 +21,7 @@ spec:
             - containerPort: 8080
           env:
             - name: REDIS_URL
-              value: 'redis'
+              value: 'redis-entity-c'
             - name: REDIS_PORT
               value: '6379'
 ---
@@ -35,3 +35,41 @@ spec:
       targetPort: 8080
   selector:
     name: example-restaurant-pos
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-entity-c
+spec:
+  selector:
+    matchLabels:
+      name: redis-entity-c
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: redis-entity-c
+        version: v1
+    spec:
+      containers:
+        - image: redis
+          name: redis
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - mountPath: /data
+              name: data
+      volumes:
+      - name: data
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-entity-c
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector:
+    name: redis-entity-c
